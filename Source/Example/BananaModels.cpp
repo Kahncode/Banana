@@ -15,9 +15,19 @@ namespace Banana
 		return MakeShared<FJsonObject>();
 	}
 
-	void SomeMethodResponse::FromJson(const TSharedPtr<FJsonObject>& JsonObject)
+	bool SomeMethodResponse::FromJson(const TSharedPtr<FJsonObject>& JsonObject)
 	{
+		return true;
+	}
 
+	bool SomeMethodResponse::ErrorFromJson(const TSharedPtr<FJsonObject>& JsonObject)
+	{
+		return true;
+	}
+
+	bool SomeMethodResponse::SomeMethodErrorDetails::FromJson(const TSharedPtr<FJsonObject>& JsonObject)
+	{
+		return true;
 	}
 
 }

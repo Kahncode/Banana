@@ -12,6 +12,8 @@ class FJsonObject;
 
 namespace Banana
 {
+	class Response;
+
 	class SomeMethodRequest;
 	class SomeMethodResponse;
 
@@ -37,6 +39,7 @@ namespace Banana
 
 		bool IsValid() const;
 		TSharedRef<IHttpRequest> SendRequest(const TCHAR* Path, const TSharedPtr<FJsonObject>& Body) const;
+		void HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& Respose) const;
 
 		FString Url;
 		FString AuthKey;
