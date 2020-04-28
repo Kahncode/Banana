@@ -55,8 +55,47 @@ TSharedRef<IHttpRequest> BananaAPI::SendRequest(const TCHAR* Path, const TShared
 	auto Writer = TJsonWriterFactory<>::Create(&JsonString);
 	FJsonSerializer::Serialize(Body.ToSharedRef(), Writer);
 
+	UE_LOG(LogBanana, Verbose, TEXT("Sending Http request to (%s):\n%s"), *HttpRequest->GetURL(), *JsonString);
+
 	HttpRequest->SetContentAsString(JsonString);
 	return HttpRequest;
+}
+
+void BananaAPI::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const
+{
+	InOutResponse._Success = bSucceeded;
+
+	if (bSucceeded && HttpResponse.IsValid())
+	{
+		InOutResponse._ResponseCode = (EHttpResponseCodes::Type)HttpResponse->GetResponseCode();
+		FString Content = HttpResponse->GetContentAsString();
+
+		UE_LOG(LogBanana, Verbose, TEXT("Received response:: \n%s"), *Content);
+
+		TSharedPtr<FJsonObject> JsonObject;
+		auto Reader = TJsonReaderFactory<>::Create(Content);
+
+		if (FJsonSerializer::Deserialize(Reader, JsonObject) && JsonObject.IsValid())
+		{
+			if (EHttpResponseCodes::IsOk(InOutResponse._ResponseCode))
+			{
+				if (InOutResponse.FromJson(JsonObject))
+					return; //Successfully parsed
+			}
+			else
+			{
+				if (InOutResponse.ErrorFromJson(JsonObject))
+					return; //Successfully parsed
+			}
+		}
+
+		UE_LOG(LogBanana, Error, TEXT("Failed to deserialize Http response content:\n%s"), *Content);
+		InOutResponse._Success = false;
+		return;
+	}
+
+	// Assume we failed to reach the server
+	InOutResponse._ResponseCode = EHttpResponseCodes::RequestTimeout;
 }
 
 bool BananaAPI::SomeMethod(SomeMethodRequest& Request, const FSomeMethodDelegate& Delegate /*= FSomeMethodDelegate()*/) const
@@ -73,39 +112,6 @@ void BananaAPI::OnSomeMethodResponse(FHttpRequestPtr HttpRequest, FHttpResponseP
 {
 	SomeMethodResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
-}
-
-void BananaAPI::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const
-{
-	InOutResponse.Success = bSucceeded;
-
-	if (bSucceeded && HttpResponse.IsValid())
-	{
-		InOutResponse.ResponseCode = (EHttpResponseCodes::Type)HttpResponse->GetResponseCode();
-		FString Content = HttpResponse->GetContentAsString();
-		TSharedPtr<FJsonObject> JsonObject;
-		auto Reader = TJsonReaderFactory<>::Create(Content);
-		if (FJsonSerializer::Deserialize(Reader, JsonObject) && JsonObject.IsValid())
-		{
-			if (EHttpResponseCodes::IsOk(InOutResponse.ResponseCode))
-			{
-				if (InOutResponse.FromJson(JsonObject))
-					return; //Successfully parsed
-			}
-			else
-			{
-				if (InOutResponse.ErrorFromJson(JsonObject))
-					return; //Successfully parsed
-			}
-		}
-
-		UE_LOG(LogBanana, Error, TEXT("Failed to deserialize HTTP response content (%s)"), *Content);
-		InOutResponse.Success = false;
-		return;
-	}
-
-	// Assume we failed to reach the server
-	InOutResponse.ResponseCode = EHttpResponseCodes::RequestTimeout;
 }
 
 }

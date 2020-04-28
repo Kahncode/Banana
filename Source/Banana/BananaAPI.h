@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 
+#include "BananaModels.h"
+
 class IHttpRequest;
 class IHttpResponse;
 
@@ -12,11 +14,6 @@ class FJsonObject;
 
 namespace Banana
 {
-	class Response;
-
-	class SomeMethodRequest;
-	class SomeMethodResponse;
-
 	class BANANA_API BananaAPI
 	{
 	public:
@@ -30,7 +27,7 @@ namespace Banana
 		DECLARE_DELEGATE_OneParam(FSomeMethodDelegate, const SomeMethodResponse&);
 
 		/* Doc */
-		bool SomeMethod(SomeMethodRequest& request, const FSomeMethodDelegate& Delegate = FSomeMethodDelegate()) const;
+		bool SomeMethod(SomeMethodRequest& Request, const FSomeMethodDelegate& Delegate = FSomeMethodDelegate()) const;
 	private:
 
 		void OnSomeMethodResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSomeMethodDelegate Delegate) const;

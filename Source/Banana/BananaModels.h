@@ -6,6 +6,7 @@ class FJsonObject;
 
 namespace Banana
 {
+	//TODO: remove base class model if not necessary + remove unnecessary virtual calls but without making template hell
 	class BANANA_API Model
 	{ 
 	public:
@@ -31,14 +32,16 @@ namespace Banana
 	{
 	public:
 		virtual ~Response() {}
-		bool IsSuccess() const { return Success;  }
 		virtual bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) = 0;
 		virtual bool ErrorFromJson(const TSharedPtr<FJsonObject>& JsonObject) = 0;
-
-		bool Success;
-		EHttpResponseCodes::Type ResponseCode;
+		bool IsSuccessful() { return _Success; }
+		EHttpResponseCodes::Type GetHttpResponseCode() { return _ResponseCode; }
 
 	private:
+		friend class BananaAPI;
+
+		bool _Success;
+		EHttpResponseCodes::Type _ResponseCode;
 	};
 
 	class BANANA_API SomeMethodRequest : public Request
@@ -48,6 +51,10 @@ namespace Banana
 		bool IsValid() const override;
 		TSharedPtr<FJsonObject> ToJson() const override;
 
+		int32 Banana1;
+		float Banana2;
+		FString Banana3;
+		TArray<int32> Banana4;
 	};
 
 	class BANANA_API SomeMethodResponse : public Response
@@ -57,14 +64,21 @@ namespace Banana
 		bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) override;
 		bool ErrorFromJson(const TSharedPtr<FJsonObject>& JsonObject) override;
 
-	private:
 		class SomeMethodErrorDetails : public ErrorDetails
 		{
 		public:
 			virtual ~SomeMethodErrorDetails() {}
 			bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) override;
 		};
+		const SomeMethodErrorDetails& GetError() const { check(_Error); return *_Error.Get(); }
 
-		TUniquePtr<SomeMethodErrorDetails> Error;
+		int32 Banana1;
+		float Banana2;
+		FString Banana3;
+		TArray<int32> Banana4;
+
+	private:
+
+		TUniquePtr<SomeMethodErrorDetails> _Error;
 	};
 }
