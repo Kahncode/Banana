@@ -57,4 +57,17 @@ void AUE4APIGameModeBase::BeginPlay()
 
 	FHttpModule::Get().GetHttpManager().Flush(false);
 	
+	{
+		ModelPrefixPetApi::FindPetsByStatusRequest request;
+		request.Status = TArray<FString>({ TEXT("sold") });
+		m_petApi->FindPetsByStatus(request, ModelPrefixPetApi::FFindPetsByStatusDelegate::CreateLambda([](const ModelPrefixPetApi::FindPetsByStatusResponse& a_response)
+			{
+				if (a_response.IsSuccessful())
+				{
+					UE_LOG(LogUE4API, Log, TEXT("Success!"));
+				}
+			}));
+	}
+
+	FHttpModule::Get().GetHttpManager().Flush(false);
 }
