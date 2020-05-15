@@ -1,0 +1,4833 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/account": {
+      "get": {
+        "summary": "Get current user's account data.",
+        "operationId": "GetAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetAccountResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/buy-offers": {
+      "post": {
+        "summary": "Buy items on marketplace storefront.",
+        "operationId": "BuyOffers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceBuyOffersResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceBuyOffersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/buy-user-subscription": {
+      "post": {
+        "summary": "Buy new subscription for user.",
+        "operationId": "BuyUserSubscription",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceBuyUserSubscriptionResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceBuyUserSubscriptionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/cashback/balance": {
+      "get": {
+        "summary": "Returns user's cashback balance available for withdraw.",
+        "operationId": "GetCashbackBalance",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetCashbackBalanceResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/cashback/withdraw": {
+      "post": {
+        "summary": "Transfers funds from user's cashback balance to wallet.",
+        "operationId": "WithdrawCashback",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceWithdrawCashbackResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceWithdrawCashbackRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/deposit-assets": {
+      "post": {
+        "summary": "Transfer user's item from game inventory to DMarket inventory.",
+        "operationId": "DepositAssets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceDepositAssetsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceDepositAssetsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/deposit-status/{DepositID}": {
+      "get": {
+        "summary": "Get the status of item deposit transaction.",
+        "operationId": "GetDepositStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetDepositStatusResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "DepositID",
+            "description": "Deposit operation unique identifier.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/exchange-assets": {
+      "post": {
+        "summary": "Exchange items on marketplace.",
+        "operationId": "ExchangeAssets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceExchangeAssetsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceExchangeAssetsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/exchange-auth-token": {
+      "post": {
+        "summary": "Allows to exchange token obtained from 3rd-party oauth system to DMarket auth token.\nIf there is no account on Marketplace assigned to received external credentials it can be created.",
+        "operationId": "ExchangeAuthToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceAuthResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceExchangeAuthTokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/game-integration/request": {
+      "post": {
+        "summary": "Send game integration email",
+        "operationId": "SendGameIntegrationEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceSendGameIntegrationEmailResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceSendGameIntegrationEmailRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/games": {
+      "get": {
+        "summary": "Get list of available games.",
+        "operationId": "GetGames",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetGamesResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/instant-sell-assets": {
+      "post": {
+        "summary": "Sell items on marketplace instantly.",
+        "operationId": "InstantSellAssets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceInstantSellAssetsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceInstantSellAssetsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/l_attempt": {
+      "post": {
+        "summary": "Checks if email already in use.",
+        "operationId": "CheckEmailExists",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceCheckEmailExistsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceCheckEmailExistsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/last-sales": {
+      "get": {
+        "summary": "Returns last sales for item.",
+        "operationId": "GetLastSales",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetLastSalesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Title",
+            "description": "Item title.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "GameID",
+            "description": "Asset's game ID.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Currency",
+            "description": "Currency.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "USD",
+              "DMC"
+            ],
+            "default": "USD"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/money-balance": {
+      "get": {
+        "summary": "Get current user's balance.",
+        "operationId": "GetMoneyBalance",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetMoneyBalanceResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/countries": {
+      "get": {
+        "summary": "Returns list of supported countries for making payments",
+        "operationId": "GetPaymentCountryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetPaymentCountryListResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/kyc/state": {
+      "get": {
+        "summary": "Returns current KYC state for user",
+        "operationId": "GetKYCState",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetKYCStateResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/methods/{PaymentType}/{PaymentMethod}/field/{FieldType}/values": {
+      "get": {
+        "summary": "Returns list of tokenized cards for current user",
+        "operationId": "GetPaymentFieldValues",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetPaymentFieldValuesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "PaymentType",
+            "description": "Payment method type: deposit, withdraw, etc",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "BalanceDeposit",
+              "BalanceWithdraw"
+            ]
+          },
+          {
+            "name": "PaymentMethod",
+            "description": "Payment method unique identifier on marketplace",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "FieldType",
+            "description": "Payment method field type",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "FieldTypeEmail",
+              "FieldTypeWebmoney",
+              "FieldTypePhone",
+              "FieldTypeYandexWallet",
+              "FieldTypeCardToken",
+              "FieldTypeQIWIWallet",
+              "FieldTypePayoneerWallet",
+              "FieldTypePayoneerWalletSelect"
+            ]
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/methods/{Type}": {
+      "get": {
+        "summary": "Returns available money deposit or withdraw methods list.",
+        "operationId": "GetPaymentMethods",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetPaymentMethodsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Type",
+            "description": "Payment method type to filter payment methods.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "BalanceDeposit",
+              "BalanceWithdraw"
+            ]
+          },
+          {
+            "name": "CountryCode",
+            "description": "Country code to filter payment methods.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Currency",
+            "description": "Currency code to filter payment methods.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "USD",
+              "DMC"
+            ],
+            "default": "USD"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/transaction/balance-deposit": {
+      "post": {
+        "summary": "Initiates new money balance refill process.",
+        "operationId": "InitiateBalanceDeposit",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceInitiateBalanceDepositResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceInitiateBalanceDepositRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/transaction/balance-deposit/complete/{TransactionID}": {
+      "get": {
+        "summary": "Get balance deposit return URL",
+        "operationId": "BalanceDepositComplete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceRedirectResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "TransactionID",
+            "description": "Unique transaction identifier. Transaction state can be tracked by this ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/transaction/balance-deposit/{TransactionID}": {
+      "get": {
+        "summary": "Retrieves current state for deposit transaction by it's unique identifier",
+        "operationId": "GetBalanceDepositTransactionState",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetBalanceDepositTransactionStateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "TransactionID",
+            "description": "Unique transaction identifier. Transaction state can be tracked by this ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/transaction/balance-withdraw": {
+      "post": {
+        "summary": "Initiates new money balance withdraw process.",
+        "operationId": "InitiateBalanceWithdraw",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceInitiateBalanceWithdrawResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceInitiateBalanceWithdrawRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/transaction/balance-withdraw/{TransactionID}": {
+      "get": {
+        "summary": "Retrieves current state for withdraw transaction by it's unique identifier",
+        "operationId": "GetBalanceWithdrawTransactionState",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetBalanceWithdrawTransactionStateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "TransactionID",
+            "description": "Unique transaction identifier. Transaction state can be tracked by this ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/transaction/deposit/update/{TransactionID}": {
+      "post": {
+        "summary": "Gateway update",
+        "operationId": "UpdatePaymentDepositTx",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceUpdatePaymentDepositTxResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "TransactionID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceUpdatePaymentDepositTxRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/transaction/withdraw/tokenization/complete/{TransactionID}": {
+      "get": {
+        "summary": "CompleteWithdrawTokenization completes payment credentials tokenization.",
+        "operationId": "CompleteWithdrawTokenization",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceRedirectResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "TransactionID",
+            "description": "Unique transaction identifier. Transaction state can be tracked by this ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/payment/transaction/withdraw/update/{TransactionID}": {
+      "post": {
+        "summary": "UpdatePaymentWithdrawTx forces update of withdraw transaction.",
+        "operationId": "UpdatePaymentWithdrawTx",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceVoid"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "TransactionID",
+            "description": "Unique transaction identifier. Transaction state can be tracked by this ID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceUpdatePaymentWithdrawTxRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/prices": {
+      "get": {
+        "summary": "Get lowest Assets prices.",
+        "operationId": "GetLowestAssetsPrices",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetLowestAssetsPricesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Title",
+            "description": "Asset's title.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "GameID",
+            "description": "Asset's game id.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Limit",
+            "description": "Limits number of returned Assets.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "Offset",
+            "description": "Offsets items in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "Currency",
+            "description": "Asset's currency.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "OrderBy",
+            "description": "Order key.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "OrderDir",
+            "description": "Order direction.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "ASC",
+              "DESC"
+            ],
+            "default": "ASC"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/refresh-token": {
+      "post": {
+        "summary": "Send refresh token to get new token pairs.",
+        "operationId": "RefreshTokenPairs",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceRefreshTokenPairsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceRefreshTokenPairsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/sales-history": {
+      "get": {
+        "summary": "Returns sales history for item.",
+        "operationId": "GetSalesHistory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetSalesHistoryResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Title",
+            "description": "Item title.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "GameID",
+            "description": "Asset's game ID.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Period",
+            "description": "Period to aggregate.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Currency",
+            "description": "Currency.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "USD",
+              "DMC"
+            ],
+            "default": "USD"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/showcase": {
+      "get": {
+        "summary": "Get the list of items, that are currently available for purchase on\nmarketplace storefront.",
+        "operationId": "GetShowcase",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetShowcaseResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "GameID",
+            "description": "Game identifier on market.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "BasicFilters.PriceFrom",
+            "description": "Price range filtering.",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "BasicFilters.PriceTo",
+            "description": "Price range filtering.",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "BasicFilters.Currency",
+            "description": "Currency code to use with price range filter.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "BasicFilters.Title",
+            "description": "Filter assets in inventory by asset's title.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "BasicFilters.HasSteamLock",
+            "description": "Filter assets only with Steam trade-lock. Can be applied only for\nSteam-based games.",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "BasicFilters.SteamLockDays",
+            "description": "Filter assets only with Steam trade-lock lock not more than specified\nnumber of days. Can be applied only for Steam-based games.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "SortType",
+            "description": "Sort showcase assets by one of predefined sort types.\n\n - ShowcaseSortTypeRelevance: Sort showcase by relevance.\n - ShowcaseSortTypeDateNewestFirst: Sort showcase by date showing newest first.\n - ShowcaseSortTypeDateOldestFirst: Sort showcase by date showing oldest first.\n - ShowcaseSortTypePriceHighestFirst: Sort showcase by price showing highest price first.\n - ShowcaseSortTypePriceLowestFirst: Sort showcase by price showing lowest price first.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "ShowcaseSortTypeRelevance",
+              "ShowcaseSortTypeDateNewestFirst",
+              "ShowcaseSortTypeDateOldestFirst",
+              "ShowcaseSortTypePriceHighestFirst",
+              "ShowcaseSortTypePriceLowestFirst"
+            ],
+            "default": "ShowcaseSortTypeRelevance"
+          },
+          {
+            "name": "Offset",
+            "description": "Offsets items in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "Limit",
+            "description": "Limits number or returned items in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/sign-in": {
+      "post": {
+        "summary": "Send login and password to obtain authorization token.",
+        "operationId": "SignIn",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceAuthResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceSignInRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/sign-in/complete/{provider}": {
+      "get": {
+        "summary": "SignInComplete",
+        "operationId": "SignInComplete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceRedirectResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "linkId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "steamAttachErrorCode",
+            "description": "deprecated.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "authAction",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "accountAttachErrorCode",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/sign-in/exchange-token": {
+      "post": {
+        "summary": "Used to retrieve auth token pair by previously received result hash.",
+        "operationId": "UserExchangeToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceAuthResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceUserExchangeTokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/sign-in/link/{Provider}": {
+      "get": {
+        "summary": "SignInLink third party sign in",
+        "operationId": "SignInLink",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceRedirectResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Provider",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Hash",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ReturnURL",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/sign-up": {
+      "post": {
+        "summary": "Send login, password. Requires additional email verification.",
+        "operationId": "SignUp",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceSignUpResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceSignUpRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/subscriptions": {
+      "get": {
+        "summary": "Get all available subscriptions.",
+        "operationId": "GetSubscriptions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetSubscriptionsResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/supported-filters": {
+      "get": {
+        "summary": "Get available filters for specified game.",
+        "operationId": "GetSupportedFilters",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetSupportedFiltersResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "GameID",
+            "description": "Game identifier on market.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Scope",
+            "description": "One scopes where filters can be applied.\n\n - FilterScopeShowcase: Filters used for showcase.\n - FilterScopeUserInventory: Filters used for inventory.\n - FilterScopeUserOffers: Filters used for user offers.\n - FilterScopeUserTargets: Filters used for user targets.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "FilterScopeShowcase",
+              "FilterScopeUserInventory",
+              "FilterScopeUserOffers",
+              "FilterScopeUserTargets"
+            ],
+            "default": "FilterScopeShowcase"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/transfer": {
+      "post": {
+        "operationId": "CreateTransfer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceCreateTransferResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceCreateTransferRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/transfer/{TransferID}": {
+      "get": {
+        "operationId": "GetTransferStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetTransferStatusResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "TransferID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-deposit-wallets": {
+      "get": {
+        "summary": "Get addresses of currency wallets linked with user.",
+        "operationId": "GetUserDepositWallets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetUserDepositWalletsResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-inventory": {
+      "get": {
+        "summary": "Get the current list of user's items that are currently not on sale.",
+        "operationId": "GetUserInventory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetUserInventoryResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "GameID",
+            "description": "Game identifier on market.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "BasicFilters.Title",
+            "description": "Filter assets in inventory by asset's title.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "BasicFilters.InMarket",
+            "description": "Show only deposited on market assets.",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "BasicFilters.HasSteamLock",
+            "description": "Filter assets only with Steam trade-lock. Can be applied only for\nSteam-based games.",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "BasicFilters.SteamLockDays",
+            "description": "Filter assets only with Steam trade-lock lock not more than specified\nnumber of days. Can be applied only for Steam-based games.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "BasicFilters.AssetID",
+            "description": "Filter inventory by specified asset ID list.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "SortType",
+            "description": "Sort inventory by one of predefined sort types.\n\n - UserInventorySortTypeDefault: Default sort type for user inventory.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "UserInventorySortTypeDefault"
+            ],
+            "default": "UserInventorySortTypeDefault"
+          },
+          {
+            "name": "Presentation",
+            "description": "Inventory asset presentation type.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "InventoryPresentationSimple",
+              "InventoryPresentationDetailed"
+            ],
+            "default": "InventoryPresentationSimple"
+          },
+          {
+            "name": "Offset",
+            "description": "Offsets items in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "Limit",
+            "description": "Limits number or returned items in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-offers": {
+      "get": {
+        "summary": "Get the current list of user's items that are currently on sale.",
+        "operationId": "GetUserOffers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetUserOffersResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "GameID",
+            "description": "Game identifier on market.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Status",
+            "description": "On sale offer current status.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "OfferStatusDefault",
+              "OfferStatusActive",
+              "OfferStatusSold",
+              "OfferStatusInactive",
+              "OfferStatusIn_transfer"
+            ],
+            "default": "OfferStatusDefault"
+          },
+          {
+            "name": "SortType",
+            "description": "Sort user offers by one of predefined sort types.\n\n - UserOffersSortTypeDefault: Default sort type for user offers.\n - UserOffersSortTypeDateNewestFirst: Sort user offers by date showing newest first.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "UserOffersSortTypeDefault",
+              "UserOffersSortTypeDateNewestFirst"
+            ],
+            "default": "UserOffersSortTypeDefault"
+          },
+          {
+            "name": "BasicFilters.PriceFrom",
+            "description": "Price range filtering.",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "BasicFilters.PriceTo",
+            "description": "Price range filtering.",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "BasicFilters.Currency",
+            "description": "Currency code to use with price range filter.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Offset",
+            "description": "Offsets items in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "Limit",
+            "description": "Limits number or returned items in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-offers/create": {
+      "post": {
+        "summary": "Put up items for sale (create an offer).",
+        "operationId": "CreateOffers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceCreateOffersResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceCreateOffersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-offers/delete": {
+      "post": {
+        "summary": "Delete offers (remove item from sale).",
+        "operationId": "DeleteOffers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceDeleteOffersResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceDeleteOffersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-offers/edit": {
+      "post": {
+        "summary": "Edit offers.",
+        "operationId": "EditOffers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceEditOffersResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceEditOffersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-subscriptions": {
+      "get": {
+        "summary": "Get user's active subscriptions.",
+        "operationId": "GetUserSubscriptions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetUserSubscriptionsResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-summary": {
+      "get": {
+        "summary": "Get user inventory summary.",
+        "operationId": "GetUserSummary",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetUserSummaryResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "GameID",
+            "description": "Game identifier on market.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-targets": {
+      "get": {
+        "summary": "Get the current list of user's targets.",
+        "operationId": "GetUserTargets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetUserTargetsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "GameID",
+            "description": "Game identifier on market.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "BasicFilters.PriceFrom",
+            "description": "Price range filtering.",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "BasicFilters.PriceTo",
+            "description": "Price range filtering.",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "BasicFilters.Currency",
+            "description": "Currency code to use with price range filter.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "BasicFilters.Title",
+            "description": "Filter user targets by asset's title.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "BasicFilters.TargetID",
+            "description": "Filter by unique target identifier.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "BasicFilters.Status",
+            "description": "Target current status.\n\n - TargetStatusInactive: Target currently inactive.\n - TargetStatusActive: Target currently active and can be matched with complaint offers.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "TargetStatusInactive",
+              "TargetStatusActive"
+            ],
+            "default": "TargetStatusInactive"
+          },
+          {
+            "name": "SortType",
+            "description": "Sort user targets by one of predefined sort types.\n\n - UserTargetsSortTypeDefault: Default sort type for user targets.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "UserTargetsSortTypeDefault"
+            ],
+            "default": "UserTargetsSortTypeDefault"
+          },
+          {
+            "name": "Offset",
+            "description": "Offsets items in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "Limit",
+            "description": "Limits number or returned items in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-targets/closed": {
+      "get": {
+        "summary": "Get user closed targets.",
+        "operationId": "GetUserClosedTargets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetUserClosedTargetsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Offset",
+            "description": "Offsets closed targets in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "Limit",
+            "description": "Limits number of returned closed targets in response.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "OrderDir",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "desc",
+              "asc"
+            ],
+            "default": "desc"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-targets/create": {
+      "post": {
+        "summary": "Create targets.",
+        "operationId": "CreateTargets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceCreateTargetsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceCreateTargetsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-targets/delete": {
+      "post": {
+        "summary": "Delete targets.",
+        "operationId": "DeleteTargets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceDeleteTargetsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceDeleteTargetsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user-targets/edit": {
+      "post": {
+        "summary": "Edit targets.",
+        "operationId": "EditTargets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceEditTargetsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceEditTargetsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user/change-password": {
+      "post": {
+        "summary": "Change user password.",
+        "operationId": "ChangeUserPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceAuthResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceChangeUserPasswordRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user/client-ip/confirm": {
+      "post": {
+        "operationId": "ConfirmClientIP",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceConfirmClientIPResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceConfirmClientIPRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user/client-ip/resend-confirmation": {
+      "post": {
+        "operationId": "ResendClientIPConfirmation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceResendClientIPConfirmationResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceResendClientIPConfirmationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user/payment-country": {
+      "post": {
+        "summary": "Updates payment country for current user",
+        "operationId": "SetUserPaymentCountry",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceSetUserPaymentCountryResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceSetUserPaymentCountryRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user/security": {
+      "get": {
+        "summary": "Returns current user security settings",
+        "operationId": "UserSecuritySettings",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceUserSecuritySettingsResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user/security/mfa/otp/disable": {
+      "post": {
+        "summary": "Disables One Time Passwords mechanism for user.",
+        "operationId": "UserSecurityDisableOTP",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceUserSecurityDisableOTPResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceUserSecurityDisableOTPRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user/security/mfa/otp/enable": {
+      "post": {
+        "summary": "Enables One Time Passwords mechanism for user.",
+        "operationId": "UserSecurityEnableOTP",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceAuthResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceUserSecurityEnableOTPRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/user/security/mfa/otp/secret": {
+      "get": {
+        "summary": "Used to generate new secret key and QR code to be used in authenticator\napp.",
+        "operationId": "UserSecurityGenerateOTPSecret",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceUserSecurityGenerateOTPSecretResponse"
+            }
+          }
+        },
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/verify-otp": {
+      "post": {
+        "summary": "Used to verify OTP code during MFA security check.",
+        "operationId": "UserSecurityVerifyOTPCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceAuthResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceUserSecurityVerifyOTPCodeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/withdraw-assets": {
+      "post": {
+        "summary": "Transfer user's item from DMarket inventory to game inventory.",
+        "operationId": "WithdrawAssets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceWithdrawAssetsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/marketplaceWithdrawAssetsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    },
+    "/withdraw-status/{WithdrawID}": {
+      "get": {
+        "summary": "Get the status of item withdrawal transaction.",
+        "operationId": "GetWithdrawStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/marketplaceGetWithdrawStatusResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "WithdrawID",
+            "description": "Withdraw operation unique identifier.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "MarketAPI"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "GetPaymentFieldValuesResponseField": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Type": {
+          "$ref": "#/definitions/marketplacePaymentMethodFieldType"
+        }
+      }
+    },
+    "GetUserClosedTargetsResponseTrade": {
+      "type": "object",
+      "properties": {
+        "OfferID": {
+          "type": "string"
+        },
+        "TargetID": {
+          "type": "string"
+        },
+        "AssetID": {
+          "type": "string"
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoney"
+        },
+        "CurrencyCode": {
+          "type": "string"
+        },
+        "Amount": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "marketplaceAsset": {
+      "type": "object",
+      "properties": {
+        "AssetID": {
+          "type": "string",
+          "description": "Unique asset identifier."
+        },
+        "VariantID": {
+          "type": "string",
+          "description": "Unique asset variant identifier."
+        },
+        "Title": {
+          "type": "string",
+          "description": "Asset title."
+        },
+        "ImageURL": {
+          "type": "string",
+          "description": "Asset image url. Additional images can be placed in attributes."
+        },
+        "GameID": {
+          "type": "string",
+          "description": "Game identifier asset belongs to."
+        },
+        "GameType": {
+          "$ref": "#/definitions/marketplaceGameType",
+          "description": "Game type."
+        },
+        "Location": {
+          "$ref": "#/definitions/marketplaceAssetLocation",
+          "description": "Current asset location."
+        },
+        "Withdrawable": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "Determines if asset can be transferred from market to game."
+        },
+        "Depositable": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "Determines if asset can be transferred from game to market."
+        },
+        "Tradable": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "Determines if asset can be traded on market."
+        },
+        "Attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceAssetAttribute"
+          },
+          "description": "Custom asset attributes specific for each game."
+        },
+        "Offer": {
+          "$ref": "#/definitions/marketplaceAssetOffer",
+          "title": "On sale asset price"
+        },
+        "MarketPrice": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "Suggested market price for assets of same kind."
+        },
+        "InstantPrice": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "Price to sell asset instantly. Available only for assets in user inventory."
+        },
+        "ClassID": {
+          "type": "string",
+          "description": "Deprecated. Unique asset class identifier."
+        }
+      }
+    },
+    "marketplaceAssetAttribute": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string",
+          "description": "Attribute name."
+        },
+        "Value": {
+          "type": "string",
+          "description": "Asset attribute."
+        }
+      }
+    },
+    "marketplaceAssetLocation": {
+      "type": "string",
+      "enum": [
+        "AssetLocationInGame",
+        "AssetLocationInMarket",
+        "AssetLocationInTransfer"
+      ],
+      "default": "AssetLocationInGame",
+      "description": " - AssetLocationInGame: Asset in user inventory in game.\n - AssetLocationInMarket: Asset in user inventory in marketplace.\n - AssetLocationInTransfer: Asset currently moving from one state to another."
+    },
+    "marketplaceAssetMap": {
+      "type": "object",
+      "properties": {
+        "InGameAssetID": {
+          "type": "string",
+          "description": "In-game asset identifier."
+        },
+        "DmarketAssetID": {
+          "type": "string",
+          "description": "In-market asset identifier."
+        }
+      }
+    },
+    "marketplaceAssetMovement": {
+      "type": "object",
+      "properties": {
+        "Source": {
+          "$ref": "#/definitions/marketplaceTransferAsset"
+        },
+        "Status": {
+          "$ref": "#/definitions/marketplaceAssetMovementStatus"
+        },
+        "Destination": {
+          "$ref": "#/definitions/marketplaceTransferAsset"
+        }
+      }
+    },
+    "marketplaceAssetMovementStatus": {
+      "type": "string",
+      "enum": [
+        "Unknown",
+        "InProgress",
+        "Completed",
+        "Failed",
+        "Rejected",
+        "RolledBack"
+      ],
+      "default": "Unknown"
+    },
+    "marketplaceAssetOffer": {
+      "type": "object",
+      "properties": {
+        "OfferID": {
+          "type": "string",
+          "description": "Unique offer identifier."
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "Asset on sale price."
+        },
+        "Fee": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "Fee that will be payed by seller."
+        },
+        "CreatedDate": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Offer creation date."
+        }
+      }
+    },
+    "marketplaceAssetTransformation": {
+      "type": "object",
+      "properties": {
+        "Before": {
+          "$ref": "#/definitions/marketplaceTransferAsset"
+        },
+        "After": {
+          "$ref": "#/definitions/marketplaceTransferAsset"
+        }
+      }
+    },
+    "marketplaceAuthResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "$ref": "#/definitions/marketplaceAuthResult",
+          "description": "Result type. Authorised in case when tokens are ready, OTP verification\nrequired, etc."
+        },
+        "ResultHash": {
+          "type": "string",
+          "description": "Should be used to finalize authentication process in case of OTP\nverification, Oauth sign-in, etc."
+        },
+        "AuthToken": {
+          "type": "string",
+          "description": "User auth token."
+        },
+        "AuthTokenExpiresAt": {
+          "type": "string",
+          "format": "int64",
+          "description": "Auth token expiration date timestamp."
+        },
+        "RefreshToken": {
+          "type": "string",
+          "description": "Refresh token for auth token renewal."
+        },
+        "RefreshTokenExpiresAt": {
+          "type": "string",
+          "format": "int64",
+          "description": "Refresh token expiration date timestamp."
+        }
+      }
+    },
+    "marketplaceAuthResult": {
+      "type": "string",
+      "enum": [
+        "Authorized",
+        "OTPVerifyRequired",
+        "TokenExchangeRequired",
+        "IPConfirmationRequired"
+      ],
+      "default": "Authorized"
+    },
+    "marketplaceBalanceWithdrawResponseType": {
+      "type": "string",
+      "enum": [
+        "ResponseTypeInitiated",
+        "ResponseTypeCardAuthorizationRequired"
+      ],
+      "default": "ResponseTypeInitiated",
+      "title": "- ResponseTypeInitiated: Withdraw process initiated, no other user activity needed\n - ResponseTypeCardAuthorizationRequired: Withdraw process requires card authorisation (tokenisation) process to initiate payment process. User should be redirected to RedirectURL provided in response"
+    },
+    "marketplaceBasicInventoryFilters": {
+      "type": "object",
+      "properties": {
+        "Title": {
+          "type": "string",
+          "description": "Filter assets in inventory by asset's title."
+        },
+        "InMarket": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "Show only deposited on market assets."
+        },
+        "HasSteamLock": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "Filter assets only with Steam trade-lock. Can be applied only for\nSteam-based games."
+        },
+        "SteamLockDays": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Filter assets only with Steam trade-lock lock not more than specified\nnumber of days. Can be applied only for Steam-based games."
+        },
+        "AssetID": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Filter inventory by specified asset ID list."
+        }
+      }
+    },
+    "marketplaceBasicShowcaseFilters": {
+      "type": "object",
+      "properties": {
+        "PriceFrom": {
+          "type": "number",
+          "format": "float",
+          "description": "Price range filtering."
+        },
+        "PriceTo": {
+          "type": "number",
+          "format": "float",
+          "description": "Price range filtering."
+        },
+        "Currency": {
+          "type": "string",
+          "description": "Currency code to use with price range filter."
+        },
+        "Title": {
+          "type": "string",
+          "description": "Filter assets in inventory by asset's title."
+        },
+        "HasSteamLock": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "Filter assets only with Steam trade-lock. Can be applied only for\nSteam-based games."
+        },
+        "SteamLockDays": {
+          "type": "string",
+          "format": "int64",
+          "description": "Filter assets only with Steam trade-lock lock not more than specified\nnumber of days. Can be applied only for Steam-based games."
+        }
+      }
+    },
+    "marketplaceBasicUserOffersFilters": {
+      "type": "object",
+      "properties": {
+        "PriceFrom": {
+          "type": "number",
+          "format": "float",
+          "description": "Price range filtering."
+        },
+        "PriceTo": {
+          "type": "number",
+          "format": "float",
+          "description": "Price range filtering."
+        },
+        "Currency": {
+          "type": "string",
+          "description": "Currency code to use with price range filter."
+        }
+      }
+    },
+    "marketplaceBasicUserTargetsFilters": {
+      "type": "object",
+      "properties": {
+        "PriceFrom": {
+          "type": "number",
+          "format": "float",
+          "description": "Price range filtering."
+        },
+        "PriceTo": {
+          "type": "number",
+          "format": "float",
+          "description": "Price range filtering."
+        },
+        "Currency": {
+          "type": "string",
+          "description": "Currency code to use with price range filter."
+        },
+        "Title": {
+          "type": "string",
+          "description": "Filter user targets by asset's title."
+        },
+        "TargetID": {
+          "type": "string",
+          "description": "Filter by unique target identifier."
+        },
+        "Status": {
+          "$ref": "#/definitions/marketplaceTargetStatus",
+          "description": "Target current status."
+        }
+      }
+    },
+    "marketplaceBuyOfferRequest": {
+      "type": "object",
+      "properties": {
+        "OfferID": {
+          "type": "string",
+          "description": "Offer identifier that should be purchased."
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "Purchase price. Should be the same as on storefront."
+        }
+      }
+    },
+    "marketplaceBuyOfferResponse": {
+      "type": "object",
+      "properties": {
+        "BuyOffer": {
+          "$ref": "#/definitions/marketplaceBuyOfferRequest",
+          "description": "Initial request."
+        },
+        "Successful": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "True if request was successful."
+        },
+        "Error": {
+          "$ref": "#/definitions/marketplaceErrorDetails",
+          "description": "Request error details. Empty if request was successful."
+        }
+      }
+    },
+    "marketplaceBuyOffersRequest": {
+      "type": "object",
+      "properties": {
+        "Offers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceBuyOfferRequest"
+          },
+          "description": "List of offers to purchase."
+        }
+      }
+    },
+    "marketplaceBuyOffersResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceBuyOfferResponse"
+          },
+          "description": "Results for each sent request."
+        }
+      }
+    },
+    "marketplaceBuyUserSubscriptionRequest": {
+      "type": "object",
+      "properties": {
+        "SubscriptionID": {
+          "type": "string",
+          "title": "Subscription ID"
+        }
+      },
+      "required": [
+        "SubscriptionID"
+      ]
+    },
+    "marketplaceBuyUserSubscriptionResponse": {
+      "type": "object"
+    },
+    "marketplaceChangeUserPasswordRequest": {
+      "type": "object",
+      "properties": {
+        "NewPassword": {
+          "type": "string"
+        },
+        "OldPassword": {
+          "type": "string"
+        }
+      }
+    },
+    "marketplaceCheckEmailExistsRequest": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Email"
+      ]
+    },
+    "marketplaceCheckEmailExistsResponse": {
+      "type": "object",
+      "properties": {
+        "Exists": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "marketplaceConfirmClientIPRequest": {
+      "type": "object",
+      "properties": {
+        "Hash": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Hash"
+      ]
+    },
+    "marketplaceConfirmClientIPResponse": {
+      "type": "object",
+      "properties": {
+        "AuthToken": {
+          "type": "string",
+          "description": "User auth token."
+        },
+        "AuthTokenExpiresAt": {
+          "type": "string",
+          "format": "int64",
+          "description": "Auth token expiration date timestamp."
+        },
+        "RefreshToken": {
+          "type": "string",
+          "description": "Refresh token for auth token renewal."
+        },
+        "RefreshTokenExpiresAt": {
+          "type": "string",
+          "format": "int64",
+          "description": "Refresh token expiration date timestamp."
+        }
+      }
+    },
+    "marketplaceCountry": {
+      "type": "object",
+      "properties": {
+        "CountryCode": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        }
+      }
+    },
+    "marketplaceCreateOfferRequest": {
+      "type": "object",
+      "properties": {
+        "AssetID": {
+          "type": "string",
+          "description": "Asset ID in user inventory."
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "On sale price."
+        }
+      }
+    },
+    "marketplaceCreateOfferResponse": {
+      "type": "object",
+      "properties": {
+        "CreateOffer": {
+          "$ref": "#/definitions/marketplaceCreateOfferRequest",
+          "description": "Initial put on sale request."
+        },
+        "OfferID": {
+          "type": "string",
+          "description": "Offer identifier in case of successful create."
+        },
+        "Successful": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "True if operation was successful."
+        },
+        "Error": {
+          "$ref": "#/definitions/marketplaceErrorDetails",
+          "description": "Request error details. Empty if request was successful."
+        }
+      }
+    },
+    "marketplaceCreateOffersRequest": {
+      "type": "object",
+      "properties": {
+        "Offers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceCreateOfferRequest"
+          },
+          "description": "List of offers to create."
+        }
+      }
+    },
+    "marketplaceCreateOffersResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceCreateOfferResponse"
+          },
+          "description": "Results for each sent request."
+        }
+      }
+    },
+    "marketplaceCreateTargetRequest": {
+      "type": "object",
+      "properties": {
+        "Amount": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Amount of same assets in one single target entity."
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "Price per asset in target."
+        },
+        "Attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceAssetAttribute"
+          },
+          "description": "Custom asset attributes specific for each game. Target matching is done by\nthis attributes."
+        }
+      }
+    },
+    "marketplaceCreateTargetResponse": {
+      "type": "object",
+      "properties": {
+        "CreateTarget": {
+          "$ref": "#/definitions/marketplaceCreateTargetRequest",
+          "description": "Initial target creation request."
+        },
+        "TargetID": {
+          "type": "string",
+          "description": "Target identifier in case of successful create."
+        },
+        "Successful": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "True if operation was successful."
+        },
+        "Error": {
+          "$ref": "#/definitions/marketplaceErrorDetails",
+          "description": "Request error details. Empty if request was successful."
+        }
+      }
+    },
+    "marketplaceCreateTargetsRequest": {
+      "type": "object",
+      "properties": {
+        "Targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceCreateTargetRequest"
+          },
+          "description": "List of targets to create."
+        }
+      }
+    },
+    "marketplaceCreateTargetsResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceCreateTargetResponse"
+          },
+          "description": "Results for each sent request."
+        }
+      }
+    },
+    "marketplaceCreateTransferRequest": {
+      "type": "object",
+      "properties": {
+        "Type": {
+          "$ref": "#/definitions/marketplaceTransferType"
+        },
+        "Assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceTransferAsset"
+          }
+        }
+      }
+    },
+    "marketplaceCreateTransferResponse": {
+      "type": "object",
+      "properties": {
+        "TransferID": {
+          "type": "string"
+        }
+      }
+    },
+    "marketplaceCurrency": {
+      "type": "string",
+      "enum": [
+        "USD",
+        "DMC"
+      ],
+      "default": "USD"
+    },
+    "marketplaceDeleteOfferRequest": {
+      "type": "object",
+      "properties": {
+        "OfferID": {
+          "type": "string",
+          "description": "Offer identifier (one of)."
+        },
+        "AssetID": {
+          "type": "string",
+          "description": "Asset identifier (one of)."
+        }
+      },
+      "description": "Offer or asset identifier to identify offer that should be deleted."
+    },
+    "marketplaceDeleteOfferResponse": {
+      "type": "object",
+      "properties": {
+        "OfferID": {
+          "type": "string",
+          "description": "Offer identifier (one of)."
+        },
+        "AssetID": {
+          "type": "string",
+          "description": "Asset identifier (one of)."
+        },
+        "Successful": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "True if operation was successful."
+        },
+        "Error": {
+          "$ref": "#/definitions/marketplaceErrorDetails",
+          "description": "Request error details. Empty if request was successful."
+        }
+      }
+    },
+    "marketplaceDeleteOffersRequest": {
+      "type": "object",
+      "properties": {
+        "Offers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceDeleteOfferRequest"
+          },
+          "description": "Offers list to delete."
+        }
+      }
+    },
+    "marketplaceDeleteOffersResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceDeleteOfferResponse"
+          },
+          "description": "Results for each sent request."
+        }
+      }
+    },
+    "marketplaceDeleteTargetRequest": {
+      "type": "object",
+      "properties": {
+        "TargetID": {
+          "type": "string",
+          "description": "Unique target identifier."
+        }
+      }
+    },
+    "marketplaceDeleteTargetResponse": {
+      "type": "object",
+      "properties": {
+        "DeleteTarget": {
+          "$ref": "#/definitions/marketplaceDeleteTargetRequest",
+          "description": "Initial target delete request."
+        },
+        "Successful": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "True if operation was successful."
+        },
+        "Error": {
+          "$ref": "#/definitions/marketplaceErrorDetails",
+          "description": "Request error details. Empty if request was successful."
+        }
+      }
+    },
+    "marketplaceDeleteTargetsRequest": {
+      "type": "object",
+      "properties": {
+        "Targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceDeleteTargetRequest"
+          },
+          "description": "Targets list to delete."
+        }
+      }
+    },
+    "marketplaceDeleteTargetsResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceDeleteTargetResponse"
+          },
+          "description": "Results for each sent request."
+        }
+      }
+    },
+    "marketplaceDepositAssetsRequest": {
+      "type": "object",
+      "properties": {
+        "AssetID": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of asset id to deposit."
+        }
+      }
+    },
+    "marketplaceDepositAssetsResponse": {
+      "type": "object",
+      "properties": {
+        "DepositID": {
+          "type": "string",
+          "description": "Deposit operation unique identifier."
+        }
+      }
+    },
+    "marketplaceDepositTransactionState": {
+      "type": "string",
+      "enum": [
+        "DepositTransactionInitiated",
+        "DepositTransactionProcessing",
+        "DepositTransactionCompleted",
+        "DepositTransactionFailed"
+      ],
+      "default": "DepositTransactionInitiated"
+    },
+    "marketplaceDepositWallet": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "$ref": "#/definitions/marketplaceWalletCurrency",
+          "description": "Wallet currency name."
+        },
+        "Address": {
+          "type": "string",
+          "description": "Wallet address."
+        }
+      }
+    },
+    "marketplaceEditOfferRequest": {
+      "type": "object",
+      "properties": {
+        "OfferID": {
+          "type": "string",
+          "description": "Offer identifier (one of)."
+        },
+        "AssetID": {
+          "type": "string",
+          "description": "Asset identifier (one of)."
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "New offer price."
+        }
+      }
+    },
+    "marketplaceEditOfferResponse": {
+      "type": "object",
+      "properties": {
+        "EditOffer": {
+          "$ref": "#/definitions/marketplaceEditOfferRequest",
+          "description": "Initial edit offer request."
+        },
+        "Successful": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "True if operation was successful."
+        },
+        "Error": {
+          "$ref": "#/definitions/marketplaceErrorDetails",
+          "description": "Request error details. Empty if request was successful."
+        },
+        "NewOfferID": {
+          "type": "string",
+          "title": "On success creates new offer id"
+        }
+      }
+    },
+    "marketplaceEditOffersRequest": {
+      "type": "object",
+      "properties": {
+        "Offers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceEditOfferRequest"
+          },
+          "description": "List of offers to edit."
+        }
+      }
+    },
+    "marketplaceEditOffersResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceEditOfferResponse"
+          },
+          "description": "Results for each sent request."
+        }
+      }
+    },
+    "marketplaceEditTargetRequest": {
+      "type": "object",
+      "properties": {
+        "TargetID": {
+          "type": "string",
+          "description": "Unique target identifier."
+        },
+        "Amount": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Amount of same assets in one single target entity."
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "Price per asset in target."
+        }
+      }
+    },
+    "marketplaceEditTargetResponse": {
+      "type": "object",
+      "properties": {
+        "EditTarget": {
+          "$ref": "#/definitions/marketplaceEditTargetRequest",
+          "description": "Initial target edit request."
+        },
+        "Successful": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "True if operation was successful."
+        },
+        "Error": {
+          "$ref": "#/definitions/marketplaceErrorDetails",
+          "description": "Request error details. Empty if request was successful."
+        }
+      }
+    },
+    "marketplaceEditTargetsRequest": {
+      "type": "object",
+      "properties": {
+        "Targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceEditTargetRequest"
+          },
+          "description": "List of targets to edit."
+        }
+      }
+    },
+    "marketplaceEditTargetsResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceEditTargetResponse"
+          },
+          "description": "Results for each sent request."
+        }
+      }
+    },
+    "marketplaceErrorCodes": {
+      "type": "string",
+      "enum": [
+        "Internal",
+        "Unauthorized",
+        "NotEnoughBalance",
+        "ActiveSubscriptionExists",
+        "InsufficientFunds",
+        "SubscriptionPurchaseIsBlocked",
+        "RecaptchaRequired",
+        "WrongRecaptcha",
+        "BadCredentials",
+        "EmailIsNotVerified",
+        "InvalidOTPCode",
+        "OTPDisabled",
+        "OTPSessionExpired",
+        "TitleRequired",
+        "InvalidPeriod",
+        "BadRequest",
+        "GameIDRequired",
+        "MFAAlreadyEnabled",
+        "DepositTransferNotFound",
+        "WithdrawTransferNotFound",
+        "InventoryItemsNotFound",
+        "UnsupportedAuthProvider",
+        "FieldCouldNotBeAnEmpty",
+        "TokenNotValid",
+        "InvalidTransferAssetCount",
+        "GameIsNotLinkedToYourAccount",
+        "DuplicatedAssets",
+        "TransferNotFound",
+        "InvalidUUID",
+        "UnsupportedPaymentType",
+        "UnsupportedCurrency",
+        "GetReturnURL",
+        "UpdatePaymentDepositTx",
+        "DepositTxNoFound",
+        "WithdrawTxNoFound",
+        "KYCVerificationFailed",
+        "PaymentMethodNotFound",
+        "KycError",
+        "TxNotFound",
+        "InternalServerError",
+        "AttemptsLimitExceeded",
+        "InvalidCountryCode",
+        "Banned",
+        "InvalidReturnUrl",
+        "InvalidConfirmationHash",
+        "IPConfirmationMismatch",
+        "EmailNotValid"
+      ],
+      "default": "Internal",
+      "title": "- Internal: errors: Internal Error: {{ err|string }}\ncode: 500\n - Unauthorized: errors: Unauthorized\ncode: 401\n - NotEnoughBalance: errors: Not enough balance\ncode: 400\n - ActiveSubscriptionExists: errors: Active subscription already exists\ncode: 400\n - InsufficientFunds: errors: Insufficient funds\ncode: 400\n - SubscriptionPurchaseIsBlocked: errors: Subscription purchase is blocked\ncode: 400\n - RecaptchaRequired: errors: Recaptcha required\ncode: 400\n - WrongRecaptcha: errors:Wrong recaptcha\ncode: 400\n - BadCredentials: errors:Bad credentials\ncode: 400\n - EmailIsNotVerified: errors:Email [{{email|string}}] is not verified\ncode: 400\n - InvalidOTPCode: errors:Invalid OTP code\ncode: 400\n - OTPDisabled: errors:OTP authentication is disabled\ncode: 400\n - OTPSessionExpired: errors:OTP session expired\ncode: 400\n - TitleRequired: errors: Title parameter is required\ncode: 400\n - InvalidPeriod: errors: Period parameter is invalid\ncode: 400\n - BadRequest: errors:Bad request\ncode: 400\n - GameIDRequired: errors: GameID parameter is required\ncode: 400\n - MFAAlreadyEnabled: errors:MFA already enabled\n code: 400\n - DepositTransferNotFound: errors:Deposit transfer not found\n code: 400\n - WithdrawTransferNotFound: errors:Withdraw transfer not found\n code: 400\n - InventoryItemsNotFound: errors:Inventory Items Not Found\n code: 400\n - UnsupportedAuthProvider: errors:Unsupported auth provider\ncode: 400\n - FieldCouldNotBeAnEmpty: errors:Field [{{fieldName|string}}] couldn't be an empty\ncode: 400\n - TokenNotValid: errors:Token not valid\ncode: 400\n - InvalidTransferAssetCount: errors:Invalid transfer asset count\ncode: 400\n - GameIsNotLinkedToYourAccount: errors:Game isn't linked to your account [{{gameID|string}}].\ncode: 400\n - DuplicatedAssets: errors:Duplicated assets found\ncode: 400\n - TransferNotFound: errors:Transfer [{{id|string}}] not found\ncode: 400\n - InvalidUUID: errors:Invalid UUID format [{{uuid|string}}]\ncode: 400\n - UnsupportedPaymentType: errors:Unsupported payment type: [{{ typ|string }}]\n code: 400\n - UnsupportedCurrency: errors:Unsupported currency: [{{ currency|string }}]\n code: 400\n - GetReturnURL: errors:Get return URL: [{{ err|string }}]\n code: 400\n - UpdatePaymentDepositTx: errors:Update Payment Deposit Tx: [{{ err|string }}]\n code: 400\n - DepositTxNoFound: errors:Deposit transaction not found: [{{ id|string }}]\n code: 404\n - WithdrawTxNoFound: errors:Withdraw transaction not found: [{{ id|string }}]\n code: 404\n - KYCVerificationFailed: errors:KYC verification failed\ncode: 400\n - PaymentMethodNotFound: errors:Payment method not found\ncode: 400\n - KycError: errors:KYC error\ncode: 400\n - TxNotFound: errors:Transaction not found: [{{ id|string }}]\n code: 404\n - InternalServerError: errors:Internal Error\ncode: 500\n - AttemptsLimitExceeded: errors: {{ blockDuration|int }}\ncode: 403\n - InvalidCountryCode: errors:Invalid country code\ncode: 400\n - Banned: errors:Your account is banned\ncode: 403\n - InvalidReturnUrl: errors:Invalid return URL: [{{ url|string }}]\ncode: 400\n - InvalidConfirmationHash: errors:Invalid confirmation hash\ncode: 400\n - IPConfirmationMismatch: errors:IP confirmation mismatch\ncode: 409\n - EmailNotValid: errors:Email not valid\ncode: 400"
+    },
+    "marketplaceErrorDetails": {
+      "type": "object",
+      "properties": {
+        "Code": {
+          "$ref": "#/definitions/marketplaceErrorCodes",
+          "description": "Unique error code."
+        },
+        "Message": {
+          "type": "string",
+          "description": "Human readable error message."
+        }
+      }
+    },
+    "marketplaceExchangeAssetsRequest": {
+      "type": "object",
+      "properties": {
+        "Offers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceBuyOfferRequest"
+          },
+          "description": "List of offers from storefront."
+        },
+        "Assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceInstantSellAssetRequest"
+          },
+          "description": "Assets from user inventory to exchange."
+        }
+      }
+    },
+    "marketplaceExchangeAssetsResponse": {
+      "type": "object",
+      "properties": {
+        "Exchange": {
+          "$ref": "#/definitions/marketplaceExchangeAssetsRequest",
+          "description": "Initial exchange request."
+        },
+        "Successful": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "True if request was successful."
+        },
+        "Error": {
+          "$ref": "#/definitions/marketplaceErrorDetails",
+          "description": "Request error details. Empty if request was successful."
+        }
+      }
+    },
+    "marketplaceExchangeAuthTokenRequest": {
+      "type": "object",
+      "properties": {
+        "AuthProvider": {
+          "type": "string",
+          "description": "Auth provider name configured on Auth service."
+        },
+        "Token": {
+          "type": "string",
+          "description": "Auth token from 3rd-party oauth provider."
+        },
+        "CreateAccount": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "Allows to create account and assign external credentials to it."
+        }
+      },
+      "required": [
+        "AuthProvider",
+        "Token"
+      ]
+    },
+    "marketplaceFilterDescription": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string",
+          "description": "Filter name."
+        },
+        "ValueType": {
+          "$ref": "#/definitions/marketplaceFilterValueType",
+          "description": "One of supported filter value types."
+        }
+      }
+    },
+    "marketplaceFilterOption": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string",
+          "description": "Filter name."
+        },
+        "Value": {
+          "type": "string",
+          "description": "Filter value."
+        }
+      }
+    },
+    "marketplaceFilterScope": {
+      "type": "string",
+      "enum": [
+        "FilterScopeShowcase",
+        "FilterScopeUserInventory",
+        "FilterScopeUserOffers",
+        "FilterScopeUserTargets"
+      ],
+      "default": "FilterScopeShowcase",
+      "description": " - FilterScopeShowcase: Filters used for showcase.\n - FilterScopeUserInventory: Filters used for inventory.\n - FilterScopeUserOffers: Filters used for user offers.\n - FilterScopeUserTargets: Filters used for user targets."
+    },
+    "marketplaceFilterValueType": {
+      "type": "string",
+      "enum": [
+        "FilterValueTypeString",
+        "FilterValueTypeInt",
+        "FilterValueTypeDouble",
+        "FilterValueTypeBool",
+        "FilterValueTypeStrings"
+      ],
+      "default": "FilterValueTypeString",
+      "description": " - FilterValueTypeString: Single string value.\n - FilterValueTypeInt: Single integer value.\n - FilterValueTypeDouble: Single double or float value.\n - FilterValueTypeBool: Single boolean value.\n - FilterValueTypeStrings: String array value."
+    },
+    "marketplaceGameType": {
+      "type": "string",
+      "enum": [
+        "GameTypeBlockchain",
+        "GameTypeSteam"
+      ],
+      "default": "GameTypeBlockchain",
+      "description": " - GameTypeBlockchain: Blockchain-based game.\n - GameTypeSteam: Steam-based game."
+    },
+    "marketplaceGetAccountResponse": {
+      "type": "object",
+      "properties": {
+        "AccountID": {
+          "type": "string",
+          "description": "Unique user account identifier."
+        },
+        "Email": {
+          "type": "string",
+          "description": "User email."
+        },
+        "Username": {
+          "type": "string",
+          "description": "Username."
+        },
+        "AvatarImageURL": {
+          "type": "string",
+          "description": "User avatar image URL."
+        }
+      }
+    },
+    "marketplaceGetBalanceDepositTransactionStateResponse": {
+      "type": "object",
+      "properties": {
+        "TransactionID": {
+          "type": "string",
+          "title": "Unique transaction identifier. Transaction state can be tracked by this ID"
+        },
+        "State": {
+          "$ref": "#/definitions/marketplaceDepositTransactionState",
+          "title": "Current transaction state"
+        },
+        "RedirectURL": {
+          "type": "string",
+          "title": "URL to redirect user to proceed with payment"
+        }
+      }
+    },
+    "marketplaceGetBalanceWithdrawTransactionStateResponse": {
+      "type": "object",
+      "properties": {
+        "TransactionID": {
+          "type": "string",
+          "title": "Unique transaction identifier. Transaction state can be tracked by this ID"
+        },
+        "State": {
+          "$ref": "#/definitions/marketplaceWithdrawTransactionState",
+          "title": "Current transaction state"
+        },
+        "RedirectURL": {
+          "type": "string",
+          "title": "URL to redirect user to proceed with payment"
+        }
+      }
+    },
+    "marketplaceGetCashbackBalanceResponse": {
+      "type": "object",
+      "properties": {
+        "Balance": {
+          "$ref": "#/definitions/marketplaceMoneySubUnit"
+        }
+      }
+    },
+    "marketplaceGetDepositStatusResponse": {
+      "type": "object",
+      "properties": {
+        "DepositID": {
+          "type": "string",
+          "description": "Deposit operation unique identifier."
+        },
+        "AssetID": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Initial assets list requested to deposit."
+        },
+        "Status": {
+          "$ref": "#/definitions/marketplaceTransferStatus",
+          "description": "Current deposit operation status."
+        },
+        "Error": {
+          "type": "string",
+          "description": "Error details in case of failed deposit operation."
+        },
+        "Assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceAssetMap"
+          },
+          "description": "Map of in-game asset id from request and new in-market asset ids after\ndeposit."
+        },
+        "SteamDepositInfo": {
+          "$ref": "#/definitions/marketplaceSteamDepositInfo",
+          "description": "Steam-specific deposit operation details."
+        }
+      }
+    },
+    "marketplaceGetGameResponse": {
+      "type": "object",
+      "properties": {
+        "GameID": {
+          "type": "string",
+          "description": "Game identifier on market."
+        },
+        "Name": {
+          "type": "string",
+          "description": "Game name on market."
+        },
+        "LogoImageURL": {
+          "type": "string",
+          "description": "Game logo on market."
+        },
+        "GameType": {
+          "$ref": "#/definitions/marketplaceGameType",
+          "description": "Game type."
+        }
+      }
+    },
+    "marketplaceGetGamesResponse": {
+      "type": "object",
+      "properties": {
+        "Games": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceGetGameResponse"
+          },
+          "description": "Games list."
+        }
+      }
+    },
+    "marketplaceGetKYCStateResponse": {
+      "type": "object",
+      "properties": {
+        "State": {
+          "$ref": "#/definitions/marketplaceKYCState"
+        }
+      }
+    },
+    "marketplaceGetLastSalesResponse": {
+      "type": "object",
+      "properties": {
+        "LastSales": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceLastSale"
+          }
+        }
+      },
+      "required": [
+        "LastSales"
+      ]
+    },
+    "marketplaceGetLowestAssetsPricesResponse": {
+      "type": "object",
+      "properties": {
+        "Items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceLowestPriceAsset"
+          },
+          "title": "List of assets with lowest price"
+        },
+        "Total": {
+          "type": "string",
+          "format": "uint64",
+          "title": "Total number of Assets"
+        }
+      },
+      "required": [
+        "Items",
+        "Total"
+      ]
+    },
+    "marketplaceGetMoneyBalanceResponse": {
+      "type": "object",
+      "properties": {
+        "Balance": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceMoneyBalance"
+          },
+          "description": "Available user balances."
+        }
+      }
+    },
+    "marketplaceGetPaymentCountryListResponse": {
+      "type": "object",
+      "properties": {
+        "Items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceCountry"
+          }
+        }
+      }
+    },
+    "marketplaceGetPaymentFieldValuesResponse": {
+      "type": "object",
+      "properties": {
+        "Items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplacePaymentFieldValues"
+          }
+        },
+        "TokenizedFields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetPaymentFieldValuesResponseField"
+          }
+        }
+      }
+    },
+    "marketplaceGetPaymentMethodsResponse": {
+      "type": "object",
+      "properties": {
+        "Items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplacePaymentMethod"
+          },
+          "title": "List of available payment methods"
+        }
+      },
+      "required": [
+        "Items"
+      ]
+    },
+    "marketplaceGetSalesHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "Currency": {
+          "$ref": "#/definitions/marketplaceCurrency",
+          "title": "Currency code"
+        },
+        "SalesHistory": {
+          "$ref": "#/definitions/marketplaceSalesHistoryItem",
+          "title": "Item's sales history"
+        }
+      },
+      "required": [
+        "Currency",
+        "SalesHistory"
+      ]
+    },
+    "marketplaceGetShowcaseResponse": {
+      "type": "object",
+      "properties": {
+        "Items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceAsset"
+          },
+          "description": "Assets list."
+        },
+        "Total": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Total number of items that complain with provided filter."
+        }
+      }
+    },
+    "marketplaceGetSubscriptionsResponse": {
+      "type": "object",
+      "properties": {
+        "Subscriptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceSubscription"
+          }
+        }
+      },
+      "required": [
+        "Subscriptions"
+      ]
+    },
+    "marketplaceGetSupportedFiltersResponse": {
+      "type": "object",
+      "properties": {
+        "Filters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceFilterDescription"
+          },
+          "description": "Filter descriptions list."
+        }
+      }
+    },
+    "marketplaceGetTransferStatusResponse": {
+      "type": "object",
+      "properties": {
+        "TransferID": {
+          "type": "string",
+          "description": "Transfer operation unique identifier."
+        },
+        "Type": {
+          "$ref": "#/definitions/marketplaceTransferType"
+        },
+        "Assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceTransferAsset"
+          },
+          "description": "Initial assets list requested to transfer."
+        },
+        "Status": {
+          "$ref": "#/definitions/marketplaceTransferStatus",
+          "description": "Current transfer operation status."
+        },
+        "Error": {
+          "type": "string",
+          "description": "Error details in case of failed transfer operation."
+        },
+        "Transformations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceAssetTransformation"
+          },
+          "description": "Transformations of in-game asset id from request and new in-market asset ids after\ntransfer."
+        },
+        "Movements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceAssetMovement"
+          }
+        }
+      }
+    },
+    "marketplaceGetUserClosedTargetsResponse": {
+      "type": "object",
+      "properties": {
+        "Trades": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetUserClosedTargetsResponseTrade"
+          }
+        },
+        "Total": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "marketplaceGetUserDepositWalletsResponse": {
+      "type": "object",
+      "properties": {
+        "DepositWallets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceDepositWallet"
+          },
+          "title": "Wallets for deposit"
+        }
+      }
+    },
+    "marketplaceGetUserInventoryResponse": {
+      "type": "object",
+      "properties": {
+        "Items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceAsset"
+          },
+          "description": "Assets list."
+        },
+        "Total": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Total number of items that complain with provided filter."
+        }
+      }
+    },
+    "marketplaceGetUserOffersResponse": {
+      "type": "object",
+      "properties": {
+        "Items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceAsset"
+          },
+          "description": "User on sale assets."
+        },
+        "Total": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Total number of items that complain with provided filter."
+        }
+      }
+    },
+    "marketplaceGetUserSubscriptionsResponse": {
+      "type": "object",
+      "properties": {
+        "UserSubscriptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceUserSubscription"
+          }
+        }
+      },
+      "required": [
+        "UserSubscriptions"
+      ]
+    },
+    "marketplaceGetUserSummaryResponse": {
+      "type": "object",
+      "properties": {
+        "Assets": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Assets count in inventory."
+        },
+        "Offers": {
+          "type": "string",
+          "format": "uint64",
+          "description": "On sale assets count."
+        },
+        "Targets": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Targets count."
+        },
+        "CompletedOffers": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Completed on sale offers."
+        },
+        "ClosedTargets": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Successfully completed targets."
+        }
+      }
+    },
+    "marketplaceGetUserTargetsResponse": {
+      "type": "object",
+      "properties": {
+        "Items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceTarget"
+          },
+          "description": "User targets list."
+        },
+        "Total": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Total number of items that complain with provided filters."
+        }
+      }
+    },
+    "marketplaceGetWithdrawStatusResponse": {
+      "type": "object",
+      "properties": {
+        "WithdrawID": {
+          "type": "string",
+          "description": "Withdraw operation unique identifier."
+        },
+        "AssetID": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Initial assets list requested to withdraw."
+        },
+        "Status": {
+          "$ref": "#/definitions/marketplaceTransferStatus",
+          "description": "Current withdraw operation status."
+        },
+        "Error": {
+          "type": "string",
+          "description": "Error details in case of failed withdraw operation."
+        },
+        "SteamWithdrawInfo": {
+          "$ref": "#/definitions/marketplaceSteamWithdrawInfo",
+          "description": "Steam-specific withdraw operation details."
+        }
+      }
+    },
+    "marketplaceInitiateBalanceDepositRequest": {
+      "type": "object",
+      "properties": {
+        "PaymentMethod": {
+          "type": "string",
+          "title": "Payment method unique identifier on marketplace"
+        },
+        "Amount": {
+          "$ref": "#/definitions/marketplaceMoneySubUnit",
+          "title": "Money amount to deposit"
+        },
+        "Fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceInitiatePaymentField"
+          },
+          "title": "Fields with values to use during payment initialisation"
+        },
+        "SuccessReturnURL": {
+          "type": "string",
+          "title": "URL to redirect user after successful deposit process complete"
+        },
+        "FailReturnURL": {
+          "type": "string",
+          "title": "URL to redirect user after failed deposit"
+        },
+        "CountryCode": {
+          "type": "string",
+          "title": "User country code"
+        }
+      },
+      "required": [
+        "PaymentMethod",
+        "Amount",
+        "Fields",
+        "SuccessReturnURL",
+        "FailReturnURL",
+        "CountryCode"
+      ]
+    },
+    "marketplaceInitiateBalanceDepositResponse": {
+      "type": "object",
+      "properties": {
+        "TransactionID": {
+          "type": "string",
+          "title": "Unique transaction identifier. Transaction state can be tracked by this ID"
+        }
+      },
+      "required": [
+        "TransactionID",
+        "RedirectURL"
+      ]
+    },
+    "marketplaceInitiateBalanceWithdrawRequest": {
+      "type": "object",
+      "properties": {
+        "PaymentMethod": {
+          "type": "string",
+          "title": "Payment method unique identifier on marketplace"
+        },
+        "Amount": {
+          "$ref": "#/definitions/marketplaceMoneySubUnit",
+          "title": "Money amount to withdraw"
+        },
+        "Fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceInitiatePaymentField"
+          },
+          "title": "Fields with values to use during payment initialisation"
+        },
+        "Tokenization": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceInitiatePaymentField"
+          }
+        },
+        "SuccessReturnURL": {
+          "type": "string",
+          "title": "URL to redirect user after successful withdraw process complete"
+        },
+        "FailReturnURL": {
+          "type": "string",
+          "title": "URL to redirect user after failed withdraw"
+        },
+        "CountryCode": {
+          "type": "string",
+          "description": "Country user requests from."
+        }
+      },
+      "required": [
+        "PaymentMethod",
+        "Amount",
+        "Fields",
+        "SuccessReturnURL",
+        "FailReturnURL",
+        "CountryCode"
+      ]
+    },
+    "marketplaceInitiateBalanceWithdrawResponse": {
+      "type": "object",
+      "properties": {
+        "TransactionID": {
+          "type": "string",
+          "title": "Unique transaction identifier. Transaction state can be tracked by this ID"
+        },
+        "ResponseType": {
+          "$ref": "#/definitions/marketplaceBalanceWithdrawResponseType",
+          "title": "Response type defines strategy how to proceed with withdraw process for clients"
+        }
+      },
+      "required": [
+        "ResponseType"
+      ]
+    },
+    "marketplaceInitiatePaymentField": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string",
+          "title": "Field name"
+        },
+        "Value": {
+          "type": "string",
+          "title": "Field value"
+        }
+      },
+      "required": [
+        "Name",
+        "Value"
+      ]
+    },
+    "marketplaceInstantSellAssetRequest": {
+      "type": "object",
+      "properties": {
+        "AssetID": {
+          "type": "string",
+          "description": "Unique asset identifier on market."
+        },
+        "InstantPrice": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "Price to sell asset instantly."
+        }
+      }
+    },
+    "marketplaceInstantSellAssetResponse": {
+      "type": "object",
+      "properties": {
+        "Asset": {
+          "$ref": "#/definitions/marketplaceInstantSellAssetRequest",
+          "description": "Initial sell request."
+        },
+        "Successful": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "True if request was successful."
+        },
+        "Error": {
+          "$ref": "#/definitions/marketplaceErrorDetails",
+          "description": "Request error details. Empty if request was successful."
+        }
+      }
+    },
+    "marketplaceInstantSellAssetsRequest": {
+      "type": "object",
+      "properties": {
+        "Assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceInstantSellAssetRequest"
+          },
+          "description": "Assets to sell instantly."
+        }
+      }
+    },
+    "marketplaceInstantSellAssetsResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceInstantSellAssetResponse"
+          },
+          "description": "Results for each sent request."
+        }
+      }
+    },
+    "marketplaceInventoryPresentationType": {
+      "type": "string",
+      "enum": [
+        "InventoryPresentationSimple",
+        "InventoryPresentationDetailed"
+      ],
+      "default": "InventoryPresentationSimple"
+    },
+    "marketplaceKYCState": {
+      "type": "string",
+      "enum": [
+        "KYCStateEmpty",
+        "KYCStateInReview",
+        "KYCStateApproved",
+        "KYCStateDeclined"
+      ],
+      "default": "KYCStateEmpty"
+    },
+    "marketplaceLastSale": {
+      "type": "object",
+      "properties": {
+        "Date": {
+          "type": "string",
+          "format": "uint64",
+          "title": "Sale date"
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoneySubUnit",
+          "title": "Sale price"
+        }
+      },
+      "required": [
+        "Date",
+        "Price"
+      ]
+    },
+    "marketplaceLowestPriceAsset": {
+      "type": "object",
+      "properties": {
+        "Title": {
+          "type": "string",
+          "title": "Asset's title"
+        },
+        "GameID": {
+          "type": "string",
+          "title": "Asset's game ID"
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "title": "Asset's price"
+        }
+      }
+    },
+    "marketplaceMoney": {
+      "type": "object",
+      "properties": {
+        "Currency": {
+          "type": "string",
+          "description": "Currency code."
+        },
+        "Amount": {
+          "type": "number",
+          "format": "float",
+          "description": "Money amount."
+        }
+      }
+    },
+    "marketplaceMoneyBalance": {
+      "type": "object",
+      "properties": {
+        "Currency": {
+          "type": "string",
+          "description": "Currency code."
+        },
+        "Amount": {
+          "type": "number",
+          "format": "float",
+          "description": "Money amount."
+        },
+        "AvailableToWithdraw": {
+          "type": "number",
+          "format": "float",
+          "description": "Money amount available to withdraw."
+        }
+      }
+    },
+    "marketplaceMoneySubUnit": {
+      "type": "object",
+      "properties": {
+        "Currency": {
+          "$ref": "#/definitions/marketplaceCurrency",
+          "description": "Currency code."
+        },
+        "Amount": {
+          "type": "string",
+          "format": "int64",
+          "description": "Money amount."
+        }
+      }
+    },
+    "marketplaceOfferStatus": {
+      "type": "string",
+      "enum": [
+        "OfferStatusDefault",
+        "OfferStatusActive",
+        "OfferStatusSold",
+        "OfferStatusInactive",
+        "OfferStatusIn_transfer"
+      ],
+      "default": "OfferStatusDefault"
+    },
+    "marketplaceOrderDir": {
+      "type": "string",
+      "enum": [
+        "desc",
+        "asc"
+      ],
+      "default": "desc"
+    },
+    "marketplaceOrderDirR": {
+      "type": "string",
+      "enum": [
+        "ASC",
+        "DESC"
+      ],
+      "default": "ASC"
+    },
+    "marketplacePaymentFieldValues": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "AddNewCard": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "marketplacePaymentMethod": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "title": "Payment method unique identifier on marketplace"
+        },
+        "Title": {
+          "type": "string",
+          "title": "Payment method human-readable name"
+        },
+        "ImageURL": {
+          "type": "string",
+          "title": "Payment method logo image url"
+        },
+        "Fee": {
+          "$ref": "#/definitions/marketplacePaymentMethodFeeSettings",
+          "title": "Payment method fee settings"
+        },
+        "Limitations": {
+          "$ref": "#/definitions/marketplacePaymentMethodLimitations",
+          "title": "Payment method limitations"
+        },
+        "Fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplacePaymentMethodField"
+          },
+          "title": "Payment method fields"
+        }
+      },
+      "required": [
+        "ID",
+        "Title",
+        "ImageURL",
+        "Fee",
+        "Limitations",
+        "Fields"
+      ]
+    },
+    "marketplacePaymentMethodFeeSettings": {
+      "type": "object",
+      "properties": {
+        "FixedAmount": {
+          "type": "number",
+          "format": "float",
+          "title": "Fixed fee amount"
+        },
+        "Percent": {
+          "type": "number",
+          "format": "float",
+          "title": "Floating percent based fee amount"
+        }
+      },
+      "required": [
+        "FixedAmount",
+        "Percent"
+      ]
+    },
+    "marketplacePaymentMethodField": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string",
+          "title": "Field name"
+        },
+        "Type": {
+          "$ref": "#/definitions/marketplacePaymentMethodFieldType",
+          "title": "Field type"
+        },
+        "Required": {
+          "type": "boolean",
+          "format": "boolean",
+          "title": "Determines if field required during calls to payment system"
+        }
+      },
+      "required": [
+        "Name",
+        "Type",
+        "Required"
+      ]
+    },
+    "marketplacePaymentMethodFieldType": {
+      "type": "string",
+      "enum": [
+        "FieldTypeEmail",
+        "FieldTypeWebmoney",
+        "FieldTypePhone",
+        "FieldTypeYandexWallet",
+        "FieldTypeCardToken",
+        "FieldTypeQIWIWallet",
+        "FieldTypePayoneerWallet",
+        "FieldTypePayoneerWalletSelect"
+      ],
+      "default": "FieldTypeEmail"
+    },
+    "marketplacePaymentMethodLimitations": {
+      "type": "object",
+      "properties": {
+        "MinAmountPerTx": {
+          "type": "number",
+          "format": "float",
+          "title": "Minimum money amount per transaction"
+        },
+        "MaxAmountPerTx": {
+          "type": "number",
+          "format": "float",
+          "title": "Maximum money amount per transaction"
+        },
+        "KYCRequired": {
+          "type": "boolean",
+          "format": "boolean",
+          "title": "True if KYC verification required"
+        },
+        "TokenizationHold": {
+          "type": "boolean",
+          "format": "boolean",
+          "title": "Payment method requires tokenization hold process"
+        }
+      },
+      "required": [
+        "MinAmountPerTx",
+        "MaxAmountPerTx",
+        "KYCRequired"
+      ]
+    },
+    "marketplacePaymentMethodType": {
+      "type": "string",
+      "enum": [
+        "BalanceDeposit",
+        "BalanceWithdraw"
+      ],
+      "default": "BalanceDeposit"
+    },
+    "marketplaceRedirectResponse": {
+      "type": "object",
+      "properties": {
+        "URL": {
+          "type": "string"
+        }
+      }
+    },
+    "marketplaceRefreshTokenPairsRequest": {
+      "type": "object",
+      "properties": {
+        "RefreshToken": {
+          "type": "string",
+          "description": "Refresh token for auth token renewal."
+        }
+      },
+      "required": [
+        "RefreshToken"
+      ]
+    },
+    "marketplaceRefreshTokenPairsResponse": {
+      "type": "object",
+      "properties": {
+        "AuthToken": {
+          "type": "string",
+          "description": "User auth token."
+        },
+        "AuthTokenExpiresAt": {
+          "type": "string",
+          "format": "int64",
+          "description": "Auth token expiration date timestamp."
+        },
+        "RefreshToken": {
+          "type": "string",
+          "description": "Refresh token for auth token renewal."
+        },
+        "RefreshTokenExpiresAt": {
+          "type": "string",
+          "format": "int64",
+          "description": "Refresh token expiration date timestamp."
+        }
+      }
+    },
+    "marketplaceResendClientIPConfirmationRequest": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string"
+        }
+      }
+    },
+    "marketplaceResendClientIPConfirmationResponse": {
+      "type": "object"
+    },
+    "marketplaceSalesHistoryItem": {
+      "type": "object",
+      "properties": {
+        "Prices": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Items prices"
+        },
+        "Items": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": "Items amount"
+        },
+        "Labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Labels on X-scale"
+        }
+      },
+      "required": [
+        "Price",
+        "Items",
+        "Labels"
+      ]
+    },
+    "marketplaceSendGameIntegrationEmailRequest": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string",
+          "title": "Game developer email"
+        },
+        "Company": {
+          "type": "string",
+          "title": "Game developer company"
+        },
+        "Questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Game developer questions"
+        },
+        "FirstName": {
+          "type": "string",
+          "title": "Game developer first name"
+        },
+        "LastName": {
+          "type": "string",
+          "title": "Game developer last name"
+        },
+        "Role": {
+          "type": "string",
+          "title": "Game developer role"
+        },
+        "JobTitle": {
+          "type": "string",
+          "title": "Game developer job title"
+        },
+        "CompanyWebsite": {
+          "type": "string",
+          "title": "Game developer company website"
+        },
+        "NumberOfEmployees": {
+          "type": "string",
+          "title": "Game developer number of employees"
+        },
+        "GameName": {
+          "type": "string",
+          "title": "Game name"
+        },
+        "Source": {
+          "type": "string",
+          "title": "How did game developer hear about us"
+        }
+      }
+    },
+    "marketplaceSendGameIntegrationEmailResponse": {
+      "type": "object"
+    },
+    "marketplaceSetUserPaymentCountryRequest": {
+      "type": "object",
+      "properties": {
+        "CountryCode": {
+          "type": "string"
+        }
+      }
+    },
+    "marketplaceSetUserPaymentCountryResponse": {
+      "type": "object"
+    },
+    "marketplaceShowcaseSortType": {
+      "type": "string",
+      "enum": [
+        "ShowcaseSortTypeRelevance",
+        "ShowcaseSortTypeDateNewestFirst",
+        "ShowcaseSortTypeDateOldestFirst",
+        "ShowcaseSortTypePriceHighestFirst",
+        "ShowcaseSortTypePriceLowestFirst"
+      ],
+      "default": "ShowcaseSortTypeRelevance",
+      "description": " - ShowcaseSortTypeRelevance: Sort showcase by relevance.\n - ShowcaseSortTypeDateNewestFirst: Sort showcase by date showing newest first.\n - ShowcaseSortTypeDateOldestFirst: Sort showcase by date showing oldest first.\n - ShowcaseSortTypePriceHighestFirst: Sort showcase by price showing highest price first.\n - ShowcaseSortTypePriceLowestFirst: Sort showcase by price showing lowest price first."
+    },
+    "marketplaceSignInRequest": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string",
+          "description": "User email."
+        },
+        "Password": {
+          "type": "string",
+          "description": "User password."
+        },
+        "ReCaptchaCode": {
+          "type": "string",
+          "description": "ReCaptcha code (not enabled by default)."
+        }
+      }
+    },
+    "marketplaceSignUpRequest": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string",
+          "description": "User email."
+        },
+        "Password": {
+          "type": "string",
+          "description": "User password."
+        },
+        "Username": {
+          "type": "string",
+          "description": "Username."
+        },
+        "AgreementsConfirmed": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "Legal agreements confirmation."
+        },
+        "EnabledNewsletters": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "Enable newsletters."
+        }
+      }
+    },
+    "marketplaceSignUpResponse": {
+      "type": "object"
+    },
+    "marketplaceSteamDepositInfo": {
+      "type": "object",
+      "properties": {
+        "TradeOfferID": {
+          "type": "string",
+          "description": "Steam trade offer id."
+        },
+        "Message": {
+          "type": "string",
+          "description": "Custom trade message."
+        }
+      }
+    },
+    "marketplaceSteamWithdrawInfo": {
+      "type": "object",
+      "properties": {
+        "TradeOfferID": {
+          "type": "string",
+          "description": "Steam trade offer id."
+        },
+        "Message": {
+          "type": "string",
+          "description": "Custom trade message."
+        }
+      }
+    },
+    "marketplaceSubscription": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "title": "Subscription ID"
+        },
+        "Name": {
+          "type": "string",
+          "title": "Subscription name"
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoneySubUnit",
+          "title": "Subscription Price"
+        },
+        "PriceWithDiscount": {
+          "$ref": "#/definitions/marketplaceMoneySubUnit",
+          "title": "Subscription price with discount"
+        },
+        "HasDiscount": {
+          "type": "boolean",
+          "format": "boolean",
+          "title": "Flag that represents if discount is enabled"
+        },
+        "TurnoverAmount": {
+          "$ref": "#/definitions/marketplaceMoneySubUnit",
+          "title": "Turnover amount for BUY/TARGET/EXCHANGE operations"
+        },
+        "CashbackPercent": {
+          "type": "number",
+          "format": "float",
+          "title": "Cashback percent"
+        },
+        "SubscriptionPeriod": {
+          "type": "string",
+          "format": "uint64",
+          "title": "Subscription period in days"
+        },
+        "IsBlocked": {
+          "type": "boolean",
+          "format": "boolean",
+          "title": "Flag that determines if subscription is blocked for purchase"
+        },
+        "DateUnblock": {
+          "type": "string",
+          "format": "uint64",
+          "title": "Date when subscription is unblock for purchase"
+        }
+      },
+      "required": [
+        "ID",
+        "Name",
+        "Price",
+        "HasDiscount",
+        "TurnoverAmount",
+        "CashbackPercent",
+        "SubscriptionPeriod"
+      ]
+    },
+    "marketplaceTarget": {
+      "type": "object",
+      "properties": {
+        "TargetID": {
+          "type": "string",
+          "description": "Target unique identifier."
+        },
+        "Title": {
+          "type": "string",
+          "description": "Targeting asset's title."
+        },
+        "Amount": {
+          "type": "string",
+          "format": "uint64",
+          "description": "Amount of same assets in one single target entity."
+        },
+        "Status": {
+          "$ref": "#/definitions/marketplaceTargetStatus",
+          "description": "Current target status."
+        },
+        "GameID": {
+          "type": "string",
+          "description": "Game identifier asset belongs to."
+        },
+        "GameType": {
+          "$ref": "#/definitions/marketplaceGameType",
+          "description": "Game type."
+        },
+        "Attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/marketplaceAssetAttribute"
+          },
+          "description": "Custom asset attributes specific for each game. Target matching is done by\nthis attributes."
+        },
+        "Price": {
+          "$ref": "#/definitions/marketplaceMoney",
+          "description": "Price per asset in target."
+        }
+      }
+    },
+    "marketplaceTargetStatus": {
+      "type": "string",
+      "enum": [
+        "TargetStatusInactive",
+        "TargetStatusActive"
+      ],
+      "default": "TargetStatusInactive",
+      "description": " - TargetStatusInactive: Target currently inactive.\n - TargetStatusActive: Target currently active and can be matched with complaint offers."
+    },
+    "marketplaceTransferAsset": {
+      "type": "object",
+      "properties": {
+        "OriginID": {
+          "type": "string"
+        },
+        "VariantID": {
+          "type": "string"
+        },
+        "GameID": {
+          "type": "string"
+        }
+      }
+    },
+    "marketplaceTransferStatus": {
+      "type": "string",
+      "enum": [
+        "TransferStatusPending",
+        "TransferStatusCreated",
+        "TransferStatusSuccess",
+        "TransferStatusFailedToCreate",
+        "TransferStatusError",
+        "TransferStatusOnHold"
+      ],
+      "default": "TransferStatusPending"
+    },
+    "marketplaceTransferType": {
+      "type": "string",
+      "enum": [
+        "_",
+        "Push",
+        "Pull"
+      ],
+      "default": "_"
+    },
+    "marketplaceUpdatePaymentDepositTxRequest": {
+      "type": "object",
+      "properties": {
+        "TransactionID": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "OrderID"
+      ]
+    },
+    "marketplaceUpdatePaymentDepositTxResponse": {
+      "type": "object"
+    },
+    "marketplaceUpdatePaymentWithdrawTxRequest": {
+      "type": "object",
+      "properties": {
+        "TransactionID": {
+          "type": "string",
+          "title": "Unique transaction identifier. Transaction state can be tracked by this ID"
+        }
+      },
+      "required": [
+        "TransactionID"
+      ]
+    },
+    "marketplaceUserExchangeTokenRequest": {
+      "type": "object",
+      "properties": {
+        "ResultHash": {
+          "type": "string",
+          "description": "Hash string received after sign in request or external sign in redirect."
+        }
+      },
+      "required": [
+        "ResultHash"
+      ]
+    },
+    "marketplaceUserInventorySortType": {
+      "type": "string",
+      "enum": [
+        "UserInventorySortTypeDefault"
+      ],
+      "default": "UserInventorySortTypeDefault",
+      "description": " - UserInventorySortTypeDefault: Default sort type for user inventory."
+    },
+    "marketplaceUserOffersSortType": {
+      "type": "string",
+      "enum": [
+        "UserOffersSortTypeDefault",
+        "UserOffersSortTypeDateNewestFirst"
+      ],
+      "default": "UserOffersSortTypeDefault",
+      "description": " - UserOffersSortTypeDefault: Default sort type for user offers.\n - UserOffersSortTypeDateNewestFirst: Sort user offers by date showing newest first."
+    },
+    "marketplaceUserSecurityDisableOTPRequest": {
+      "type": "object",
+      "properties": {
+        "Code": {
+          "type": "string",
+          "description": "OTP code."
+        }
+      },
+      "required": [
+        "Code"
+      ]
+    },
+    "marketplaceUserSecurityDisableOTPResponse": {
+      "type": "object"
+    },
+    "marketplaceUserSecurityEnableOTPRequest": {
+      "type": "object",
+      "properties": {
+        "Secret": {
+          "type": "string",
+          "description": "OTP secret key."
+        },
+        "Code": {
+          "type": "string",
+          "description": "OTP code."
+        }
+      },
+      "required": [
+        "Secret",
+        "Code"
+      ]
+    },
+    "marketplaceUserSecurityGenerateOTPSecretResponse": {
+      "type": "object",
+      "properties": {
+        "Secret": {
+          "type": "string",
+          "description": "OTP secret key."
+        },
+        "QRImageURL": {
+          "type": "string",
+          "description": "QR code image URL."
+        }
+      }
+    },
+    "marketplaceUserSecuritySettingsMFA": {
+      "type": "object",
+      "properties": {
+        "OTP": {
+          "$ref": "#/definitions/marketplaceUserSecuritySettingsOTP",
+          "description": "One Time Password settings."
+        }
+      }
+    },
+    "marketplaceUserSecuritySettingsOTP": {
+      "type": "object",
+      "properties": {
+        "Enabled": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "One Time Password current state."
+        }
+      }
+    },
+    "marketplaceUserSecuritySettingsResponse": {
+      "type": "object",
+      "properties": {
+        "MFA": {
+          "$ref": "#/definitions/marketplaceUserSecuritySettingsMFA",
+          "description": "Multi-factor authentication settings."
+        }
+      }
+    },
+    "marketplaceUserSecurityVerifyOTPCodeRequest": {
+      "type": "object",
+      "properties": {
+        "Code": {
+          "type": "string",
+          "description": "OTP code."
+        },
+        "ResultHash": {
+          "type": "string",
+          "description": "Hash string received after sign in request."
+        }
+      },
+      "required": [
+        "Code",
+        "ResultHash"
+      ]
+    },
+    "marketplaceUserSubscription": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "title": "User subscription ID"
+        },
+        "Active": {
+          "type": "boolean",
+          "format": "boolean",
+          "title": "Subscription state true/false"
+        },
+        "DateStart": {
+          "type": "string",
+          "format": "uint64",
+          "title": "Subscription start date"
+        },
+        "DateEnd": {
+          "type": "string",
+          "format": "uint64",
+          "title": "Subscription end date"
+        },
+        "TurnoverThreshold": {
+          "$ref": "#/definitions/marketplaceMoneySubUnit",
+          "title": "Turnover treshold real amount"
+        },
+        "TurnoverThresholdLimit": {
+          "$ref": "#/definitions/marketplaceMoneySubUnit",
+          "title": "Turnover treshold max amount"
+        },
+        "SubscriptionID": {
+          "type": "string",
+          "title": "Subscription ID"
+        }
+      },
+      "required": [
+        "ID",
+        "Active",
+        "DateStart",
+        "DateEnd",
+        "TurnoverThreshold",
+        "TurnoverThresholdLimit"
+      ]
+    },
+    "marketplaceUserTargetsSortType": {
+      "type": "string",
+      "enum": [
+        "UserTargetsSortTypeDefault"
+      ],
+      "default": "UserTargetsSortTypeDefault",
+      "description": " - UserTargetsSortTypeDefault: Default sort type for user targets."
+    },
+    "marketplaceVoid": {
+      "type": "object"
+    },
+    "marketplaceWalletCurrency": {
+      "type": "string",
+      "enum": [
+        "DMT",
+        "ETH"
+      ],
+      "default": "DMT"
+    },
+    "marketplaceWithdrawAssetsRequest": {
+      "type": "object",
+      "properties": {
+        "AssetID": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of asset id to withdraw."
+        }
+      }
+    },
+    "marketplaceWithdrawAssetsResponse": {
+      "type": "object",
+      "properties": {
+        "WithdrawID": {
+          "type": "string",
+          "description": "Withdraw operation unique identifier."
+        }
+      }
+    },
+    "marketplaceWithdrawCashbackRequest": {
+      "type": "object"
+    },
+    "marketplaceWithdrawCashbackResponse": {
+      "type": "object"
+    },
+    "marketplaceWithdrawTransactionState": {
+      "type": "string",
+      "enum": [
+        "WithdrawTransactionInitiated",
+        "WithdrawTransactionProcessing",
+        "WithdrawTransactionCompleted",
+        "WithdrawTransactionFailed"
+      ],
+      "default": "WithdrawTransactionInitiated"
+    }
+  }
+}

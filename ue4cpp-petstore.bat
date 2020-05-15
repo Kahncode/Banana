@@ -18,3 +18,18 @@ rem set JAVA_OPTS=%JAVA_OPTS% -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:t
 set ags=generate -i %SWAGGER_ROOT%\modules\swagger-codegen\src\test\resources\2_0\petstore.yaml -l ue4cpp -o %BATCHPATH%\Source\Petstore\ -c %BATCHPATH%\config.json
 
 %JAVA_EXE% %JAVA_OPTS% -jar %executable% %ags%
+
+rem Generate dmarket APIs
+del /F /Q %BATCHPATH%\Source\DMarket\*
+
+set ags=generate -i %BATCHPATH%\exchange.json -l ue4cpp -o %BATCHPATH%\Source\DMarket\ -c %BATCHPATH%\config_dmarket.json
+%JAVA_EXE% %JAVA_OPTS% -jar %executable% %ags%
+pause
+
+set ags=generate -i %BATCHPATH%\marketplace.json -l ue4cpp -o %BATCHPATH%\Source\DMarket\ -c %BATCHPATH%\config_dmarket.json
+%JAVA_EXE% %JAVA_OPTS% -jar %executable% %ags%
+pause
+
+set ags=generate -i %BATCHPATH%\account.json -l ue4cpp -o %BATCHPATH%\Source\DMarket\ -c %BATCHPATH%\config_dmarket.json
+%JAVA_EXE% %JAVA_OPTS% -jar %executable% %ags%
+pause

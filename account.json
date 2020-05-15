@@ -1,0 +1,2197 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Account service",
+    "contact": {
+      "name": "john",
+      "email": "john@doe.pro"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "http://mit.org"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/account-settings": {
+      "put": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Update account settings.",
+        "operationId": "putAccountSettings",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.AccountSettings"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/balance": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get user balance.",
+        "operationId": "getUserBalance",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserBalance"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserBalance"
+            }
+          }
+        }
+      }
+    },
+    "/change-password": {
+      "put": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Change user password",
+        "operationId": "changePasswordHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.ChangePasswordRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/confirm-agreements": {
+      "put": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Update agreements info.",
+        "operationId": "confirmAgreementsHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.ConfirmAgreementsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserAccountResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserAccountResponse"
+            }
+          }
+        }
+      }
+    },
+    "/create-password": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Create user password",
+        "operationId": "createPasswordHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.CreateNewPassword"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/email-exists": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Checks if email already used.",
+        "operationId": "emailExistsHandler",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.EmailExistsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.EmailExistsResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.EmailExistsResponse"
+            }
+          }
+        }
+      }
+    },
+    "/geo-info": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Returns user geo info.",
+        "operationId": "getUserGeoInfoHandler",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserGeoInfo"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserGeoInfo"
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "delete": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "LogOut user into from account and terminate session.",
+        "operationId": "logOutHandler",
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/new-trading-api-token": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Delete old and generate new trading api token",
+        "operationId": "renewTradingAPIToken",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.TradingAPITokenResponse"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/resend-email-verification": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Resend email verification email again.",
+        "operationId": "resendEmailVerificationHandler",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.Email"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/resend-password-recovery": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Resend password recovery email again.",
+        "operationId": "resendPasswordRecovery",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.Email"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/reset-password": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Sends email for password reset.",
+        "operationId": "resetPasswordHandler",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.ResetPasswordRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.ResetPasswordRequest"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/reset-password-complete": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Reset password.",
+        "operationId": "resetPasswordCompleteHandler",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.CompletePasswordResetRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.SignInResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.SignInResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sign-in": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Login user into it's account.",
+        "operationId": "SignIn",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.SignInRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.SignInResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.SignInResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sign-in/complete/{provider}": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Callback for processing sign-in for oauth providers (steam, google, facebook, etc)",
+        "operationId": "getSignInCompleteHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "auth provider name",
+            "name": "provider",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "True if user registered (signed in for first time and new identity was created)",
+            "name": "isNew",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Link identifier should be used to retrieve auth token from auth service",
+            "name": "linkId",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "307": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/sign-in/link/{provider}": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Returns sign in link for specified provider (steam, google, facebook, etc)",
+        "operationId": "getSignInLinkHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "auth provider name",
+            "name": "provider",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "hash user for account merge",
+            "name": "hash",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "front-end url where action was initiated. If not set - use referer",
+            "name": "returnURL",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "307": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/sign-in/social-account-merge-hash": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Returns hash for allowed social sign in providers",
+        "operationId": "getSignInSocialAccountMergeHashHandler",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.SignInSocialAccountMergeHashResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.SignInSocialAccountMergeHashResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sign-up": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Creates new user account and returns it's identifier.",
+        "operationId": "signUpHandler",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.SignUpRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.SignUpResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.SignUpResponse"
+            }
+          }
+        }
+      }
+    },
+    "/trade-url": {
+      "put": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Set trade url.",
+        "operationId": "putTradeURL",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.TradeURLRequest"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          }
+        }
+      }
+    },
+    "/update-timezone": {
+      "patch": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Update user timezone.",
+        "operationId": "updateTimezoneHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.UpdateTimeZoneOffsetRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UpdateTimeZoneOffsetResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UpdateTimeZoneOffsetResponse"
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Returns currently logged in user.",
+        "operationId": "getUserByTokenHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserAccountResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/representation.UserAccountResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserAccountResponse"
+            }
+          }
+        }
+      }
+    },
+    "/user/blocked-balance": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get user balance.",
+        "operationId": "getUserBockedBalance",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserBlockBalance"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserBlockBalance"
+            }
+          }
+        }
+      }
+    },
+    "/user/update-steam-email": {
+      "put": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Updates user email if he registered thought the steam and didn't change his email",
+        "operationId": "updateUserEmailHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.UpdateEmailRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UpdateEmailResponse"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UpdateEmailResponse"
+            }
+          }
+        }
+      }
+    },
+    "/user/user-image": {
+      "patch": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Updates image of current user.",
+        "operationId": "updateUserImageHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserAccountResponse"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.UserAccountResponse"
+            }
+          }
+        }
+      }
+    },
+    "/user/username": {
+      "patch": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Updates username of current user.",
+        "operationId": "updateUsernameHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/representation.UpdateUsernameRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.AccountStatistics"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.AccountStatistics"
+            }
+          }
+        }
+      }
+    },
+    "/v1_migration_stats": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "migration stats",
+        "operationId": "getUserMigrationStatisticsByIDHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Authorization token.",
+            "name": "Authorization",
+            "in": "header"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/representation.UserMigrationStatistics"
+            }
+          },
+          "503": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/rest.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/representation.UserMigrationStatistics"
+            }
+          }
+        }
+      }
+    },
+    "/verify-email": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Account"
+        ],
+        "summary": "Verify email verification hash",
+        "operationId": "verifyEmailHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "hash",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.VerifyEmailResponse"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/api.ErrorRepresentation"
+            }
+          },
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/representation.VerifyEmailResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "api.ErrorRepresentation": {
+      "required": [
+        "message",
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "validationDetails": {
+          "$ref": "#/definitions/api.ErrorRepresentation.validationDetails"
+        }
+      }
+    },
+    "api.ErrorRepresentation.validationDetails": {},
+    "representation.AccountSettings": {
+      "properties": {
+        "enabledDeviceConfirmation": {
+          "type": "boolean"
+        },
+        "isSubscribedToNewsletters": {
+          "type": "boolean"
+        }
+      }
+    },
+    "representation.AccountStatistics": {
+      "required": [
+        "userExperience",
+        "accountValueDMC",
+        "accountValueTime",
+        "favouriteGames",
+        "valuableItems",
+        "turnover",
+        "totalSold",
+        "totalBought",
+        "topItemsSold",
+        "topItemsBought"
+      ],
+      "properties": {
+        "accountValueDMC": {
+          "type": "string"
+        },
+        "accountValueTime": {
+          "type": "string"
+        },
+        "favouriteGames": {
+          "$ref": "#/definitions/representation.FavouriteGames"
+        },
+        "topItemsBought": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/representation.ItemSoldBought"
+          }
+        },
+        "topItemsSold": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/representation.ItemSoldBought"
+          }
+        },
+        "totalBought": {
+          "$ref": "#/definitions/representation.CountValuePair"
+        },
+        "totalSold": {
+          "$ref": "#/definitions/representation.CountValuePair"
+        },
+        "turnover": {
+          "$ref": "#/definitions/representation.CountValuePair"
+        },
+        "userExperience": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "valuableItems": {
+          "$ref": "#/definitions/representation.ValuableItems"
+        }
+      }
+    },
+    "representation.AgreementsInfo": {
+      "required": [
+        "isConfirmed",
+        "updated"
+      ],
+      "properties": {
+        "isConfirmed": {
+          "type": "boolean"
+        },
+        "updated": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "representation.ChangePasswordRequest": {
+      "required": [
+        "password",
+        "oldPassword"
+      ],
+      "properties": {
+        "oldPassword": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.CompletePasswordResetRequest": {
+      "required": [
+        "NewPassword",
+        "Token"
+      ],
+      "properties": {
+        "NewPassword": {
+          "type": "string"
+        },
+        "Token": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.ConfirmAgreementsRequest": {
+      "required": [
+        "isConfirmedAgreements",
+        "isSubscribedToNewsletters"
+      ],
+      "properties": {
+        "isConfirmedAgreements": {
+          "type": "boolean"
+        },
+        "isSubscribedToNewsletters": {
+          "type": "boolean"
+        }
+      }
+    },
+    "representation.CountValuePair": {
+      "required": [
+        "itemsCount",
+        "itemsValueDMC"
+      ],
+      "properties": {
+        "itemsCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "itemsValueDMC": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "representation.CreateNewPassword": {
+      "required": [
+        "password"
+      ],
+      "properties": {
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.Email": {
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.EmailExistsRequest": {
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.EmailExistsResponse": {
+      "required": [
+        "exists"
+      ],
+      "properties": {
+        "exists": {
+          "type": "boolean"
+        }
+      }
+    },
+    "representation.FavouriteGame": {
+      "required": [
+        "gameId",
+        "itemsNumber"
+      ],
+      "properties": {
+        "gameId": {
+          "type": "string"
+        },
+        "itemsNumber": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "representation.FavouriteGames": {
+      "required": [
+        "list",
+        "totalItems",
+        "totalGames"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/representation.FavouriteGame"
+          }
+        },
+        "totalGames": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalItems": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "representation.Game": {
+      "required": [
+        "game_id",
+        "assets",
+        "offers"
+      ],
+      "properties": {
+        "assets": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "game_id": {
+          "type": "string"
+        },
+        "offers": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "representation.ItemSoldBought": {
+      "required": [
+        "itemTitle",
+        "itemImage",
+        "priceDMC"
+      ],
+      "properties": {
+        "itemImage": {
+          "type": "string"
+        },
+        "itemTitle": {
+          "type": "string"
+        },
+        "priceDMC": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "representation.LinkedGame": {
+      "required": [
+        "gameId",
+        "gameUserId",
+        "username"
+      ],
+      "properties": {
+        "gameId": {
+          "type": "string"
+        },
+        "gameUserId": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.Migration": {
+      "required": [
+        "account_id",
+        "games",
+        "balances"
+      ],
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "balances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/representation.Money"
+          }
+        },
+        "games": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/representation.Game"
+          }
+        }
+      }
+    },
+    "representation.Money": {
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string",
+          "enum": [
+            "USD",
+            "DMC"
+          ]
+        }
+      }
+    },
+    "representation.ResetPasswordRequest": {
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "recapchaResponse": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.SignInRequest": {
+      "required": [
+        "email",
+        "password",
+        "fingerprint",
+        "verifyCode"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "fingerprint": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "recapchaResponse": {
+          "type": "string"
+        },
+        "verifyCode": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.SignInResponse": {
+      "required": [
+        "token",
+        "token_expires_at",
+        "refresh_token",
+        "refresh_token_expires_at"
+      ],
+      "properties": {
+        "refresh_token": {
+          "type": "string"
+        },
+        "refresh_token_expires_at": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "token": {
+          "type": "string"
+        },
+        "token_expires_at": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "representation.SignInSocialAccountMergeHashResponse": {
+      "required": [
+        "hash"
+      ],
+      "properties": {
+        "hash": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.SignUpRequest": {
+      "required": [
+        "email",
+        "password",
+        "username",
+        "agreementsConfirmed",
+        "isSubscribedToNewsletters",
+        "ref"
+      ],
+      "properties": {
+        "agreementsConfirmed": {
+          "type": "boolean"
+        },
+        "email": {
+          "type": "string"
+        },
+        "isSubscribedToNewsletters": {
+          "type": "boolean"
+        },
+        "password": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "utmMark": {
+          "$ref": "#/definitions/representation.UTMMark"
+        }
+      }
+    },
+    "representation.SignUpResponse": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.SteamAccount": {
+      "required": [
+        "steamId",
+        "icon",
+        "tradeUrl",
+        "username",
+        "isProfilePrivate",
+        "level"
+      ],
+      "properties": {
+        "icon": {
+          "type": "string"
+        },
+        "isProfilePrivate": {
+          "type": "boolean"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "steamId": {
+          "type": "string"
+        },
+        "tradeUrl": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.TradeURLRequest": {
+      "required": [
+        "tradeURL"
+      ],
+      "properties": {
+        "tradeURL": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.TradingAPITokenResponse": {
+      "required": [
+        "token"
+      ],
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.UTMMark": {
+      "required": [
+        "referrer",
+        "page"
+      ],
+      "properties": {
+        "campaign": {
+          "type": "string"
+        },
+        "medium": {
+          "type": "string"
+        },
+        "page": {
+          "type": "string"
+        },
+        "referrer": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.UpdateEmailRequest": {
+      "required": [
+        "email",
+        "isSubscribedToNewsletters"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "isSubscribedToNewsletters": {
+          "type": "boolean"
+        }
+      }
+    },
+    "representation.UpdateEmailResponse": {
+      "required": [
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "representation.UpdateTimeZoneOffsetRequest": {
+      "required": [
+        "offset"
+      ],
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "representation.UpdateTimeZoneOffsetResponse": {
+      "required": [
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "representation.UpdateUsernameRequest": {
+      "required": [
+        "username"
+      ],
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.UserAccountResponse": {
+      "required": [
+        "id",
+        "publicKey",
+        "username",
+        "email",
+        "isEmailVerified",
+        "isPasswordSet",
+        "imageUrl",
+        "level",
+        "countryCodeFromIP",
+        "countryCode",
+        "settings",
+        "steamAccount",
+        "agreementsInfo",
+        "regType",
+        "hasHistoryEvents",
+        "ga_client_id",
+        "migrated",
+        "hasActiveSubscriptions",
+        "linkedGames"
+      ],
+      "properties": {
+        "agreementsInfo": {
+          "$ref": "#/definitions/representation.AgreementsInfo"
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "countryCodeFromIP": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "ga_client_id": {
+          "type": "string"
+        },
+        "hasActiveSubscriptions": {
+          "type": "boolean"
+        },
+        "hasHistoryEvents": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "isEmailVerified": {
+          "type": "boolean"
+        },
+        "isPasswordSet": {
+          "type": "boolean"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "linkedGames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/representation.LinkedGame"
+          }
+        },
+        "migrated": {
+          "type": "boolean"
+        },
+        "publicKey": {
+          "type": "string"
+        },
+        "regType": {
+          "type": "string",
+          "enum": [
+            "steam",
+            "user"
+          ]
+        },
+        "settings": {
+          "$ref": "#/definitions/representation.UserAccountSettingsResponse"
+        },
+        "steamAccount": {
+          "$ref": "#/definitions/representation.SteamAccount"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.UserAccountSettingsResponse": {
+      "required": [
+        "enabledDeviceConfirmation",
+        "tradingApiToken",
+        "isSubscribedToNewsletters",
+        "targetsLimit"
+      ],
+      "properties": {
+        "enabledDeviceConfirmation": {
+          "type": "boolean"
+        },
+        "isSubscribedToNewsletters": {
+          "type": "boolean"
+        },
+        "targetsLimit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "tradingApiToken": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.UserBalance": {
+      "required": [
+        "dmc",
+        "usd",
+        "dmcAvailableToWithdraw",
+        "usdAvailableToWithdraw"
+      ],
+      "properties": {
+        "dmc": {
+          "type": "string"
+        },
+        "dmcAvailableToWithdraw": {
+          "type": "string"
+        },
+        "usd": {
+          "type": "string"
+        },
+        "usdAvailableToWithdraw": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.UserBlockBalance": {
+      "required": [
+        "amounts"
+      ],
+      "properties": {
+        "amounts": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/representation.Money"
+          }
+        }
+      }
+    },
+    "representation.UserGeoInfo": {
+      "required": [
+        "countryCodeFromIP"
+      ],
+      "properties": {
+        "countryCodeFromIP": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.UserMigrationStatistics": {
+      "required": [
+        "migration"
+      ],
+      "properties": {
+        "migration": {
+          "$ref": "#/definitions/representation.Migration"
+        }
+      }
+    },
+    "representation.ValuableItem": {
+      "required": [
+        "title",
+        "gameId",
+        "priceDMC",
+        "itemImage"
+      ],
+      "properties": {
+        "gameId": {
+          "type": "string"
+        },
+        "itemImage": {
+          "type": "string"
+        },
+        "priceDMC": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "representation.ValuableItems": {
+      "required": [
+        "list",
+        "valuableItemsTotal"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/representation.ValuableItem"
+          }
+        },
+        "valuableItemsTotal": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "representation.VerifyEmailResponse": {
+      "required": [
+        "isVerify",
+        "email",
+        "token"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "isVerify": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "rest.ErrorRepresentation": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

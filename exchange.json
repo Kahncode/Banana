@@ -1,0 +1,6057 @@
+{
+ "swagger": "2.0",
+ "info": {
+  "title": "Exchange service",
+  "contact": {
+   "name": "john",
+   "email": "john@doe.pro"
+  },
+  "license": {
+   "name": "MIT",
+   "url": "http://mit.org"
+  },
+  "version": "1.0.0"
+ },
+ "paths": {
+  "/deposit-assets": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Transfer assets from user",
+    "operationId": "depositAssetHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.DepositRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.DepositResponse"
+      }
+     },
+     "400": {
+      "description": "Bad body request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.DepositResponse"
+      }
+     }
+    }
+   }
+  },
+  "/deposit-assets/transfer/active": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Get active deposit transfers",
+    "operationId": "getActiveDepositTransfers",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetDepositResponse"
+      }
+     },
+     "400": {
+      "description": "Bad body request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetDepositResponse"
+      }
+     }
+    }
+   }
+  },
+  "/deposit-assets/transfer/{transferID}": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Get trade deposit transfers",
+    "operationId": "getDepositAssetHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "type": "string",
+      "description": "transfer id",
+      "name": "transferID",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetDepositResponse"
+      }
+     },
+     "400": {
+      "description": "Bad body request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetDepositResponse"
+      }
+     }
+    }
+   }
+  },
+  "/deposit-link": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Get deposit user link",
+    "operationId": "depositLinkHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "url where user will be processed after success operation",
+      "name": "successUrl",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "url where user will be processed after fail operation",
+      "name": "failUrl",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "currency to deposit from user",
+      "name": "currency",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "user language",
+      "name": "language",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "amount to deposit",
+      "name": "amount",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "user auth hash",
+      "name": "hash",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "Flow that init deposit",
+      "name": "flow",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     }
+    ],
+    "responses": {
+     "307": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.PaymentLinkResponse"
+      }
+     },
+     "400": {
+      "description": "Bad body request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     }
+    }
+   }
+  },
+  "/exchange-trade": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Try to make exchange trade: sell assets instantly and buy desired offers",
+    "operationId": "exchangeTradeHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.ExchangeRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Ok",
+      "schema": {
+       "$ref": "#/definitions/entity.ExchangeResponse"
+      }
+     },
+     "503": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "Ok",
+      "schema": {
+       "$ref": "#/definitions/entity.ExchangeResponse"
+      }
+     }
+    }
+   }
+  },
+  "/fee": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Calculates fee for requested price",
+    "operationId": "calculateFee",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "type": "string",
+      "description": "Currency code",
+      "name": "currency",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Selling asset identifier",
+      "name": "itemId",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Selling asset game identifier",
+      "name": "gameId",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Selling price",
+      "name": "sellingPrice",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "Desired sales revenue",
+      "name": "youWillGet",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.CalculateFeeResponse"
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.CalculateFeeResponse"
+      }
+     }
+    }
+   }
+  },
+  "/game-integration/sign-up": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Request game integration",
+    "operationId": "requestGameIntegration",
+    "parameters": [
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.IntegrationSignUpRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Created"
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "Created"
+     }
+    }
+   }
+  },
+  "/games": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Returns list of all available games.",
+    "operationId": "getGamesHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Operation type",
+      "name": "type",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GamesResponse"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GamesResponse"
+      }
+     }
+    }
+   }
+  },
+  "/games/{gameId}/filters": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch game filters",
+    "operationId": "getGameFiltersHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "game id",
+      "name": "gameId",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "language",
+      "name": "language",
+      "in": "query",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GameFilters"
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GameFilters"
+      }
+     }
+    }
+   }
+  },
+  "/games/{gameId}/sorts": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch game sorts",
+    "operationId": "getGameSortingHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "game id",
+      "name": "gameId",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GameSorting"
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GameSorting"
+      }
+     }
+    }
+   }
+  },
+  "/history": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch user's transactions history",
+    "operationId": "getHistory",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "type": "string",
+      "description": "User action types",
+      "name": "activities",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "Comma separated event statuses. success|pending|failed|canceled",
+      "name": "statuses",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "description": "Date from unix",
+      "name": "from",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "description": "Date to unix",
+      "name": "to",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "description": "Pagination limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "description": "Pagination offset",
+      "name": "offset",
+      "in": "query"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.HistoryRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.HistoryResponse"
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.HistoryResponse"
+      }
+     }
+    }
+   }
+  },
+  "/history-v1": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/octet-stream"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch DMarket V1 user's transactions history",
+    "operationId": "getHistoryV1",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.HistoryV1Request"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.HistoryV1Response"
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.HistoryV1Response"
+      }
+     }
+    }
+   }
+  },
+  "/instant-sale": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Try to sell assets instantly",
+    "operationId": "instantSaleHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.InstantSaleRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Ok",
+      "schema": {
+       "$ref": "#/definitions/entity.InstantSaleResponse"
+      }
+     },
+     "503": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "Ok",
+      "schema": {
+       "$ref": "#/definitions/entity.InstantSaleResponse"
+      }
+     }
+    }
+   }
+  },
+  "/lock-matched-entities": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Checks matched asset-target pairs or offers and locks them exclusively for current user.",
+    "operationId": "lockMatchedEntities",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.LockMatchedEntitiesRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.LockMatchedEntitiesResponse"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.LockMatchedEntitiesResponse"
+      }
+     }
+    }
+   }
+  },
+  "/market/items": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch market's items",
+    "operationId": "getMarketItems",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "gameId",
+      "name": "gameId",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "title",
+      "name": "title",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 50,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "title",
+      "description": "orderBy",
+      "name": "orderBy",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "desc",
+      "description": "orderDir",
+      "name": "orderDir",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "treeFilters",
+      "name": "treeFilters",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "currency",
+      "name": "currency",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "priceFrom",
+      "name": "priceFrom",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "priceTo",
+      "name": "priceTo",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetItemsResponse"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetItemsResponse"
+      }
+     }
+    }
+   }
+  },
+  "/market/product": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch product card",
+    "operationId": "getProduct",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "qs encoded params",
+      "name": "params",
+      "in": "query",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.Item"
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.Item"
+      }
+     }
+    }
+   }
+  },
+  "/market/recent-sales/{gameId}/{classId}": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch class resent sales",
+    "operationId": "getRecentSales",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "game identifier",
+      "name": "gameId",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "sales class id",
+      "name": "classId",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "sales title",
+      "name": "title",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 10,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetRecentSalesResponse"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetRecentSalesResponse"
+      }
+     }
+    }
+   }
+  },
+  "/market/recommend-price/{gameId}": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Returns price recommendations",
+    "operationId": "recommendPrice",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Item game identifier.",
+      "name": "gameId",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Item title.",
+      "name": "title",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Item class identifier.",
+      "name": "classId",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.RecommendPriceResponse"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.RecommendPriceResponse"
+      }
+     }
+    }
+   }
+  },
+  "/matcher-stats/{source}": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Returns current matcher state.",
+    "operationId": "matcherStats",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Source.",
+      "name": "source",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "targetId",
+      "name": "targetId",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "offerId",
+      "name": "offerId",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "accountId",
+      "name": "accountId",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 1000,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK"
+     },
+     "default": {
+      "description": "OK"
+     }
+    }
+   }
+  },
+  "/offers": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch user offers without attributes.",
+    "operationId": "getOffers",
+    "parameters": [
+     {
+      "type": "integer",
+      "default": 100,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "desc",
+      "description": "Sorting direction: desc|asc",
+      "name": "orderDir",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetOffersRsp"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetOffersRsp"
+      }
+     }
+    }
+   },
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Create list of offers",
+    "operationId": "createOffers",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.ManageOffersRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.ManageOffersResponse"
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.ManageOffersResponse"
+      }
+     }
+    }
+   },
+   "delete": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Remove offers from sale",
+    "operationId": "deleteOffers",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.ManageOffersRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.ManageOffersResponse"
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.ManageOffersResponse"
+      }
+     }
+    }
+   },
+   "patch": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Update list of offers",
+    "operationId": "updateOffers",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.ManageOffersRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.ManageOffersResponse"
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.ManageOffersResponse"
+      }
+     }
+    }
+   }
+  },
+  "/offers-buy": {
+   "patch": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Buy offers request",
+    "operationId": "buyOfferHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.OfferBuyRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "No content",
+      "schema": {
+       "$ref": "#/definitions/entity.OfferBuyResponse"
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "No content",
+      "schema": {
+       "$ref": "#/definitions/entity.OfferBuyResponse"
+      }
+     }
+    }
+   }
+  },
+  "/offers/details": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Returns creating offers details.",
+    "operationId": "offersCreationDetails",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.GetOfferCreationDetailsReq"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetOfferCreationDetailsRsp"
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetOfferCreationDetailsRsp"
+      }
+     }
+    }
+   }
+  },
+  "/offers/link/{id}": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Get offer by link ID",
+    "operationId": "getOfferByLinkID",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Offer's link ID",
+      "name": "id",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.OfferByLinkIDResponse"
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.OfferByLinkIDResponse"
+      }
+     }
+    }
+   }
+  },
+  "/offers/link/{id}/similar": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Get similar offers by link ID",
+    "operationId": "getSimilarOffersByLinkID",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Offer's link ID",
+      "name": "id",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.SimilarOffersByLinkIDResponse"
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.SimilarOffersByLinkIDResponse"
+      }
+     }
+    }
+   }
+  },
+  "/offers/trades": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch user's offer trades.",
+    "operationId": "getOfferTrades",
+    "parameters": [
+     {
+      "type": "integer",
+      "default": 50,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "desc",
+      "description": "Sorting direction: desc|asc",
+      "name": "orderDir",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetTradesRsp"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetTradesRsp"
+      }
+     }
+    }
+   }
+  },
+  "/payment-system-webhook-42/{type}": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "summary": "Process payment system webhook to deposit/withdraw from balance",
+    "operationId": "handlerPaymentSystemWebHook",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Operation type",
+      "name": "type",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK"
+     }
+    }
+   }
+  },
+  "/product-card/{gameId}/{classId}": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch item class",
+    "operationId": "getProductCard",
+    "deprecated": true,
+    "parameters": [
+     {
+      "type": "string",
+      "description": "game id",
+      "name": "gameId",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "class id",
+      "name": "classId",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.ProductCardDetailsResponse"
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.ProductCardDetailsResponse"
+      }
+     }
+    }
+   }
+  },
+  "/promocode/redeem": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Use promo code",
+    "operationId": "promocodeRedeemHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.UsePromocodeReq"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.UsePromocodeRsp"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.UsePromocodeRsp"
+      }
+     }
+    }
+   }
+  },
+  "/selection/{type}": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Get Entity from Proposal",
+    "operationId": "getSelection",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Proposal type. [item|offer|target|market]",
+      "name": "type",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Ok",
+      "schema": {
+       "$ref": "#/definitions/entity.GetSelectionRsp"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "Ok",
+      "schema": {
+       "$ref": "#/definitions/entity.GetSelectionRsp"
+      }
+     }
+    }
+   },
+   "put": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Reset selection store by {type} for user",
+    "operationId": "resetItemsToSelection",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Selection type. [item|offer|target|market]",
+      "name": "type",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.SelectionItemBodyReq"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Ok"
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     }
+    }
+   },
+   "delete": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Clear type",
+    "operationId": "clearSelectionByType",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Proposal type. [item|offer|target|market]",
+      "name": "type",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Ok"
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     }
+    }
+   },
+   "patch": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Items add to selection store by {type} for user",
+    "operationId": "addItemsToSelection",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Selection type. [item|offer|target|market]",
+      "name": "type",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.SelectionItemBodyReq"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Ok"
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     }
+    }
+   }
+  },
+  "/selection/{type}/item/{id}": {
+   "delete": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Remove EntityID from proposal store for user",
+    "operationId": "removeItemFromSelection",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Proposal type. [item|offer|target|market]",
+      "name": "type",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Entity ID.",
+      "name": "id",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Ok"
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     }
+    }
+   }
+  },
+  "/seo-pages": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Get links for seo",
+    "operationId": "getSeoPage",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "qs formatted params",
+      "name": "params",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "integer",
+      "default": 100,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Ok",
+      "schema": {
+       "$ref": "#/definitions/entity.GetSeoPageResponse"
+      }
+     },
+     "400": {
+      "description": "Bad Request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "Ok",
+      "schema": {
+       "$ref": "#/definitions/entity.GetSeoPageResponse"
+      }
+     }
+    }
+   }
+  },
+  "/target/activate": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Activates targets.",
+    "operationId": "targetActivateHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsActivateReq"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsActivateRsp"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsActivateRsp"
+      }
+     }
+    }
+   }
+  },
+  "/target/advice-price/{gameId}": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Advice price for target",
+    "operationId": "adviceTargetPrice",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Target game identifier.",
+      "name": "gameId",
+      "in": "path",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "Target title.",
+      "name": "title",
+      "in": "query",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.AdvicePriceRsp"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.AdvicePriceRsp"
+      }
+     }
+    }
+   }
+  },
+  "/target/constructor": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Builds target form config.",
+    "operationId": "buildTargetForm",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.TargetFormReq"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetForm"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetForm"
+      }
+     }
+    }
+   }
+  },
+  "/target/create": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Creates new targets.",
+    "operationId": "targetCreateHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsCreateReq"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsCreateRsp"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsCreateRsp"
+      }
+     }
+    }
+   }
+  },
+  "/target/deactivate": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Deactivates targets.",
+    "operationId": "targetDeactivateHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsDeactivateReq"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsDeactivateRsp"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsDeactivateRsp"
+      }
+     }
+    }
+   }
+  },
+  "/target/delete": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Deletes targets.",
+    "operationId": "targetDeleteHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsDeleteReq"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsDeleteRsp"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsDeleteRsp"
+      }
+     }
+    }
+   }
+  },
+  "/target/trades": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch user's target trades.",
+    "operationId": "getTargetTrades",
+    "parameters": [
+     {
+      "type": "integer",
+      "default": 50,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "desc",
+      "description": "Sorting direction: desc|asc",
+      "name": "orderDir",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetTradesRsp"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetTradesRsp"
+      }
+     }
+    }
+   }
+  },
+  "/target/update": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Updates targets.",
+    "operationId": "targetUpdateHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsUpdateReq"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsUpdateRsp"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.TargetsUpdateRsp"
+      }
+     }
+    }
+   }
+  },
+  "/targets": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch user targets without attributes.",
+    "operationId": "getTargets",
+    "parameters": [
+     {
+      "type": "integer",
+      "default": 100,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "desc",
+      "description": "Sorting direction: desc|asc",
+      "name": "orderDir",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetTargetsRsp"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetTargetsRsp"
+      }
+     }
+    }
+   }
+  },
+  "/targets/search": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Search classes for target constructor by keyword",
+    "operationId": "targetsSearch",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.TargetSearchRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.SearchTargetResult"
+      }
+     },
+     "400": {
+      "description": "Bad body request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.SearchTargetResult"
+      }
+     }
+    }
+   }
+  },
+  "/transfer/{transferID}": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Get transfer",
+    "operationId": "getTransferHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "type": "string",
+      "description": "transfer id",
+      "name": "transferID",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.Transfer"
+      }
+     },
+     "400": {
+      "description": "Bad body request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.Transfer"
+      }
+     }
+    }
+   }
+  },
+  "/unlock-matched-entities": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Unlocks asset-target pairs or offers .",
+    "operationId": "unlockMatchedEntities",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.UnlockMatchedEntitiesRequest"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "OK"
+     }
+    }
+   }
+  },
+  "/user/items": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch user's items",
+    "operationId": "getUserItems",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "gameId",
+      "name": "gameId",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "title",
+      "name": "title",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 50,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "title",
+      "description": "orderBy",
+      "name": "orderBy",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "desc",
+      "description": "orderDir",
+      "name": "orderDir",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "treeFilters",
+      "name": "treeFilters",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "currency",
+      "name": "currency",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "priceFrom",
+      "name": "priceFrom",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "priceTo",
+      "name": "priceTo",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetItemsResponse"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetItemsResponse"
+      }
+     }
+    }
+   }
+  },
+  "/user/items/totals": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch user's totals",
+    "operationId": "getUserItemsTotals",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "gameId",
+      "name": "gameId",
+      "in": "query",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.Total"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.Total"
+      }
+     }
+    }
+   }
+  },
+  "/user/offers": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch user's offers",
+    "operationId": "getUserOffers",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "gameId",
+      "name": "gameId",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "title",
+      "name": "title",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 50,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "title",
+      "description": "orderBy",
+      "name": "orderBy",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "desc",
+      "description": "orderDir",
+      "name": "orderDir",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "treeFilters",
+      "name": "treeFilters",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "currency",
+      "name": "currency",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "priceFrom",
+      "name": "priceFrom",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "priceTo",
+      "name": "priceTo",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetItemsResponse"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetItemsResponse"
+      }
+     }
+    }
+   }
+  },
+  "/user/sales": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch user's completed sales",
+    "operationId": "getUserSales",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "gameId",
+      "name": "gameId",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "classId",
+      "name": "classId",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "asset's title",
+      "name": "title",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 50,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "updated",
+      "description": "orderBy",
+      "name": "orderBy",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "desc",
+      "description": "orderDir",
+      "name": "orderDir",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetUserSalesResponse"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetUserSalesResponse"
+      }
+     }
+    }
+   }
+  },
+  "/user/targets": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Fetch user's targets",
+    "operationId": "getUserTargets",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "gameId",
+      "name": "gameId",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "string",
+      "description": "title",
+      "name": "title",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 50,
+      "description": "limit",
+      "name": "limit",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "offset",
+      "name": "offset",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "title",
+      "description": "orderBy",
+      "name": "orderBy",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "default": "desc",
+      "description": "orderDir",
+      "name": "orderDir",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "treeFilters",
+      "name": "treeFilters",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "currency",
+      "name": "currency",
+      "in": "query",
+      "required": true
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "priceFrom",
+      "name": "priceFrom",
+      "in": "query"
+     },
+     {
+      "type": "integer",
+      "default": 0,
+      "description": "priceTo",
+      "name": "priceTo",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "targets statuses",
+      "name": "statuses",
+      "in": "query"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetItemsResponse"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.GetItemsResponse"
+      }
+     }
+    }
+   }
+  },
+  "/utm-hist": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Add utm mark by user id",
+    "operationId": "addUTMHist",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.UTMMarkAddRequest"
+      }
+     }
+    ],
+    "responses": {
+     "201": {
+      "description": "Created"
+     },
+     "400": {
+      "description": "Bad request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     }
+    }
+   }
+  },
+  "/withdraw-assets": {
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Withdraw assets",
+    "operationId": "withdrawAssetsHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "schema": {
+       "$ref": "#/definitions/entity.WithdrawAssetsRequest"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.WithdrawResponse"
+      }
+     },
+     "400": {
+      "description": "Bad body request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.WithdrawResponse"
+      }
+     }
+    }
+   }
+  },
+  "/withdraw-link": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Get withdraw user link",
+    "operationId": "withdrawLinkHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "url where user will be processed after success operation",
+      "name": "successUrl",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "url where user will be processed after fail operation",
+      "name": "failUrl",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "currency to withdraw from user",
+      "name": "currency",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "user language",
+      "name": "language",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "amount to withdraw",
+      "name": "amount",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "user auth hash",
+      "name": "hash",
+      "in": "query"
+     },
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     }
+    ],
+    "responses": {
+     "307": {
+      "description": "OK",
+      "schema": {
+       "$ref": "#/definitions/entity.PaymentLinkResponse"
+      }
+     },
+     "400": {
+      "description": "Bad body request",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "schema": {
+       "$ref": "#/definitions/rest.ErrorRepresentation"
+      }
+     }
+    }
+   }
+  },
+  "/wizard/{key}": {
+   "get": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Get value by key for wizard",
+    "operationId": "WizardGetHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "type": "string",
+      "description": "key for value",
+      "name": "key",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "OK",
+      "schema": {
+       "type": "string"
+      }
+     },
+     "default": {
+      "description": "OK",
+      "schema": {
+       "type": "string"
+      }
+     }
+    }
+   },
+   "post": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Set or update value by key for wizard",
+    "operationId": "WizardPostHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "type": "string",
+      "description": "key for value",
+      "name": "key",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "203": {
+      "description": "OK"
+     }
+    }
+   },
+   "delete": {
+    "consumes": [
+     "application/json"
+    ],
+    "produces": [
+     "application/json"
+    ],
+    "tags": [
+     "Exchange"
+    ],
+    "summary": "Manualy delete value from wizard",
+    "operationId": "WizardDeleteHandler",
+    "parameters": [
+     {
+      "type": "string",
+      "description": "Authorization token.",
+      "name": "Authorization",
+      "in": "header"
+     },
+     {
+      "type": "string",
+      "description": "key for value",
+      "name": "key",
+      "in": "path",
+      "required": true
+     }
+    ],
+    "responses": {
+     "203": {
+      "description": "OK"
+     }
+    }
+   }
+  }
+ },
+ "definitions": {
+  "csgo.Sticker": {
+   "required": [
+    "name",
+    "image"
+   ],
+   "properties": {
+    "image": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    }
+   }
+  },
+  "dota2.Gem": {
+   "required": [
+    "name",
+    "image",
+    "type"
+   ],
+   "properties": {
+    "image": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "type": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.AdvicePriceRsp": {
+   "required": [
+    "topTarget",
+    "botOffer",
+    "avgOffer",
+    "suggested",
+    "targets"
+   ],
+   "properties": {
+    "avgOffer": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "botOffer": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "suggested": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "targets": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "topTarget": {
+     "$ref": "#/definitions/entity.Money"
+    }
+   }
+  },
+  "entity.Asset": {
+   "required": [
+    "id",
+    "classId",
+    "gameId"
+   ],
+   "properties": {
+    "classId": {
+     "type": "string"
+    },
+    "gameId": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.AssetTargetPair": {
+   "required": [
+    "assetId",
+    "instantPrice"
+   ],
+   "properties": {
+    "assetId": {
+     "type": "string"
+    },
+    "instantPrice": {
+     "$ref": "#/definitions/entity.Money"
+    }
+   }
+  },
+  "entity.CalculateFeeResponse": {
+   "required": [
+    "sellingPrice",
+    "fee",
+    "youWillGet"
+   ],
+   "properties": {
+    "fee": {
+     "type": "string"
+    },
+    "sellingPrice": {
+     "type": "string"
+    },
+    "youWillGet": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.Change": {
+   "required": [
+    "money",
+    "changeType"
+   ],
+   "properties": {
+    "changeType": {
+     "type": "string",
+     "enum": [
+      "Unknown",
+      "Debit",
+      "Credit"
+     ]
+    },
+    "money": {
+     "$ref": "#/definitions/entity.Money"
+    }
+   }
+  },
+  "entity.Contractor": {
+   "required": [
+    "id",
+    "title",
+    "type"
+   ],
+   "properties": {
+    "id": {
+     "type": "string"
+    },
+    "title": {
+     "type": "string"
+    },
+    "type": {
+     "type": "string",
+     "enum": [
+      "game",
+      "payment_system"
+     ]
+    }
+   }
+  },
+  "entity.Control": {
+   "required": [
+    "name",
+    "title",
+    "explain",
+    "type",
+    "view",
+    "values"
+   ],
+   "properties": {
+    "explain": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "title": {
+     "type": "string"
+    },
+    "type": {
+     "type": "string"
+    },
+    "values": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Control.values"
+     }
+    },
+    "view": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.Control.values": {},
+  "entity.DepositAsset": {
+   "required": [
+    "itemId",
+    "classId",
+    "gameId"
+   ],
+   "properties": {
+    "classId": {
+     "type": "string"
+    },
+    "gameId": {
+     "type": "string"
+    },
+    "itemId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.DepositRequest": {
+   "required": [
+    "assets",
+    "flow",
+    "requestId"
+   ],
+   "properties": {
+    "assets": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.DepositAsset"
+     }
+    },
+    "flow": {
+     "type": "string"
+    },
+    "requestId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.DepositResponse": {
+   "required": [
+    "transferId"
+   ],
+   "properties": {
+    "transferId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.ExchangeOffer": {
+   "required": [
+    "offerId"
+   ],
+   "properties": {
+    "offerId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.ExchangeRequest": {
+   "required": [
+    "assets",
+    "offers"
+   ],
+   "properties": {
+    "assets": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.AssetTargetPair"
+     }
+    },
+    "offers": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.ExchangeOffer"
+     }
+    }
+   }
+  },
+  "entity.ExchangeResponse": {
+   "required": [
+    "txId",
+    "failedOrders",
+    "failedOffers"
+   ],
+   "properties": {
+    "failedOffers": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.FailedExchangeItem"
+     }
+    },
+    "failedOrders": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.FailedTarget"
+     }
+    },
+    "txId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.Extra": {
+   "required": [
+    "tradable",
+    "isNew",
+    "gameId",
+    "name",
+    "categoryPath",
+    "tradeLockDuration"
+   ],
+   "properties": {
+    "ability": {
+     "type": "string"
+    },
+    "backgroundColor": {
+     "type": "string"
+    },
+    "category": {
+     "type": "string"
+    },
+    "categoryPath": {
+     "type": "string"
+    },
+    "class": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "collection": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "exterior": {
+     "type": "string",
+     "enum": [
+      "field-tested",
+      "minimal wear",
+      "battle-scarred",
+      "well-worn",
+      "factory new",
+      "not painted"
+     ]
+    },
+    "floatValue": {
+     "type": "number"
+    },
+    "gameId": {
+     "type": "string"
+    },
+    "gems": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/dota2.Gem"
+     }
+    },
+    "grade": {
+     "type": "string"
+    },
+    "groupId": {
+     "type": "string"
+    },
+    "growth": {
+     "type": "number"
+    },
+    "hero": {
+     "type": "string"
+    },
+    "inspectInGame": {
+     "type": "string"
+    },
+    "isNew": {
+     "type": "boolean"
+    },
+    "itemType": {
+     "type": "string"
+    },
+    "linkId": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "nameColor": {
+     "type": "string"
+    },
+    "offerId": {
+     "type": "string"
+    },
+    "quality": {
+     "type": "string"
+    },
+    "rarity": {
+     "type": "string"
+    },
+    "serialNumber": {
+     "type": "integer"
+    },
+    "stickers": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/csgo.Sticker"
+     }
+    },
+    "subscribers": {
+     "type": "integer"
+    },
+    "tagName": {
+     "type": "string"
+    },
+    "tradable": {
+     "type": "boolean"
+    },
+    "tradeLock": {
+     "type": "integer"
+    },
+    "tradeLockDuration": {
+     "type": "integer"
+    },
+    "type": {
+     "type": "string"
+    },
+    "videos": {
+     "type": "integer"
+    },
+    "viewAtSteam": {
+     "type": "string"
+    },
+    "withdrawable": {
+     "type": "boolean"
+    }
+   }
+  },
+  "entity.FailedExchangeItem": {
+   "required": [
+    "id",
+    "error"
+   ],
+   "properties": {
+    "error": {
+     "type": "string",
+     "enum": [
+      "AssetInstantPriceChanged",
+      "AssetInstantPriceNotAvailable",
+      "AssetNotAvailable",
+      "MarketOfferSold",
+      "MarketOfferRecalled",
+      "BalanceInsufficientFunds"
+     ]
+    },
+    "id": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.FailedOffer": {
+   "required": [
+    "assetId",
+    "offerId",
+    "error"
+   ],
+   "properties": {
+    "assetId": {
+     "type": "string"
+    },
+    "error": {
+     "type": "string",
+     "enum": [
+      "MarketOfferSold",
+      "MarketOfferRecalled"
+     ]
+    },
+    "offerId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.FailedTarget": {
+   "required": [
+    "assetId",
+    "targetId",
+    "error",
+    "newInstantPrice"
+   ],
+   "properties": {
+    "assetId": {
+     "type": "string"
+    },
+    "error": {
+     "type": "string",
+     "enum": [
+      "AssetInstantPriceChanged",
+      "AssetInstantPriceNotAvailable",
+      "AssetNotAvailable",
+      "Internal"
+     ]
+    },
+    "newInstantPrice": {
+     "$ref": "#/definitions/entity.NewInstantPrice"
+    },
+    "targetId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.FilterItem": {
+   "required": [
+    "value",
+    "title",
+    "multiSelection",
+    "displayType",
+    "filterItems"
+   ],
+   "properties": {
+    "displayType": {
+     "type": "string",
+     "enum": [
+      "CheckBox",
+      "DropDown"
+     ]
+    },
+    "filterItems": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.FilterItem"
+     }
+    },
+    "multiSelection": {
+     "type": "boolean"
+    },
+    "title": {
+     "type": "string"
+    },
+    "value": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.Game": {
+   "required": [
+    "id",
+    "slug",
+    "title",
+    "type",
+    "logoImageUrl",
+    "homeImageURL",
+    "images",
+    "offersCount",
+    "isReleased",
+    "authMethods",
+    "authMethod"
+   ],
+   "properties": {
+    "authMethod": {
+     "type": "string",
+     "enum": [
+      "steam",
+      "life_beyond"
+     ]
+    },
+    "authMethods": {
+     "type": "array",
+     "enum": [
+      "steam",
+      "life_beyond"
+     ],
+     "items": {
+      "type": "string"
+     }
+    },
+    "homeImageURL": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string"
+    },
+    "images": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "isReleased": {
+     "type": "boolean"
+    },
+    "logoImageUrl": {
+     "type": "string"
+    },
+    "offersCount": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "slug": {
+     "type": "string"
+    },
+    "title": {
+     "type": "string"
+    },
+    "type": {
+     "type": "string",
+     "enum": [
+      "blockchain",
+      "steam"
+     ]
+    }
+   }
+  },
+  "entity.GameFilters": {
+   "required": [
+    "itemList"
+   ],
+   "properties": {
+    "itemList": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.FilterItem"
+     }
+    }
+   }
+  },
+  "entity.GameSorting": {
+   "required": [
+    "itemList",
+    "productCart"
+   ],
+   "properties": {
+    "itemList": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.GameSortingItem"
+     }
+    },
+    "productCart": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.GameSortingItem"
+     }
+    }
+   }
+  },
+  "entity.GameSortingItem": {
+   "required": [
+    "orderBy",
+    "orderDir",
+    "title",
+    "iconURL"
+   ],
+   "properties": {
+    "iconURL": {
+     "type": "string"
+    },
+    "orderBy": {
+     "type": "string"
+    },
+    "orderDir": {
+     "type": "string"
+    },
+    "title": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.GamesResponse": {
+   "required": [
+    "objects",
+    "total"
+   ],
+   "properties": {
+    "objects": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Game"
+     }
+    },
+    "total": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "entity.GetDepositResponse": {
+   "required": [
+    "assetMap",
+    "transferId",
+    "processedAssets",
+    "createdAt",
+    "updatedAt",
+    "totalAssets",
+    "steamTrades",
+    "errorMessage",
+    "status",
+    "transferError"
+   ],
+   "properties": {
+    "assetMap": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "createdAt": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "errorMessage": {
+     "type": "string"
+    },
+    "processedAssets": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "Processing",
+      "Completed",
+      "Refused",
+      "Failed",
+      "PartialCompleted"
+     ]
+    },
+    "steamTrades": {
+     "$ref": "#/definitions/entity.SteamTrade"
+    },
+    "totalAssets": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "transferError": {
+     "type": "string",
+     "enum": [
+      "Internal",
+      "Unknown",
+      "InvalidTradeURL",
+      "TradingUnavailable",
+      "TradeHold",
+      "TradeOfferExpired",
+      "TradeOfferCountered",
+      "TradeOfferCanceled",
+      "TradeOfferDeclined",
+      "TradeOfferInvalidItems",
+      "TradeOfferInEscrow",
+      "TradeOfferCanceledBySecondFactor",
+      "PrivateInventory",
+      "NetworkIssue",
+      "AssetNotAvailable"
+     ]
+    },
+    "transferId": {
+     "type": "string"
+    },
+    "updatedAt": {
+     "type": "integer",
+     "format": "int64"
+    }
+   }
+  },
+  "entity.GetItemsResponse": {
+   "required": [
+    "objects",
+    "total"
+   ],
+   "properties": {
+    "objects": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Item"
+     }
+    },
+    "total": {
+     "$ref": "#/definitions/entity.Total"
+    }
+   }
+  },
+  "entity.GetOfferCreationDetailsReq": {
+   "required": [
+    "items"
+   ],
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.GetOfferCreationDetailsRsp": {
+   "required": [
+    "objects"
+   ],
+   "properties": {
+    "objects": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.OfferCreationDetails"
+     }
+    }
+   }
+  },
+  "entity.GetOffersRsp": {
+   "required": [
+    "offers",
+    "total"
+   ],
+   "properties": {
+    "offers": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.RawOffer"
+     }
+    },
+    "total": {
+     "type": "integer"
+    }
+   }
+  },
+  "entity.GetRecentSalesResponse": {
+   "required": [
+    "objects",
+    "total"
+   ],
+   "properties": {
+    "objects": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.RecentSale"
+     }
+    },
+    "total": {
+     "type": "integer",
+     "format": "int64"
+    }
+   }
+  },
+  "entity.GetSelectionRsp": {
+   "required": [
+    "objects"
+   ],
+   "properties": {
+    "objects": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Item"
+     }
+    }
+   }
+  },
+  "entity.GetSeoPageResponse": {
+   "required": [
+    "breadcrumbs",
+    "links"
+   ],
+   "properties": {
+    "breadcrumbs": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.SeoPageLink"
+     }
+    },
+    "links": {
+     "$ref": "#/definitions/entity.SeoPageLinks"
+    }
+   }
+  },
+  "entity.GetTargetsRsp": {
+   "required": [
+    "targets",
+    "total"
+   ],
+   "properties": {
+    "targets": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.RawTarget"
+     }
+    },
+    "total": {
+     "type": "integer"
+    }
+   }
+  },
+  "entity.GetTradesRsp": {
+   "required": [
+    "trades",
+    "total"
+   ],
+   "properties": {
+    "total": {
+     "type": "integer"
+    },
+    "trades": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Trade"
+     }
+    }
+   }
+  },
+  "entity.GetUserSalesResponse": {
+   "required": [
+    "objects",
+    "total"
+   ],
+   "properties": {
+    "objects": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Sale"
+     }
+    },
+    "total": {
+     "type": "integer",
+     "format": "int64"
+    }
+   }
+  },
+  "entity.HistoryEvent": {
+   "required": [
+    "type",
+    "id",
+    "gameIcon",
+    "customId",
+    "emitter",
+    "action",
+    "subject",
+    "contractor",
+    "changes",
+    "from",
+    "to",
+    "status",
+    "balance",
+    "updatedAt"
+   ],
+   "properties": {
+    "action": {
+     "type": "string"
+    },
+    "balance": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "changes": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Change"
+     }
+    },
+    "contractor": {
+     "$ref": "#/definitions/entity.Contractor"
+    },
+    "customId": {
+     "type": "string"
+    },
+    "emitter": {
+     "type": "string"
+    },
+    "from": {
+     "type": "string"
+    },
+    "gameIcon": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string"
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "success",
+      "pending",
+      "canceled",
+      "failed"
+     ]
+    },
+    "subject": {
+     "type": "string"
+    },
+    "to": {
+     "type": "string"
+    },
+    "type": {
+     "type": "string",
+     "enum": [
+      "cash_deposit",
+      "cash_withdraw",
+      "deposit",
+      "withdraw",
+      "sell",
+      "purchase",
+      "exchange",
+      "charging_fee",
+      "instant_sell",
+      "target_closed",
+      "assets_migration",
+      "dmc_migration",
+      "usd_migration",
+      "offers_migration",
+      "referrals_migration"
+     ]
+    },
+    "updatedAt": {
+     "type": "integer",
+     "format": "int64"
+    }
+   }
+  },
+  "entity.HistoryRequest": {
+   "required": [
+    "activities",
+    "statuses",
+    "from",
+    "to",
+    "limit",
+    "offset"
+   ],
+   "properties": {
+    "activities": {
+     "type": "array",
+     "enum": [
+      "cash_deposit",
+      "cash_withdraw",
+      "deposit",
+      "withdraw",
+      "sell",
+      "purchase",
+      "exchange",
+      "charging_fee",
+      "instant_sell",
+      "target_closed",
+      "assets_migration",
+      "dmc_migration",
+      "usd_migration",
+      "offers_migration",
+      "referrals_migration"
+     ],
+     "items": {
+      "type": "string"
+     }
+    },
+    "from": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "limit": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "offset": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "statuses": {
+     "type": "array",
+     "enum": [
+      "success",
+      "pending",
+      "canceled",
+      "failed"
+     ],
+     "items": {
+      "type": "string"
+     }
+    },
+    "to": {
+     "type": "integer",
+     "format": "int64"
+    }
+   }
+  },
+  "entity.HistoryResponse": {
+   "required": [
+    "objects",
+    "total"
+   ],
+   "properties": {
+    "objects": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.HistoryEvent"
+     }
+    },
+    "total": {
+     "type": "integer",
+     "format": "int64"
+    }
+   }
+  },
+  "entity.HistoryV1Request": {},
+  "entity.HistoryV1Response": {},
+  "entity.InstantSaleRequest": {
+   "required": [
+    "assets"
+   ],
+   "properties": {
+    "assets": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.AssetTargetPair"
+     }
+    }
+   }
+  },
+  "entity.InstantSaleResponse": {
+   "required": [
+    "txId",
+    "failed"
+   ],
+   "properties": {
+    "failed": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.FailedTarget"
+     }
+    },
+    "txId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.IntegrationSignUpRequest": {
+   "required": [
+    "email",
+    "name",
+    "company"
+   ],
+   "properties": {
+    "company": {
+     "type": "string"
+    },
+    "email": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.Item": {
+   "required": [
+    "itemId",
+    "type",
+    "amount",
+    "classId",
+    "gameId",
+    "gameType",
+    "inMarket",
+    "lockStatus",
+    "title",
+    "description",
+    "image",
+    "slug",
+    "owner",
+    "ownersBlockchainId",
+    "status",
+    "discount",
+    "instantTargetId",
+    "extra",
+    "createdAt"
+   ],
+   "properties": {
+    "amount": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "classId": {
+     "type": "string"
+    },
+    "createdAt": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "description": {
+     "type": "string"
+    },
+    "discount": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "extra": {
+     "$ref": "#/definitions/entity.Extra"
+    },
+    "extraDoc": {
+     "type": "string",
+     "enum": [
+      "viewAtSteam",
+      "quality",
+      "exterior",
+      "category",
+      "tradeLock",
+      "tradeLockDuration",
+      "stickers",
+      "itemType",
+      "floatValue",
+      "inspectInGame",
+      "tagName",
+      "hero",
+      "gems",
+      "rarity",
+      "serialNumber",
+      "ability",
+      "videos",
+      "subscribers",
+      "growth",
+      "nameColor",
+      "backgroundColor",
+      "tradable",
+      "withdrawable",
+      "depositable",
+      "offerId",
+      "orderId",
+      "isNew",
+      "groupId",
+      "gameId",
+      "name",
+      "categoryPath",
+      "class",
+      "collection",
+      "grade",
+      "type"
+     ]
+    },
+    "gameId": {
+     "type": "string"
+    },
+    "gameType": {
+     "type": "string",
+     "enum": [
+      "blockchain",
+      "steam"
+     ]
+    },
+    "image": {
+     "type": "string"
+    },
+    "inMarket": {
+     "type": "boolean"
+    },
+    "instantPrice": {
+     "$ref": "#/definitions/entity.Prices"
+    },
+    "instantTargetId": {
+     "type": "string"
+    },
+    "itemId": {
+     "type": "string"
+    },
+    "lockStatus": {
+     "type": "boolean"
+    },
+    "owner": {
+     "type": "string"
+    },
+    "ownersBlockchainId": {
+     "type": "string"
+    },
+    "price": {
+     "$ref": "#/definitions/entity.Prices"
+    },
+    "recommendedPrice": {
+     "$ref": "#/definitions/entity.Recommendations"
+    },
+    "slug": {
+     "type": "string"
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "default",
+      "active",
+      "inactive",
+      "in_transfer",
+      "sold",
+      "recalled",
+      "unavailable"
+     ]
+    },
+    "suggestedPrice": {
+     "$ref": "#/definitions/entity.Prices"
+    },
+    "title": {
+     "type": "string"
+    },
+    "type": {
+     "type": "string",
+     "enum": [
+      "item",
+      "offer",
+      "target",
+      "class",
+      "airdrop",
+      "sale"
+     ]
+    }
+   }
+  },
+  "entity.LockMatchedEntitiesRequest": {
+   "required": [
+    "targets",
+    "offers"
+   ],
+   "properties": {
+    "offers": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Offer"
+     }
+    },
+    "targets": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.AssetTargetPair"
+     }
+    }
+   }
+  },
+  "entity.LockMatchedEntitiesResponse": {
+   "required": [
+    "failedTargets",
+    "failedOffer"
+   ],
+   "properties": {
+    "failedOffer": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.FailedOffer"
+     }
+    },
+    "failedTargets": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.FailedTarget"
+     }
+    }
+   }
+  },
+  "entity.ManageOffersRequest": {
+   "required": [
+    "objects",
+    "force"
+   ],
+   "properties": {
+    "force": {
+     "type": "boolean"
+    },
+    "objects": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.ManagingOffer"
+     }
+    }
+   }
+  },
+  "entity.ManageOffersResponse": {
+   "required": [
+    "success",
+    "fail",
+    "locked"
+   ],
+   "properties": {
+    "fail": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "locked": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "success": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.ManagingOffer": {
+   "required": [
+    "offerId",
+    "itemId",
+    "price"
+   ],
+   "properties": {
+    "itemId": {
+     "type": "string"
+    },
+    "offerId": {
+     "type": "string"
+    },
+    "price": {
+     "$ref": "#/definitions/entity.Money"
+    }
+   }
+  },
+  "entity.Money": {
+   "required": [
+    "amount",
+    "currency"
+   ],
+   "properties": {
+    "amount": {
+     "type": "string"
+    },
+    "currency": {
+     "type": "string",
+     "enum": [
+      "USD",
+      "DMC"
+     ]
+    }
+   }
+  },
+  "entity.NewInstantPrice": {
+   "required": [
+    "targetId",
+    "instantPrice"
+   ],
+   "properties": {
+    "instantPrice": {
+     "$ref": "#/definitions/entity.Prices"
+    },
+    "targetId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.Offer": {
+   "required": [
+    "offerId"
+   ],
+   "properties": {
+    "offerId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.OfferBuyRequest": {
+   "required": [
+    "offers"
+   ],
+   "properties": {
+    "offers": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.OfferPrice"
+     }
+    }
+   }
+  },
+  "entity.OfferBuyResponse": {
+   "required": [
+    "txId",
+    "status"
+   ],
+   "properties": {
+    "status": {
+     "type": "string",
+     "enum": [
+      "TxPending",
+      "TxSuccess",
+      "TxFailed"
+     ]
+    },
+    "txId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.OfferByLinkIDResponse": {
+   "required": [
+    "offer"
+   ],
+   "properties": {
+    "offer": {
+     "$ref": "#/definitions/entity.Item"
+    }
+   }
+  },
+  "entity.OfferCreationDetails": {
+   "required": [
+    "itemId",
+    "steamMarketPrice",
+    "minListedPrice",
+    "offersOnMarketplace"
+   ],
+   "properties": {
+    "itemId": {
+     "type": "string"
+    },
+    "minListedPrice": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "offersOnMarketplace": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "steamMarketPrice": {
+     "$ref": "#/definitions/entity.Money"
+    }
+   }
+  },
+  "entity.OfferPrice": {
+   "required": [
+    "offerId",
+    "price"
+   ],
+   "properties": {
+    "offerId": {
+     "type": "string"
+    },
+    "price": {
+     "$ref": "#/definitions/entity.Money"
+    }
+   }
+  },
+  "entity.OfferPrices": {
+   "required": [
+    "cheapest",
+    "expensive",
+    "suggested"
+   ],
+   "properties": {
+    "cheapest": {
+     "$ref": "#/definitions/entity.Prices"
+    },
+    "expensive": {
+     "$ref": "#/definitions/entity.Prices"
+    },
+    "suggested": {
+     "$ref": "#/definitions/entity.Prices"
+    }
+   }
+  },
+  "entity.PaymentLinkResponse": {
+   "required": [
+    "url"
+   ],
+   "properties": {
+    "url": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.Prices": {
+   "required": [
+    "DMC",
+    "USD"
+   ],
+   "properties": {
+    "DMC": {
+     "type": "string"
+    },
+    "USD": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.ProductCardDetailsResponse": {
+   "required": [
+    "title",
+    "description",
+    "image",
+    "slug",
+    "lastUpdate",
+    "classId",
+    "gameId",
+    "gameName",
+    "nameColor",
+    "backgroundColor",
+    "offerPrices"
+   ],
+   "properties": {
+    "backgroundColor": {
+     "type": "string"
+    },
+    "classId": {
+     "type": "string"
+    },
+    "description": {
+     "type": "string"
+    },
+    "gameId": {
+     "type": "string"
+    },
+    "gameName": {
+     "type": "string"
+    },
+    "image": {
+     "type": "string"
+    },
+    "lastUpdate": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "nameColor": {
+     "type": "string"
+    },
+    "offerPrices": {
+     "$ref": "#/definitions/entity.OfferPrices"
+    },
+    "slug": {
+     "type": "string"
+    },
+    "title": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.RawOffer": {
+   "required": [
+    "offerId",
+    "assetId",
+    "amount",
+    "left",
+    "price",
+    "status"
+   ],
+   "properties": {
+    "amount": {
+     "type": "integer"
+    },
+    "assetId": {
+     "type": "string"
+    },
+    "left": {
+     "type": "integer"
+    },
+    "offerId": {
+     "type": "string"
+    },
+    "price": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "OfferActive"
+     ]
+    }
+   }
+  },
+  "entity.RawTarget": {
+   "required": [
+    "targetId",
+    "amount",
+    "left",
+    "price",
+    "status"
+   ],
+   "properties": {
+    "amount": {
+     "type": "integer"
+    },
+    "left": {
+     "type": "integer"
+    },
+    "price": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "OrderActive",
+      "OrderDisabled"
+     ]
+    },
+    "targetId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.RecentSale": {
+   "required": [
+    "price",
+    "soldAt"
+   ],
+   "properties": {
+    "floatValue": {
+     "type": "number"
+    },
+    "price": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "soldAt": {
+     "type": "integer",
+     "format": "int64"
+    }
+   }
+  },
+  "entity.RecommendPriceResponse": {
+   "required": [
+    "d3",
+    "d7",
+    "d7plus",
+    "market"
+   ],
+   "properties": {
+    "d3": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "d7": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "d7plus": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "market": {
+     "$ref": "#/definitions/entity.Money"
+    }
+   }
+  },
+  "entity.Recommendations": {
+   "required": [
+    "d3",
+    "d7",
+    "d7Plus"
+   ],
+   "properties": {
+    "d3": {
+     "$ref": "#/definitions/entity.Prices"
+    },
+    "d7": {
+     "$ref": "#/definitions/entity.Prices"
+    },
+    "d7Plus": {
+     "$ref": "#/definitions/entity.Prices"
+    }
+   }
+  },
+  "entity.Sale": {
+   "required": [
+    "id",
+    "assetId",
+    "inGameAssetId",
+    "title",
+    "classId",
+    "gameId",
+    "price",
+    "owner",
+    "soldAt"
+   ],
+   "properties": {
+    "assetId": {
+     "type": "string"
+    },
+    "classId": {
+     "type": "string"
+    },
+    "gameId": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string"
+    },
+    "inGameAssetId": {
+     "type": "string"
+    },
+    "owner": {
+     "type": "string"
+    },
+    "price": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "soldAt": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "title": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.SearchTargetResult": {
+   "required": [
+    "items"
+   ],
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.TargetItem"
+     }
+    }
+   }
+  },
+  "entity.SelectionItemBodyReq": {
+   "required": [
+    "items"
+   ],
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.SeoPageLink": {
+   "required": [
+    "type",
+    "title",
+    "params",
+    "query",
+    "offersCount"
+   ],
+   "properties": {
+    "offersCount": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "params": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "query": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "title": {
+     "type": "string"
+    },
+    "type": {
+     "type": "string",
+     "enum": [
+      "category",
+      "item",
+      "game"
+     ]
+    }
+   }
+  },
+  "entity.SeoPageLinks": {
+   "required": [
+    "objects",
+    "total"
+   ],
+   "properties": {
+    "objects": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.SeoPageLink"
+     }
+    },
+    "total": {
+     "type": "integer",
+     "format": "int64"
+    }
+   }
+  },
+  "entity.SimilarOffersByLinkIDResponse": {
+   "required": [
+    "params",
+    "query"
+   ],
+   "properties": {
+    "params": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "query": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.SteamTrade": {
+   "required": [
+    "tradeId",
+    "link",
+    "status"
+   ],
+   "properties": {
+    "link": {
+     "type": "string"
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "Internal",
+      "AutobotsError",
+      "UnknownTradeState",
+      "TradeOfferInvalid",
+      "TradeOfferActive",
+      "TradeOfferAccepted",
+      "TradeOfferCountered",
+      "TradeOfferExpired",
+      "TradeOfferCanceled",
+      "TradeOfferDeclined",
+      "TradeOfferInvalidItems",
+      "TradeOfferCreatedNeedsConfirmation",
+      "TradeOfferCanceledBySecondFactor",
+      "TradeOfferInEscrow",
+      "PrivateInventory",
+      "NetworkIssue"
+     ]
+    },
+    "tradeId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.TargetActionError": {
+   "required": [
+    "targetId",
+    "errorCode",
+    "message"
+   ],
+   "properties": {
+    "errorCode": {
+     "type": "string",
+     "enum": [
+      "Unknown",
+      "BalanceInsufficientFunds",
+      "TargetLocked"
+     ]
+    },
+    "message": {
+     "type": "string"
+    },
+    "targetId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.TargetBody": {
+   "required": [
+    "amount",
+    "price",
+    "attributes",
+    "gameId"
+   ],
+   "properties": {
+    "amount": {
+     "type": "integer"
+    },
+    "attributes": {
+     "$ref": "#/definitions/entity.TargetBody.attributes"
+    },
+    "gameId": {
+     "type": "string"
+    },
+    "price": {
+     "$ref": "#/definitions/entity.Money"
+    }
+   }
+  },
+  "entity.TargetBody.attributes": {},
+  "entity.TargetCreationResult": {
+   "required": [
+    "ok",
+    "targetId",
+    "errorCode",
+    "message"
+   ],
+   "properties": {
+    "errorCode": {
+     "type": "string"
+    },
+    "message": {
+     "type": "string"
+    },
+    "ok": {
+     "type": "boolean"
+    },
+    "targetId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.TargetForm": {
+   "required": [
+    "key_pattern",
+    "titles",
+    "images",
+    "controls"
+   ],
+   "properties": {
+    "controls": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Control"
+     }
+    },
+    "images": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "key_pattern": {
+     "type": "string"
+    },
+    "titles": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.TargetFormReq": {
+   "required": [
+    "attributes"
+   ],
+   "properties": {
+    "attributes": {
+     "type": "object"
+    }
+   }
+  },
+  "entity.TargetItem": {
+   "required": [
+    "Title",
+    "GameIcon",
+    "Attributes"
+   ],
+   "properties": {
+    "Attributes": {
+     "type": "object"
+    },
+    "GameIcon": {
+     "type": "string"
+    },
+    "Title": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.TargetSearchRequest": {
+   "required": [
+    "keyword"
+   ],
+   "properties": {
+    "keyword": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.TargetUpdate": {
+   "required": [
+    "id",
+    "body"
+   ],
+   "properties": {
+    "body": {
+     "$ref": "#/definitions/entity.TargetBody"
+    },
+    "id": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.TargetUpdatedID": {
+   "required": [
+    "oldTargetId",
+    "newTargetId"
+   ],
+   "properties": {
+    "newTargetId": {
+     "type": "string"
+    },
+    "oldTargetId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.TargetsActivateReq": {
+   "required": [
+    "targetIds"
+   ],
+   "properties": {
+    "targetIds": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.TargetsActivateRsp": {
+   "required": [
+    "success",
+    "failed"
+   ],
+   "properties": {
+    "failed": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.TargetActionError"
+     }
+    },
+    "success": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.TargetsCreateReq": {
+   "required": [
+    "targets"
+   ],
+   "properties": {
+    "targets": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.TargetBody"
+     }
+    }
+   }
+  },
+  "entity.TargetsCreateRsp": {
+   "required": [
+    "results"
+   ],
+   "properties": {
+    "results": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.TargetCreationResult"
+     }
+    }
+   }
+  },
+  "entity.TargetsDeactivateReq": {
+   "required": [
+    "targetIds",
+    "force"
+   ],
+   "properties": {
+    "force": {
+     "type": "boolean"
+    },
+    "targetIds": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.TargetsDeactivateRsp": {
+   "required": [
+    "success",
+    "failed"
+   ],
+   "properties": {
+    "failed": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.TargetActionError"
+     }
+    },
+    "success": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.TargetsDeleteReq": {
+   "required": [
+    "targetIds",
+    "force"
+   ],
+   "properties": {
+    "force": {
+     "type": "boolean"
+    },
+    "targetIds": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.TargetsDeleteRsp": {
+   "required": [
+    "success",
+    "failed"
+   ],
+   "properties": {
+    "failed": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.TargetActionError"
+     }
+    },
+    "success": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "entity.TargetsUpdateReq": {
+   "required": [
+    "targets",
+    "force"
+   ],
+   "properties": {
+    "force": {
+     "type": "boolean"
+    },
+    "targets": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.TargetUpdate"
+     }
+    }
+   }
+  },
+  "entity.TargetsUpdateRsp": {
+   "required": [
+    "updated",
+    "failedTargets"
+   ],
+   "properties": {
+    "failedTargets": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.TargetActionError"
+     }
+    },
+    "updated": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.TargetUpdatedID"
+     }
+    }
+   }
+  },
+  "entity.Total": {
+   "required": [
+    "offers",
+    "targets",
+    "items",
+    "completedOffers",
+    "closedTargets"
+   ],
+   "properties": {
+    "closedTargets": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "completedOffers": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "items": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "offers": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "targets": {
+     "type": "integer",
+     "format": "int64"
+    }
+   }
+  },
+  "entity.Trade": {
+   "required": [
+    "targetId",
+    "offerId",
+    "assetId",
+    "price",
+    "amount"
+   ],
+   "properties": {
+    "amount": {
+     "type": "integer"
+    },
+    "assetId": {
+     "type": "string"
+    },
+    "offerId": {
+     "type": "string"
+    },
+    "price": {
+     "$ref": "#/definitions/entity.Money"
+    },
+    "targetId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.Transfer": {
+   "required": [
+    "transferId",
+    "status",
+    "transferError",
+    "createdAt",
+    "updatedAt",
+    "processedAssets",
+    "totalAssets",
+    "steamTrades",
+    "errorMessage",
+    "assetMap"
+   ],
+   "properties": {
+    "assetMap": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "createdAt": {
+     "type": "integer",
+     "format": "int64"
+    },
+    "errorMessage": {
+     "type": "string"
+    },
+    "processedAssets": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "Processing",
+      "Completed",
+      "Refused",
+      "Failed",
+      "PartialCompleted"
+     ]
+    },
+    "steamTrades": {
+     "$ref": "#/definitions/entity.SteamTrade"
+    },
+    "totalAssets": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "transferError": {
+     "type": "string",
+     "enum": [
+      "Internal",
+      "Unknown",
+      "InvalidTradeURL",
+      "TradingUnavailable",
+      "TradeHold",
+      "TradeOfferExpired",
+      "TradeOfferCountered",
+      "TradeOfferCanceled",
+      "TradeOfferDeclined",
+      "TradeOfferInvalidItems",
+      "TradeOfferInEscrow",
+      "TradeOfferCanceledBySecondFactor",
+      "PrivateInventory",
+      "NetworkIssue",
+      "AssetNotAvailable"
+     ]
+    },
+    "transferId": {
+     "type": "string"
+    },
+    "updatedAt": {
+     "type": "integer",
+     "format": "int64"
+    }
+   }
+  },
+  "entity.UTMMarkAddRequest": {
+   "required": [
+    "eventType",
+    "referrer",
+    "page"
+   ],
+   "properties": {
+    "campaign": {
+     "type": "string"
+    },
+    "eventType": {
+     "type": "string",
+     "enum": [
+      "registration",
+      "login",
+      "partnersForm"
+     ]
+    },
+    "medium": {
+     "type": "string"
+    },
+    "page": {
+     "type": "string"
+    },
+    "referrer": {
+     "type": "string"
+    },
+    "source": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.UnlockMatchedEntitiesRequest": {
+   "required": [
+    "assetsId",
+    "offers"
+   ],
+   "properties": {
+    "assetsId": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "offers": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Offer"
+     }
+    }
+   }
+  },
+  "entity.UsePromocodeReq": {
+   "required": [
+    "code"
+   ],
+   "properties": {
+    "code": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.UsePromocodeRsp": {
+   "required": [
+    "items"
+   ],
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Item"
+     }
+    }
+   }
+  },
+  "entity.WithdrawAssetsRequest": {
+   "required": [
+    "assets",
+    "requestId"
+   ],
+   "properties": {
+    "assets": {
+     "type": "array",
+     "items": {
+      "$ref": "#/definitions/entity.Asset"
+     }
+    },
+    "requestId": {
+     "type": "string"
+    }
+   }
+  },
+  "entity.WithdrawResponse": {
+   "required": [
+    "transferId"
+   ],
+   "properties": {
+    "transferId": {
+     "type": "string"
+    }
+   }
+  },
+  "map[string]interface {}": {},
+  "rest.ErrorRepresentation": {
+   "required": [
+    "code",
+    "message"
+   ],
+   "properties": {
+    "code": {
+     "type": "string"
+    },
+    "message": {
+     "type": "string"
+    }
+   }
+  }
+ }
+}
