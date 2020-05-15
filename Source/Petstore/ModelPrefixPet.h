@@ -36,6 +36,10 @@ public:
 	FString Name;
 	TArray<FString> PhotoUrls;
 	TOptional<TArray<ModelPrefixTag>> Tags;
+	enum StatusEnum
+	{
+	};
+	
 	/* pet status in the store */
 	TOptional<FString> Status;
 };

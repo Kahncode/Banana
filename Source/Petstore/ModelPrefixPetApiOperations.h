@@ -15,6 +15,7 @@
 #include "ModelPrefixBaseModel.h"
 #include "ModelPrefixPetApi.h"
 
+#include "ModelPrefixHelpers.h"
 #include "ModelPrefixApiResponse.h"
 #include "ModelPrefixPet.h"
 
@@ -216,7 +217,7 @@ public:
 /* Additional data to pass to server */
 	TOptional<FString> AdditionalMetadata;
 /* file to upload */
-	TOptional<TArray<uint8>> File;
+	TOptional<HttpFileInput> File;
 };
 
 class PETSTORE_API ModelPrefixPetApi::UploadFileResponse : public Response

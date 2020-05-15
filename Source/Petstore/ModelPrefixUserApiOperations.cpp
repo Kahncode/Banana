@@ -11,6 +11,8 @@
  */
 
 #include "ModelPrefixUserApiOperations.h"
+#include "ModelPrefixHelpers.h"
+
 #include "PetstoreModule.h"
 
 #include "Dom/JsonObject.h"
@@ -21,11 +23,6 @@
 namespace CppNamespace 
 {
 
-/* TODO: use those to make things correct
-FPlatformHttp::HtmlEncode
-FPlatformHttp::UrlEncode
-FPlatformHttp::GetMimeType*/
-
 	FString ModelPrefixUserApi::CreateUserRequest::ComputePath() const
 	{
 		FString Path(TEXT("/user"));
@@ -34,19 +31,40 @@ FPlatformHttp::GetMimeType*/
 
 	void ModelPrefixUserApi::CreateUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
 	{
+    	static const TArray<FString> Consumes = {  };
+		//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
+
 		HttpRequest->SetVerb(TEXT("POST"));
 
-		// Body parameters
-		FString JsonBody;
-		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		// Default to Json Body request
+		if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+		{
+			// Body parameters
+			FString JsonBody;
+			JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
-		Writer->Close();
+			Writer->WriteObjectStart();
+			Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
+			Writer->WriteObjectEnd();
+			Writer->Close();
 
-		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
-		HttpRequest->SetContentAsString(JsonBody);
+			HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+			HttpRequest->SetContentAsString(JsonBody);
+		}
+		else if (Consumes.Contains(TEXT("multipart/form-data")))
+		{
+			//TODO: handle Json and binary here
+			UE_LOG(LogPetstore, Error, TEXT("Body parameter (body) was ignored, not supported in multipart form"));
+		}
+		else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+		{
+			//TODO: handle Json and binary here
+			UE_LOG(LogPetstore, Error, TEXT("Body parameter (body) was ignored, not supported in urlencoded requests"));
+		}
+		else
+		{
+			UE_LOG(LogPetstore, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+		}
 	}
 
 	void ModelPrefixUserApi::CreateUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -75,19 +93,40 @@ FPlatformHttp::GetMimeType*/
 
 	void ModelPrefixUserApi::CreateUsersWithArrayInputRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
 	{
+    	static const TArray<FString> Consumes = {  };
+		//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
+
 		HttpRequest->SetVerb(TEXT("POST"));
 
-		// Body parameters
-		FString JsonBody;
-		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		// Default to Json Body request
+		if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+		{
+			// Body parameters
+			FString JsonBody;
+			JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
-		Writer->Close();
+			Writer->WriteObjectStart();
+			Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
+			Writer->WriteObjectEnd();
+			Writer->Close();
 
-		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
-		HttpRequest->SetContentAsString(JsonBody);
+			HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+			HttpRequest->SetContentAsString(JsonBody);
+		}
+		else if (Consumes.Contains(TEXT("multipart/form-data")))
+		{
+			//TODO: handle Json and binary here
+			UE_LOG(LogPetstore, Error, TEXT("Body parameter (body) was ignored, not supported in multipart form"));
+		}
+		else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+		{
+			//TODO: handle Json and binary here
+			UE_LOG(LogPetstore, Error, TEXT("Body parameter (body) was ignored, not supported in urlencoded requests"));
+		}
+		else
+		{
+			UE_LOG(LogPetstore, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+		}
 	}
 
 	void ModelPrefixUserApi::CreateUsersWithArrayInputResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -116,19 +155,40 @@ FPlatformHttp::GetMimeType*/
 
 	void ModelPrefixUserApi::CreateUsersWithListInputRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
 	{
+    	static const TArray<FString> Consumes = {  };
+		//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
+
 		HttpRequest->SetVerb(TEXT("POST"));
 
-		// Body parameters
-		FString JsonBody;
-		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		// Default to Json Body request
+		if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+		{
+			// Body parameters
+			FString JsonBody;
+			JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
-		Writer->Close();
+			Writer->WriteObjectStart();
+			Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
+			Writer->WriteObjectEnd();
+			Writer->Close();
 
-		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
-		HttpRequest->SetContentAsString(JsonBody);
+			HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+			HttpRequest->SetContentAsString(JsonBody);
+		}
+		else if (Consumes.Contains(TEXT("multipart/form-data")))
+		{
+			//TODO: handle Json and binary here
+			UE_LOG(LogPetstore, Error, TEXT("Body parameter (body) was ignored, not supported in multipart form"));
+		}
+		else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+		{
+			//TODO: handle Json and binary here
+			UE_LOG(LogPetstore, Error, TEXT("Body parameter (body) was ignored, not supported in urlencoded requests"));
+		}
+		else
+		{
+			UE_LOG(LogPetstore, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+		}
 	}
 
 	void ModelPrefixUserApi::CreateUsersWithListInputResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -161,7 +221,27 @@ FPlatformHttp::GetMimeType*/
 
 	void ModelPrefixUserApi::DeleteUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
 	{
+    	static const TArray<FString> Consumes = {  };
+		//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
+
 		HttpRequest->SetVerb(TEXT("DELETE"));
+
+		// Default to Json Body request
+		if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+		{
+		}
+		else if (Consumes.Contains(TEXT("multipart/form-data")))
+		{
+			//TODO: handle Json and binary here
+		}
+		else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+		{
+			//TODO: handle Json and binary here
+		}
+		else
+		{
+			UE_LOG(LogPetstore, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+		}
 	}
 
 	void ModelPrefixUserApi::DeleteUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -196,7 +276,27 @@ FPlatformHttp::GetMimeType*/
 
 	void ModelPrefixUserApi::GetUserByNameRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
 	{
+    	static const TArray<FString> Consumes = {  };
+		//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
+
 		HttpRequest->SetVerb(TEXT("GET"));
+
+		// Default to Json Body request
+		if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+		{
+		}
+		else if (Consumes.Contains(TEXT("multipart/form-data")))
+		{
+			//TODO: handle Json and binary here
+		}
+		else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+		{
+			//TODO: handle Json and binary here
+		}
+		else
+		{
+			UE_LOG(LogPetstore, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+		}
 	}
 
 	void ModelPrefixUserApi::GetUserByNameResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -237,7 +337,27 @@ FPlatformHttp::GetMimeType*/
 
 	void ModelPrefixUserApi::LoginUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
 	{
+    	static const TArray<FString> Consumes = {  };
+		//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
+
 		HttpRequest->SetVerb(TEXT("GET"));
+
+		// Default to Json Body request
+		if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+		{
+		}
+		else if (Consumes.Contains(TEXT("multipart/form-data")))
+		{
+			//TODO: handle Json and binary here
+		}
+		else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+		{
+			//TODO: handle Json and binary here
+		}
+		else
+		{
+			UE_LOG(LogPetstore, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+		}
 	}
 
 	void ModelPrefixUserApi::LoginUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -269,7 +389,27 @@ FPlatformHttp::GetMimeType*/
 
 	void ModelPrefixUserApi::LogoutUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
 	{
+    	static const TArray<FString> Consumes = {  };
+		//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
+
 		HttpRequest->SetVerb(TEXT("GET"));
+
+		// Default to Json Body request
+		if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+		{
+		}
+		else if (Consumes.Contains(TEXT("multipart/form-data")))
+		{
+			//TODO: handle Json and binary here
+		}
+		else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+		{
+			//TODO: handle Json and binary here
+		}
+		else
+		{
+			UE_LOG(LogPetstore, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+		}
 	}
 
 	void ModelPrefixUserApi::LogoutUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -302,19 +442,40 @@ FPlatformHttp::GetMimeType*/
 
 	void ModelPrefixUserApi::UpdateUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
 	{
+    	static const TArray<FString> Consumes = {  };
+		//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
+
 		HttpRequest->SetVerb(TEXT("PUT"));
 
-		// Body parameters
-		FString JsonBody;
-		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		// Default to Json Body request
+		if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+		{
+			// Body parameters
+			FString JsonBody;
+			JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
-		Writer->Close();
+			Writer->WriteObjectStart();
+			Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
+			Writer->WriteObjectEnd();
+			Writer->Close();
 
-		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
-		HttpRequest->SetContentAsString(JsonBody);
+			HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+			HttpRequest->SetContentAsString(JsonBody);
+		}
+		else if (Consumes.Contains(TEXT("multipart/form-data")))
+		{
+			//TODO: handle Json and binary here
+			UE_LOG(LogPetstore, Error, TEXT("Body parameter (body) was ignored, not supported in multipart form"));
+		}
+		else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+		{
+			//TODO: handle Json and binary here
+			UE_LOG(LogPetstore, Error, TEXT("Body parameter (body) was ignored, not supported in urlencoded requests"));
+		}
+		else
+		{
+			UE_LOG(LogPetstore, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+		}
 	}
 
 	void ModelPrefixUserApi::UpdateUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -335,5 +496,6 @@ FPlatformHttp::GetMimeType*/
 	{
 		return true;
 	}
+
 
 }

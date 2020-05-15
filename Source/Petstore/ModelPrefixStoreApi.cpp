@@ -83,10 +83,6 @@ void ModelPrefixStoreApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSu
 			InOutResponse.SetResponseString(Content);
 			return; // Successfully parsed
 		}
-		else if (ContentType == TEXT("multipart/form-data"))
-		{
-			//TODO: handle multipart form response
-		}
 
 		// Report the parse error but do not mark the request as unsuccessful. Data could be partial or malformed, but the request succeeded.
 		UE_LOG(LogPetstore, Error, TEXT("Failed to deserialize Http response content (type:%s):\n%s"), *ContentType , *Content);

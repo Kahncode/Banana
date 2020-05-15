@@ -12,9 +12,12 @@
 
 #pragma once
 
+#include "ModelPrefixBaseModel.h"
+
 #include "CoreMinimal.h"
 
-#include "ModelPrefixBaseModel.h"
+typedef TSharedPtr<IHttpRequest> FHttpRequestPtr;
+typedef TSharedPtr<IHttpResponse, ESPMode::ThreadSafe> FHttpResponsePtr;
 
 namespace CppNamespace 
 {

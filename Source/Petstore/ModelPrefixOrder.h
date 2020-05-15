@@ -33,6 +33,10 @@ public:
 	TOptional<int64> PetId;
 	TOptional<int32> Quantity;
 	TOptional<FDateTime> ShipDate;
+	enum StatusEnum
+	{
+	};
+	
 	/* Order Status */
 	TOptional<FString> Status;
 	TOptional<bool> Complete;

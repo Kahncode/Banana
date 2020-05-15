@@ -12,6 +12,8 @@
 
 #include "ModelPrefixCurrency.h"
 
+#include "ModelPrefixHelpers.h"
+
 #include "Templates/SharedPointer.h"
 
 namespace CppNamespace 
