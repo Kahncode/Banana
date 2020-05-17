@@ -9,21 +9,19 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-using System;
-using System.IO;
-using UnrealBuildTool;
+#include "ModelPrefixBaseModel.h"
 
-public class Petstore : ModuleRules
+namespace CppNamespace 
 {
-    public Petstore(ReadOnlyTargetRules Target) : base(Target)
+
+void Response::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+    ResponseCode = InHttpResponseCode;
+    SetSuccessful(EHttpResponseCodes::IsOk(InHttpResponseCode));
+    if(InHttpResponseCode == EHttpResponseCodes::RequestTimeout)
     {
-        PublicDependencyModuleNames.AddRange(
-            new string[]
-            {
-                "Core",
-                "Http",
-                "Json",
-            }
-        );
+        SetResponseString(TEXT("Request Timeout"));
     }
+}
+
 }

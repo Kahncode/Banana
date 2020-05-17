@@ -9,14 +9,40 @@
 
 DEFINE_LOG_CATEGORY_STATIC(LogUE4API, Log, All);
 
-#include "Petstore/ModelPrefixUserApiOperations.h"
-#include "Petstore/ModelPrefixPetApiOperations.h"
-#include "Petstore/ModelPrefixStoreApiOperations.h"
+#include "ModelPrefixUserApiOperations.h"
+#include "ModelPrefixPetApiOperations.h"
+#include "ModelPrefixStoreApiOperations.h"
+
+#include "SwaggerDefaultApiOperations.h"
 
 
 void AUE4APIGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	using namespace Swagger;
+
+	{
+		auto testApi = MakeShared<SwaggerDefaultApi>();
+
+		SwaggerDefaultApi::AddPetRequest request;
+		request.Body.Int1 = 456789;
+		request.Body.Int2 = 456789;
+		request.Body.Int3 = 456789;
+		request.Body.Number1 = 123.456789;
+		request.Body.Number2 = 123.456789;
+		request.Body.Number3 = 123.456789;
+		request.Body.String = TEXT("hello world");
+		request.Body.StringByte = { 1, 2, 3, 4, 5 };
+		request.Body.StringBinary = { 1, 2, 3, 4, 5 };
+		request.Body.Boolean = true;
+		request.Body.Date = FDateTime::UtcNow();
+		request.Body.DateTime = FDateTime::UtcNow();
+		request.Body.Password = TEXT("hello world");
+
+		testApi->AddPet(request);
+	}
+
 
 	m_petApi = MakeShared<ModelPrefixPetApi>();
 
@@ -63,7 +89,7 @@ void AUE4APIGameModeBase::BeginPlay()
 	
 	{
 		ModelPrefixPetApi::FindPetsByStatusRequest request;
-		request.Status = TArray<FString>({ TEXT("sold") });
+		request.Status = TArray<ModelPrefixPetApi::FindPetsByStatusRequest::StatusEnum>({ ModelPrefixPetApi::FindPetsByStatusRequest::StatusEnum::Sold });
 		m_petApi->FindPetsByStatus(request, ModelPrefixPetApi::FFindPetsByStatusDelegate::CreateLambda([&pet](const ModelPrefixPetApi::FindPetsByStatusResponse& a_response)
 			{
 				if (a_response.IsSuccessful())

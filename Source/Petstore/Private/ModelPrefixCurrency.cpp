@@ -9,21 +9,27 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-using System;
-using System.IO;
-using UnrealBuildTool;
+#include "ModelPrefixCurrency.h"
 
-public class Petstore : ModuleRules
+#include "PetstoreModule.h"
+#include "ModelPrefixHelpers.h"
+
+#include "Templates/SharedPointer.h"
+
+namespace CppNamespace 
 {
-    public Petstore(ReadOnlyTargetRules Target) : base(Target)
-    {
-        PublicDependencyModuleNames.AddRange(
-            new string[]
-            {
-                "Core",
-                "Http",
-                "Json",
-            }
-        );
-    }
+
+void ModelPrefixCurrency::WriteJson(JsonWriter& Writer) const
+{
+	Writer->WriteObjectStart();
+	Writer->WriteObjectEnd();
+}
+
+bool ModelPrefixCurrency::FromJson(const TSharedPtr<FJsonObject>& JsonObject)
+{
+	bool ParseSuccess = true;
+
+
+	return ParseSuccess;
+}
 }

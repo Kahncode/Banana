@@ -9,21 +9,28 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-using System;
-using System.IO;
-using UnrealBuildTool;
+#pragma once
 
-public class Petstore : ModuleRules
+#include "ModelPrefixBaseModel.h"
+
+namespace CppNamespace 
 {
-    public Petstore(ReadOnlyTargetRules Target) : base(Target)
-    {
-        PublicDependencyModuleNames.AddRange(
-            new string[]
-            {
-                "Core",
-                "Http",
-                "Json",
-            }
-        );
-    }
+
+/*
+ * ModelPrefixApiResponse
+ *
+ * Describes the result of uploading an image resource
+ */
+class PETSTORE_API ModelPrefixApiResponse : public Model
+{
+public:
+    virtual ~ModelPrefixApiResponse() {}
+	bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) final;
+	void WriteJson(JsonWriter& Writer) const final;
+
+	TOptional<int32> Code;
+	TOptional<FString> Type;
+	TOptional<FString> Message;
+};
+
 }

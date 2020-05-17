@@ -9,21 +9,16 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-using System;
-using System.IO;
-using UnrealBuildTool;
+#include "PetstoreModule.h"
 
-public class Petstore : ModuleRules
+IMPLEMENT_MODULE(PetstoreModule, Petstore);
+DEFINE_LOG_CATEGORY(LogPetstore);
+
+void PetstoreModule::StartupModule()
 {
-    public Petstore(ReadOnlyTargetRules Target) : base(Target)
-    {
-        PublicDependencyModuleNames.AddRange(
-            new string[]
-            {
-                "Core",
-                "Http",
-                "Json",
-            }
-        );
-    }
 }
+
+void PetstoreModule::ShutdownModule()
+{
+}
+

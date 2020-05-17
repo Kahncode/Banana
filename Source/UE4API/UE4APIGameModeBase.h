@@ -5,9 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 
-#include "Petstore/ModelPrefixStoreApi.h"
-#include "Petstore/ModelPrefixPetApi.h"
-#include "Petstore/ModelPrefixUserApi.h"
+#include "ModelPrefixStoreApi.h"
+#include "ModelPrefixPetApi.h"
+#include "ModelPrefixUserApi.h"
 
 #include "UE4APIGameModeBase.generated.h"
 

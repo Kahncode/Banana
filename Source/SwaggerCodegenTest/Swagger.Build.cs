@@ -1,6 +1,6 @@
 /**
- * Swagger Petstore
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * UE4GeneratorTester
+ * test
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -13,9 +13,9 @@ using System;
 using System.IO;
 using UnrealBuildTool;
 
-public class Petstore : ModuleRules
+public class Swagger : ModuleRules
 {
-    public Petstore(ReadOnlyTargetRules Target) : base(Target)
+    public Swagger(ReadOnlyTargetRules Target) : base(Target)
     {
         PublicDependencyModuleNames.AddRange(
             new string[]
