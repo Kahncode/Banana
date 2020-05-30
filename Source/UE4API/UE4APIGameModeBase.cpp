@@ -13,16 +13,16 @@ DEFINE_LOG_CATEGORY_STATIC(LogUE4API, Log, All);
 #include "ModelPrefixPetApiOperations.h"
 #include "ModelPrefixStoreApiOperations.h"
 
-#include "SwaggerDefaultApiOperations.h"
+//#include "SwaggerDefaultApiOperations.h"
 
 
 void AUE4APIGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	using namespace Swagger;
+	using namespace CppNamespace;
 
-	{
+	/*{
 		auto testApi = MakeShared<SwaggerDefaultApi>();
 
 		SwaggerDefaultApi::AddPetRequest request;
@@ -41,7 +41,7 @@ void AUE4APIGameModeBase::BeginPlay()
 		request.Body.Password = TEXT("hello world");
 
 		testApi->AddPet(request);
-	}
+	}*/
 
 
 	m_petApi = MakeShared<ModelPrefixPetApi>();

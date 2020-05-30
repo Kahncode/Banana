@@ -141,9 +141,6 @@ definitions:
       string_byte:
         type: string
         format: byte
-      string_binary:
-        type: string
-        format: binary
       boolean:
         type: boolean
         default: true

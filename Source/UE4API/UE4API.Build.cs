@@ -8,9 +8,9 @@ public class UE4API : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Http" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "Banana", "Petstore", "Http", "Swagger", "DMarket" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Banana", "Petstore", "DMarket", "OpenAPI" });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
