@@ -5,7 +5,9 @@ set SWAGGER_ROOT=%BATCHPATH%\..\openapi-generator
 set executable=%SWAGGER_ROOT%\modules\openapi-generator-cli\target\openapi-generator-cli.jar
 
 If Not Exist %executable% (
-  mvn clean package -DskipTests
+	pushd %SWAGGER_ROOT%
+ 	mvn clean package -DskipTests
+ 	popd
 )
 
 set JAVA_EXE="C:\Program Files\Java\jdk-14.0.1\bin\java.exe"

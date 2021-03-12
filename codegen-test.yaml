@@ -175,3 +175,14 @@ definitions:
     pattern: '^[A-Z]{3,3}$'
     description: >
       some description
+  EnumTypedef:
+    type: string
+    default: enumvalue3
+    enum:
+      - _
+      - __
+      - __a
+      - a__a
+      - enumvalue1
+      - enumvalue2
+      - enumvalue3

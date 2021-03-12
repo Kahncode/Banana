@@ -6,7 +6,9 @@ set executable=%SWAGGER_ROOT%\modules\swagger-codegen-cli\target\swagger-codegen
 
 
 If Not Exist %executable% (
-  mvn clean package
+	pushd %SWAGGER_ROOT%
+ 	mvn clean package -DskipTests
+ 	popd
 )
 
 rem clean the target folder
