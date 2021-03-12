@@ -80,7 +80,7 @@ FString OpenAPIDefaultApi::AddPetRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIDefaultApi::AddPetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIDefaultApi::AddPetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json"), TEXT("application/xml") };
 	//static const TArray<FString> Produces = {  };

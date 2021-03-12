@@ -65,7 +65,11 @@ void ModelPrefixPetApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucc
 		FString ContentType = HttpResponse->GetContentType();
 		FString Content;
 
-		if (ContentType == TEXT("application/json"))
+		if (ContentType.IsEmpty())
+		{
+			return; // Nothing to parse
+		}
+		else if (ContentType.StartsWith(TEXT("application/json")) || ContentType.StartsWith("text/json"))
 		{
 			Content = HttpResponse->GetContentAsString();
 
@@ -78,7 +82,7 @@ void ModelPrefixPetApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucc
 					return; // Successfully parsed
 			}
 		}
-		else if(ContentType == TEXT("text/plain"))
+		else if(ContentType.StartsWith(TEXT("text/plain")))
 		{
 			Content = HttpResponse->GetContentAsString();
 			InOutResponse.SetResponseString(Content);
@@ -99,7 +103,7 @@ bool ModelPrefixPetApi::AddPet(const AddPetRequest& Request, const FAddPetDelega
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -109,15 +113,26 @@ bool ModelPrefixPetApi::AddPet(const AddPetRequest& Request, const FAddPetDelega
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnAddPetResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnAddPetResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixPetApi::OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate) const
+void ModelPrefixPetApi::OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate, int AutoRetryCount) const
 {
 	AddPetResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnAddPetResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixPetApi::DeletePet(const DeletePetRequest& Request, const FDeletePetDelegate& Delegate /*= FDeletePetDelegate()*/) const
@@ -125,7 +140,7 @@ bool ModelPrefixPetApi::DeletePet(const DeletePetRequest& Request, const FDelete
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -135,15 +150,26 @@ bool ModelPrefixPetApi::DeletePet(const DeletePetRequest& Request, const FDelete
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnDeletePetResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnDeletePetResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixPetApi::OnDeletePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePetDelegate Delegate) const
+void ModelPrefixPetApi::OnDeletePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePetDelegate Delegate, int AutoRetryCount) const
 {
 	DeletePetResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnDeletePetResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixPetApi::FindPetsByStatus(const FindPetsByStatusRequest& Request, const FFindPetsByStatusDelegate& Delegate /*= FFindPetsByStatusDelegate()*/) const
@@ -151,7 +177,7 @@ bool ModelPrefixPetApi::FindPetsByStatus(const FindPetsByStatusRequest& Request,
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -161,15 +187,26 @@ bool ModelPrefixPetApi::FindPetsByStatus(const FindPetsByStatusRequest& Request,
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnFindPetsByStatusResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnFindPetsByStatusResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixPetApi::OnFindPetsByStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByStatusDelegate Delegate) const
+void ModelPrefixPetApi::OnFindPetsByStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByStatusDelegate Delegate, int AutoRetryCount) const
 {
 	FindPetsByStatusResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnFindPetsByStatusResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixPetApi::FindPetsByTags(const FindPetsByTagsRequest& Request, const FFindPetsByTagsDelegate& Delegate /*= FFindPetsByTagsDelegate()*/) const
@@ -177,7 +214,7 @@ bool ModelPrefixPetApi::FindPetsByTags(const FindPetsByTagsRequest& Request, con
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -187,15 +224,26 @@ bool ModelPrefixPetApi::FindPetsByTags(const FindPetsByTagsRequest& Request, con
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnFindPetsByTagsResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnFindPetsByTagsResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixPetApi::OnFindPetsByTagsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByTagsDelegate Delegate) const
+void ModelPrefixPetApi::OnFindPetsByTagsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByTagsDelegate Delegate, int AutoRetryCount) const
 {
 	FindPetsByTagsResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnFindPetsByTagsResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixPetApi::GetPetById(const GetPetByIdRequest& Request, const FGetPetByIdDelegate& Delegate /*= FGetPetByIdDelegate()*/) const
@@ -203,7 +251,7 @@ bool ModelPrefixPetApi::GetPetById(const GetPetByIdRequest& Request, const FGetP
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -213,15 +261,26 @@ bool ModelPrefixPetApi::GetPetById(const GetPetByIdRequest& Request, const FGetP
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnGetPetByIdResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnGetPetByIdResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixPetApi::OnGetPetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPetByIdDelegate Delegate) const
+void ModelPrefixPetApi::OnGetPetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPetByIdDelegate Delegate, int AutoRetryCount) const
 {
 	GetPetByIdResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnGetPetByIdResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixPetApi::UpdatePet(const UpdatePetRequest& Request, const FUpdatePetDelegate& Delegate /*= FUpdatePetDelegate()*/) const
@@ -229,7 +288,7 @@ bool ModelPrefixPetApi::UpdatePet(const UpdatePetRequest& Request, const FUpdate
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -239,15 +298,26 @@ bool ModelPrefixPetApi::UpdatePet(const UpdatePetRequest& Request, const FUpdate
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnUpdatePetResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnUpdatePetResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixPetApi::OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate) const
+void ModelPrefixPetApi::OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate, int AutoRetryCount) const
 {
 	UpdatePetResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnUpdatePetResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixPetApi::UpdatePetWithForm(const UpdatePetWithFormRequest& Request, const FUpdatePetWithFormDelegate& Delegate /*= FUpdatePetWithFormDelegate()*/) const
@@ -255,7 +325,7 @@ bool ModelPrefixPetApi::UpdatePetWithForm(const UpdatePetWithFormRequest& Reques
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -265,15 +335,26 @@ bool ModelPrefixPetApi::UpdatePetWithForm(const UpdatePetWithFormRequest& Reques
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnUpdatePetWithFormResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnUpdatePetWithFormResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixPetApi::OnUpdatePetWithFormResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetWithFormDelegate Delegate) const
+void ModelPrefixPetApi::OnUpdatePetWithFormResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetWithFormDelegate Delegate, int AutoRetryCount) const
 {
 	UpdatePetWithFormResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnUpdatePetWithFormResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixPetApi::UploadFile(const UploadFileRequest& Request, const FUploadFileDelegate& Delegate /*= FUploadFileDelegate()*/) const
@@ -281,7 +362,7 @@ bool ModelPrefixPetApi::UploadFile(const UploadFileRequest& Request, const FUplo
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -291,15 +372,26 @@ bool ModelPrefixPetApi::UploadFile(const UploadFileRequest& Request, const FUplo
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnUploadFileResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnUploadFileResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixPetApi::OnUploadFileResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadFileDelegate Delegate) const
+void ModelPrefixPetApi::OnUploadFileResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadFileDelegate Delegate, int AutoRetryCount) const
 {
 	UploadFileResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixPetApi::OnUploadFileResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 }

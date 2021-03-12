@@ -28,7 +28,7 @@ class PETSTORE_API ModelPrefixStoreApi::DeleteOrderRequest : public Request
 {
 public:
     virtual ~DeleteOrderRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* ID of the order that needs to be deleted */
@@ -40,7 +40,7 @@ class PETSTORE_API ModelPrefixStoreApi::DeleteOrderResponse : public Response
 public:
     virtual ~DeleteOrderResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -53,7 +53,7 @@ class PETSTORE_API ModelPrefixStoreApi::GetInventoryRequest : public Request
 {
 public:
     virtual ~GetInventoryRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 };
@@ -63,7 +63,7 @@ class PETSTORE_API ModelPrefixStoreApi::GetInventoryResponse : public Response
 public:
     virtual ~GetInventoryResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     TMap<FString, int32> Content;
 };
@@ -76,7 +76,7 @@ class PETSTORE_API ModelPrefixStoreApi::GetOrderByIdRequest : public Request
 {
 public:
     virtual ~GetOrderByIdRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* ID of pet that needs to be fetched */
@@ -88,7 +88,7 @@ class PETSTORE_API ModelPrefixStoreApi::GetOrderByIdResponse : public Response
 public:
     virtual ~GetOrderByIdResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     ModelPrefixOrder Content;
 };
@@ -100,7 +100,7 @@ class PETSTORE_API ModelPrefixStoreApi::PlaceOrderRequest : public Request
 {
 public:
     virtual ~PlaceOrderRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* order placed for purchasing the pet */
@@ -112,7 +112,7 @@ class PETSTORE_API ModelPrefixStoreApi::PlaceOrderResponse : public Response
 public:
     virtual ~PlaceOrderResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     ModelPrefixOrder Content;
 };

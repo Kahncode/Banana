@@ -51,7 +51,10 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, ModelPrefix
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, ModelPrefixPet::StatusEnum> StringToEnum = {  };
+		static TMap<FString, ModelPrefixPet::StatusEnum> StringToEnum = { 
+			{ TEXT("available"), ModelPrefixPet::StatusEnum::Available },
+			{ TEXT("pending"), ModelPrefixPet::StatusEnum::Pending },
+			{ TEXT("sold"), ModelPrefixPet::StatusEnum::Sold }, };
 
 		const auto Found = StringToEnum.Find(TmpValue);
 		if(Found)
@@ -87,17 +90,22 @@ void ModelPrefixPet::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectEnd();
 }
 
-bool ModelPrefixPet::FromJson(const TSharedPtr<FJsonObject>& JsonObject)
+bool ModelPrefixPet::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
+	const TSharedPtr<FJsonObject>* Object;
+	if (!JsonValue->TryGetObject(Object))
+		return false;
+
 	bool ParseSuccess = true;
 
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("id"), Id);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("category"), Category);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("name"), Name);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("photoUrls"), PhotoUrls);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("tags"), Tags);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("status"), Status);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("id"), Id);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("category"), Category);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("name"), Name);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("photoUrls"), PhotoUrls);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("tags"), Tags);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("status"), Status);
 
 	return ParseSuccess;
 }
+
 }

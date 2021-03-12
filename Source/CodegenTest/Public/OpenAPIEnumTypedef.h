@@ -18,38 +18,29 @@ namespace OpenAPI
 {
 
 /*
- * OpenAPIAllTypes
+ * OpenAPIEnumTypedef
  *
  * 
  */
-class OPENAPI_API OpenAPIAllTypes : public Model
+class OPENAPI_API OpenAPIEnumTypedef : public Model
 {
 public:
-    virtual ~OpenAPIAllTypes() {}
+    virtual ~OpenAPIEnumTypedef() {}
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 	void WriteJson(JsonWriter& Writer) const final;
 
-	TSharedPtr<FJsonObject> Notype;
-	int32 Int1 = 123456;
-	int64 Int2 = 123456;
-	int32 Int3 = 0;
-	float Number1 = 123.456;
-	float Number2 = 123.456;
-	double Number3;
-	FString String = TEXT("toto titi");
-	TArray<uint8> StringByte;
-	bool Boolean = true;
-	FDateTime Date;
-	FDateTime DateTime;
-	FString Password = TEXT("true");
-	enum class Enum1Enum
+	enum class Values
 	{
+		_,
+		__,
+		A,
+		AA,
 		Enumvalue1,
 		Enumvalue2,
 		Enumvalue3,
   	};
-	TOptional<Enum1Enum> Enum1;
-	TOptional<int32> Enum2;
+
+	Values Value;
 };
 
 }

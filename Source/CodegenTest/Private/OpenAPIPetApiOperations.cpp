@@ -29,7 +29,7 @@ FString OpenAPIPetApi::UpdatePetRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::UpdatePetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::UpdatePetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json"), TEXT("application/xml") };
 	//static const TArray<FString> Produces = {  };

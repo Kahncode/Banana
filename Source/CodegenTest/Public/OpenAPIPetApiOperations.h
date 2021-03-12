@@ -27,7 +27,7 @@ class OPENAPI_API OpenAPIPetApi::UpdatePetRequest : public Request
 {
 public:
     virtual ~UpdatePetRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* Pet object that needs to be added to the store */
@@ -39,7 +39,7 @@ class OPENAPI_API OpenAPIPetApi::UpdatePetResponse : public Response
 public:
     virtual ~UpdatePetResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };

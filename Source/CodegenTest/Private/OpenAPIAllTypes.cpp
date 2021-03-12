@@ -51,7 +51,10 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIAllT
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIAllTypes::Enum1Enum> StringToEnum = {  };
+		static TMap<FString, OpenAPIAllTypes::Enum1Enum> StringToEnum = { 
+			{ TEXT("enumvalue1"), OpenAPIAllTypes::Enum1Enum::Enumvalue1 },
+			{ TEXT("enumvalue2"), OpenAPIAllTypes::Enum1Enum::Enumvalue2 },
+			{ TEXT("enumvalue3"), OpenAPIAllTypes::Enum1Enum::Enumvalue3 }, };
 
 		const auto Found = StringToEnum.Find(TmpValue);
 		if(Found)
@@ -90,26 +93,31 @@ void OpenAPIAllTypes::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectEnd();
 }
 
-bool OpenAPIAllTypes::FromJson(const TSharedPtr<FJsonObject>& JsonObject)
+bool OpenAPIAllTypes::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
+	const TSharedPtr<FJsonObject>* Object;
+	if (!JsonValue->TryGetObject(Object))
+		return false;
+
 	bool ParseSuccess = true;
 
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("notype"), Notype);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("int1"), Int1);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("int2"), Int2);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("int3"), Int3);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("number1"), Number1);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("number2"), Number2);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("number3"), Number3);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("string"), String);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("string_byte"), StringByte);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("boolean"), Boolean);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("date"), Date);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("date_time"), DateTime);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("password"), Password);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("enum1"), Enum1);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("enum2"), Enum2);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("notype"), Notype);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("int1"), Int1);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("int2"), Int2);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("int3"), Int3);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("number1"), Number1);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("number2"), Number2);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("number3"), Number3);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("string"), String);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("string_byte"), StringByte);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("boolean"), Boolean);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("date"), Date);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("date_time"), DateTime);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("password"), Password);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("enum1"), Enum1);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("enum2"), Enum2);
 
 	return ParseSuccess;
 }
+
 }

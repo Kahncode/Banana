@@ -41,9 +41,9 @@ bool BananaAPI::IsValid() const
 	return true;
 }
 
-TSharedRef<IHttpRequest> BananaAPI::SendRequest(const TCHAR* Path, const TSharedPtr<FJsonObject>& Body) const
+FHttpRequestRef BananaAPI::SendRequest(const TCHAR* Path, const TSharedPtr<FJsonObject>& Body) const
 {
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetVerb(TEXT("POST"));
 	HttpRequest->SetURL(*FString::Printf(TEXT("%s/%s"), *Url, Path));
 	HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));

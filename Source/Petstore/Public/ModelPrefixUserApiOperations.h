@@ -28,7 +28,7 @@ class PETSTORE_API ModelPrefixUserApi::CreateUserRequest : public Request
 {
 public:
     virtual ~CreateUserRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* Created user object */
@@ -40,7 +40,7 @@ class PETSTORE_API ModelPrefixUserApi::CreateUserResponse : public Response
 public:
     virtual ~CreateUserResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -52,7 +52,7 @@ class PETSTORE_API ModelPrefixUserApi::CreateUsersWithArrayInputRequest : public
 {
 public:
     virtual ~CreateUsersWithArrayInputRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* List of user object */
@@ -64,7 +64,7 @@ class PETSTORE_API ModelPrefixUserApi::CreateUsersWithArrayInputResponse : publi
 public:
     virtual ~CreateUsersWithArrayInputResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -76,7 +76,7 @@ class PETSTORE_API ModelPrefixUserApi::CreateUsersWithListInputRequest : public 
 {
 public:
     virtual ~CreateUsersWithListInputRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* List of user object */
@@ -88,7 +88,7 @@ class PETSTORE_API ModelPrefixUserApi::CreateUsersWithListInputResponse : public
 public:
     virtual ~CreateUsersWithListInputResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -101,7 +101,7 @@ class PETSTORE_API ModelPrefixUserApi::DeleteUserRequest : public Request
 {
 public:
     virtual ~DeleteUserRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* The name that needs to be deleted */
@@ -113,7 +113,7 @@ class PETSTORE_API ModelPrefixUserApi::DeleteUserResponse : public Response
 public:
     virtual ~DeleteUserResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -125,7 +125,7 @@ class PETSTORE_API ModelPrefixUserApi::GetUserByNameRequest : public Request
 {
 public:
     virtual ~GetUserByNameRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* The name that needs to be fetched. Use user1 for testing. */
@@ -137,7 +137,7 @@ class PETSTORE_API ModelPrefixUserApi::GetUserByNameResponse : public Response
 public:
     virtual ~GetUserByNameResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     ModelPrefixUser Content;
 };
@@ -149,7 +149,7 @@ class PETSTORE_API ModelPrefixUserApi::LoginUserRequest : public Request
 {
 public:
     virtual ~LoginUserRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* The user name for login */
@@ -163,7 +163,7 @@ class PETSTORE_API ModelPrefixUserApi::LoginUserResponse : public Response
 public:
     virtual ~LoginUserResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     FString Content;
 };
@@ -175,7 +175,7 @@ class PETSTORE_API ModelPrefixUserApi::LogoutUserRequest : public Request
 {
 public:
     virtual ~LogoutUserRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 };
@@ -185,7 +185,7 @@ class PETSTORE_API ModelPrefixUserApi::LogoutUserResponse : public Response
 public:
     virtual ~LogoutUserResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -198,7 +198,7 @@ class PETSTORE_API ModelPrefixUserApi::UpdateUserRequest : public Request
 {
 public:
     virtual ~UpdateUserRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* name that need to be deleted */
@@ -212,7 +212,7 @@ class PETSTORE_API ModelPrefixUserApi::UpdateUserResponse : public Response
 public:
     virtual ~UpdateUserResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };

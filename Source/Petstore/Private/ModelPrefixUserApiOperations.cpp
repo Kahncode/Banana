@@ -29,7 +29,7 @@ FString ModelPrefixUserApi::CreateUserRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixUserApi::CreateUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixUserApi::CreateUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -86,7 +86,7 @@ FString ModelPrefixUserApi::CreateUsersWithArrayInputRequest::ComputePath() cons
 	return Path;
 }
 
-void ModelPrefixUserApi::CreateUsersWithArrayInputRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixUserApi::CreateUsersWithArrayInputRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -143,7 +143,7 @@ FString ModelPrefixUserApi::CreateUsersWithListInputRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixUserApi::CreateUsersWithListInputRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixUserApi::CreateUsersWithListInputRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -204,7 +204,7 @@ FString ModelPrefixUserApi::DeleteUserRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixUserApi::DeleteUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixUserApi::DeleteUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -256,7 +256,7 @@ FString ModelPrefixUserApi::GetUserByNameRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixUserApi::GetUserByNameRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixUserApi::GetUserByNameRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -285,7 +285,6 @@ void ModelPrefixUserApi::GetUserByNameResponse::SetHttpResponseCode(EHttpRespons
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:
@@ -314,7 +313,7 @@ FString ModelPrefixUserApi::LoginUserRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixUserApi::LoginUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixUserApi::LoginUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -343,7 +342,6 @@ void ModelPrefixUserApi::LoginUserResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:
@@ -363,7 +361,7 @@ FString ModelPrefixUserApi::LogoutUserRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixUserApi::LogoutUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixUserApi::LogoutUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -413,7 +411,7 @@ FString ModelPrefixUserApi::UpdateUserRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixUserApi::UpdateUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixUserApi::UpdateUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };

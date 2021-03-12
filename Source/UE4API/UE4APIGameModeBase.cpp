@@ -12,6 +12,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogUE4API, Log, All);
 #include "ModelPrefixUserApiOperations.h"
 #include "ModelPrefixPetApiOperations.h"
 #include "ModelPrefixStoreApiOperations.h"
+#include "ModelPrefixHelpers.h"
 
 //#include "SwaggerDefaultApiOperations.h"
 
@@ -21,6 +22,10 @@ void AUE4APIGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	using namespace CppNamespace;
+
+	FDateTime dt;
+	bool success = CppNamespace::ParseDateTime(TEXT("2021-03-12T15:07:59.0333305Z"), dt);
+
 
 	/*{
 		auto testApi = MakeShared<SwaggerDefaultApi>();
@@ -55,6 +60,7 @@ void AUE4APIGameModeBase::BeginPlay()
 		request.Body.Username = "Kryofenix";
 		request.Body.Email = "kryofenix@kryofenix.com";
 		request.Body.Password = "Kryofenix";
+		request.SetAutoRetryCount(5);
 		m_userApi->CreateUser(request, ModelPrefixUserApi::FCreateUserDelegate::CreateLambda([](const ModelPrefixUserApi::CreateUserResponse& a_response)
 			{
 				if (a_response.IsSuccessful())
@@ -138,7 +144,7 @@ void AUE4APIGameModeBase::BeginPlay()
 	{
 		ModelPrefixPetApi::UploadFileRequest request;
 		request.PetId = pet.Id.GetValue();
-		request.File = FPaths::Combine(FPaths::ProjectContentDir(), TEXT("headcrab.jpg"));
+		request.File = HttpFileInput(FPaths::Combine(FPaths::ProjectContentDir(), TEXT("headcrab.jpg")));
 		m_petApi->UploadFile(request, ModelPrefixPetApi::FUploadFileDelegate::CreateLambda([&pet](const ModelPrefixPetApi::UploadFileResponse& a_response)
 			{
 				if (a_response.IsSuccessful())

@@ -51,7 +51,10 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, ModelPrefix
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, ModelPrefixOrder::StatusEnum> StringToEnum = {  };
+		static TMap<FString, ModelPrefixOrder::StatusEnum> StringToEnum = { 
+			{ TEXT("placed"), ModelPrefixOrder::StatusEnum::Placed },
+			{ TEXT("approved"), ModelPrefixOrder::StatusEnum::Approved },
+			{ TEXT("delivered"), ModelPrefixOrder::StatusEnum::Delivered }, };
 
 		const auto Found = StringToEnum.Find(TmpValue);
 		if(Found)
@@ -93,17 +96,22 @@ void ModelPrefixOrder::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectEnd();
 }
 
-bool ModelPrefixOrder::FromJson(const TSharedPtr<FJsonObject>& JsonObject)
+bool ModelPrefixOrder::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
+	const TSharedPtr<FJsonObject>* Object;
+	if (!JsonValue->TryGetObject(Object))
+		return false;
+
 	bool ParseSuccess = true;
 
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("id"), Id);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("petId"), PetId);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("quantity"), Quantity);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("shipDate"), ShipDate);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("status"), Status);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("complete"), Complete);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("id"), Id);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("petId"), PetId);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("quantity"), Quantity);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("shipDate"), ShipDate);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("status"), Status);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("complete"), Complete);
 
 	return ParseSuccess;
 }
+
 }

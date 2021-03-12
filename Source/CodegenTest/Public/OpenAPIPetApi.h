@@ -35,8 +35,9 @@ public:
     
     bool UpdatePet(const UpdatePetRequest& Request, const FUpdatePetDelegate& Delegate = FUpdatePetDelegate()) const;
     
+
 private:
-    void OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate) const;
+    void OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate, int AutoRetryCount) const;
     
 	bool IsValid() const;
 	void HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const;

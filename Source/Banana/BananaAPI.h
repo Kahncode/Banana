@@ -3,12 +3,7 @@
 #include "CoreMinimal.h"
 
 #include "BananaModels.h"
-
-class IHttpRequest;
-class IHttpResponse;
-
-typedef TSharedPtr<IHttpRequest> FHttpRequestPtr;
-typedef TSharedPtr<IHttpResponse, ESPMode::ThreadSafe> FHttpResponsePtr;
+#include "Interfaces/IHttpRequest.h"
 
 class FJsonObject;
 
@@ -35,7 +30,7 @@ namespace Banana
 
 
 		bool IsValid() const;
-		TSharedRef<IHttpRequest> SendRequest(const TCHAR* Path, const TSharedPtr<FJsonObject>& Body) const;
+		FHttpRequestRef SendRequest(const TCHAR* Path, const TSharedPtr<FJsonObject>& Body) const;
 		void HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& Respose) const;
 
 		FString Url;

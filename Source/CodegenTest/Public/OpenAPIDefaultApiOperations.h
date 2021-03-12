@@ -27,7 +27,7 @@ class OPENAPI_API OpenAPIDefaultApi::AddPetRequest : public Request
 {
 public:
     virtual ~AddPetRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	enum class StatusEnum
@@ -47,7 +47,7 @@ class OPENAPI_API OpenAPIDefaultApi::AddPetResponse : public Response
 public:
     virtual ~AddPetResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };

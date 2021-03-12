@@ -65,7 +65,11 @@ void OpenAPIPetApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceede
 		FString ContentType = HttpResponse->GetContentType();
 		FString Content;
 
-		if (ContentType == TEXT("application/json"))
+		if (ContentType.IsEmpty())
+		{
+			return; // Nothing to parse
+		}
+		else if (ContentType.StartsWith(TEXT("application/json")) || ContentType.StartsWith("text/json"))
 		{
 			Content = HttpResponse->GetContentAsString();
 
@@ -78,7 +82,7 @@ void OpenAPIPetApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceede
 					return; // Successfully parsed
 			}
 		}
-		else if(ContentType == TEXT("text/plain"))
+		else if(ContentType.StartsWith(TEXT("text/plain")))
 		{
 			Content = HttpResponse->GetContentAsString();
 			InOutResponse.SetResponseString(Content);
@@ -99,7 +103,7 @@ bool OpenAPIPetApi::UpdatePet(const UpdatePetRequest& Request, const FUpdatePetD
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -109,15 +113,26 @@ bool OpenAPIPetApi::UpdatePet(const UpdatePetRequest& Request, const FUpdatePetD
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void OpenAPIPetApi::OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate) const
+void OpenAPIPetApi::OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate, int AutoRetryCount) const
 {
 	UpdatePetResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 }

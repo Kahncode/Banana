@@ -26,7 +26,7 @@ class PETSTORE_API ModelPrefixOrder : public Model
 {
 public:
     virtual ~ModelPrefixOrder() {}
-	bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 	void WriteJson(JsonWriter& Writer) const final;
 
 	TOptional<int64> Id;

@@ -29,7 +29,7 @@ FString ModelPrefixPetApi::AddPetRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixPetApi::AddPetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixPetApi::AddPetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json"), TEXT("application/xml") };
 	//static const TArray<FString> Produces = {  };
@@ -89,7 +89,7 @@ FString ModelPrefixPetApi::DeletePetRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixPetApi::DeletePetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixPetApi::DeletePetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -191,7 +191,7 @@ FString ModelPrefixPetApi::FindPetsByStatusRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixPetApi::FindPetsByStatusRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixPetApi::FindPetsByStatusRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -220,7 +220,6 @@ void ModelPrefixPetApi::FindPetsByStatusResponse::SetHttpResponseCode(EHttpRespo
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:
@@ -245,7 +244,7 @@ FString ModelPrefixPetApi::FindPetsByTagsRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixPetApi::FindPetsByTagsRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixPetApi::FindPetsByTagsRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -274,7 +273,6 @@ void ModelPrefixPetApi::FindPetsByTagsResponse::SetHttpResponseCode(EHttpRespons
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:
@@ -298,7 +296,7 @@ FString ModelPrefixPetApi::GetPetByIdRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixPetApi::GetPetByIdRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixPetApi::GetPetByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -327,7 +325,6 @@ void ModelPrefixPetApi::GetPetByIdResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:
@@ -350,7 +347,7 @@ FString ModelPrefixPetApi::UpdatePetRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixPetApi::UpdatePetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixPetApi::UpdatePetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json"), TEXT("application/xml") };
 	//static const TArray<FString> Produces = {  };
@@ -416,7 +413,7 @@ FString ModelPrefixPetApi::UpdatePetWithFormRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixPetApi::UpdatePetWithFormRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixPetApi::UpdatePetWithFormRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/x-www-form-urlencoded") };
 	//static const TArray<FString> Produces = {  };
@@ -490,7 +487,7 @@ FString ModelPrefixPetApi::UploadFileRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixPetApi::UploadFileRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixPetApi::UploadFileRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("multipart/form-data") };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -541,7 +538,6 @@ void ModelPrefixPetApi::UploadFileResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	}

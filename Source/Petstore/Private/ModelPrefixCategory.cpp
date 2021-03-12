@@ -34,13 +34,18 @@ void ModelPrefixCategory::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectEnd();
 }
 
-bool ModelPrefixCategory::FromJson(const TSharedPtr<FJsonObject>& JsonObject)
+bool ModelPrefixCategory::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
+	const TSharedPtr<FJsonObject>* Object;
+	if (!JsonValue->TryGetObject(Object))
+		return false;
+
 	bool ParseSuccess = true;
 
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("id"), Id);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("name"), Name);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("id"), Id);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("name"), Name);
 
 	return ParseSuccess;
 }
+
 }

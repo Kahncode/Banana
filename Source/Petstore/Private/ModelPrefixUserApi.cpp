@@ -65,7 +65,11 @@ void ModelPrefixUserApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSuc
 		FString ContentType = HttpResponse->GetContentType();
 		FString Content;
 
-		if (ContentType == TEXT("application/json"))
+		if (ContentType.IsEmpty())
+		{
+			return; // Nothing to parse
+		}
+		else if (ContentType.StartsWith(TEXT("application/json")) || ContentType.StartsWith("text/json"))
 		{
 			Content = HttpResponse->GetContentAsString();
 
@@ -78,7 +82,7 @@ void ModelPrefixUserApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSuc
 					return; // Successfully parsed
 			}
 		}
-		else if(ContentType == TEXT("text/plain"))
+		else if(ContentType.StartsWith(TEXT("text/plain")))
 		{
 			Content = HttpResponse->GetContentAsString();
 			InOutResponse.SetResponseString(Content);
@@ -99,7 +103,7 @@ bool ModelPrefixUserApi::CreateUser(const CreateUserRequest& Request, const FCre
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -109,15 +113,26 @@ bool ModelPrefixUserApi::CreateUser(const CreateUserRequest& Request, const FCre
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUserResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUserResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixUserApi::OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUserDelegate Delegate) const
+void ModelPrefixUserApi::OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUserDelegate Delegate, int AutoRetryCount) const
 {
 	CreateUserResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUserResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixUserApi::CreateUsersWithArrayInput(const CreateUsersWithArrayInputRequest& Request, const FCreateUsersWithArrayInputDelegate& Delegate /*= FCreateUsersWithArrayInputDelegate()*/) const
@@ -125,7 +140,7 @@ bool ModelPrefixUserApi::CreateUsersWithArrayInput(const CreateUsersWithArrayInp
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -135,15 +150,26 @@ bool ModelPrefixUserApi::CreateUsersWithArrayInput(const CreateUsersWithArrayInp
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUsersWithArrayInputResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUsersWithArrayInputResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixUserApi::OnCreateUsersWithArrayInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithArrayInputDelegate Delegate) const
+void ModelPrefixUserApi::OnCreateUsersWithArrayInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithArrayInputDelegate Delegate, int AutoRetryCount) const
 {
 	CreateUsersWithArrayInputResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUsersWithArrayInputResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixUserApi::CreateUsersWithListInput(const CreateUsersWithListInputRequest& Request, const FCreateUsersWithListInputDelegate& Delegate /*= FCreateUsersWithListInputDelegate()*/) const
@@ -151,7 +177,7 @@ bool ModelPrefixUserApi::CreateUsersWithListInput(const CreateUsersWithListInput
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -161,15 +187,26 @@ bool ModelPrefixUserApi::CreateUsersWithListInput(const CreateUsersWithListInput
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUsersWithListInputResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUsersWithListInputResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixUserApi::OnCreateUsersWithListInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithListInputDelegate Delegate) const
+void ModelPrefixUserApi::OnCreateUsersWithListInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithListInputDelegate Delegate, int AutoRetryCount) const
 {
 	CreateUsersWithListInputResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUsersWithListInputResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixUserApi::DeleteUser(const DeleteUserRequest& Request, const FDeleteUserDelegate& Delegate /*= FDeleteUserDelegate()*/) const
@@ -177,7 +214,7 @@ bool ModelPrefixUserApi::DeleteUser(const DeleteUserRequest& Request, const FDel
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -187,15 +224,26 @@ bool ModelPrefixUserApi::DeleteUser(const DeleteUserRequest& Request, const FDel
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnDeleteUserResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnDeleteUserResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixUserApi::OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteUserDelegate Delegate) const
+void ModelPrefixUserApi::OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteUserDelegate Delegate, int AutoRetryCount) const
 {
 	DeleteUserResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnDeleteUserResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixUserApi::GetUserByName(const GetUserByNameRequest& Request, const FGetUserByNameDelegate& Delegate /*= FGetUserByNameDelegate()*/) const
@@ -203,7 +251,7 @@ bool ModelPrefixUserApi::GetUserByName(const GetUserByNameRequest& Request, cons
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -213,15 +261,26 @@ bool ModelPrefixUserApi::GetUserByName(const GetUserByNameRequest& Request, cons
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnGetUserByNameResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnGetUserByNameResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixUserApi::OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetUserByNameDelegate Delegate) const
+void ModelPrefixUserApi::OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetUserByNameDelegate Delegate, int AutoRetryCount) const
 {
 	GetUserByNameResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnGetUserByNameResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixUserApi::LoginUser(const LoginUserRequest& Request, const FLoginUserDelegate& Delegate /*= FLoginUserDelegate()*/) const
@@ -229,7 +288,7 @@ bool ModelPrefixUserApi::LoginUser(const LoginUserRequest& Request, const FLogin
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -239,15 +298,26 @@ bool ModelPrefixUserApi::LoginUser(const LoginUserRequest& Request, const FLogin
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnLoginUserResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnLoginUserResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixUserApi::OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginUserDelegate Delegate) const
+void ModelPrefixUserApi::OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginUserDelegate Delegate, int AutoRetryCount) const
 {
 	LoginUserResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnLoginUserResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixUserApi::LogoutUser(const LogoutUserRequest& Request, const FLogoutUserDelegate& Delegate /*= FLogoutUserDelegate()*/) const
@@ -255,7 +325,7 @@ bool ModelPrefixUserApi::LogoutUser(const LogoutUserRequest& Request, const FLog
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -265,15 +335,26 @@ bool ModelPrefixUserApi::LogoutUser(const LogoutUserRequest& Request, const FLog
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnLogoutUserResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnLogoutUserResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixUserApi::OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLogoutUserDelegate Delegate) const
+void ModelPrefixUserApi::OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLogoutUserDelegate Delegate, int AutoRetryCount) const
 {
 	LogoutUserResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnLogoutUserResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 bool ModelPrefixUserApi::UpdateUser(const UpdateUserRequest& Request, const FUpdateUserDelegate& Delegate /*= FUpdateUserDelegate()*/) const
@@ -281,7 +362,7 @@ bool ModelPrefixUserApi::UpdateUser(const UpdateUserRequest& Request, const FUpd
 	if (!IsValid())
 		return false;
 
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -291,15 +372,26 @@ bool ModelPrefixUserApi::UpdateUser(const UpdateUserRequest& Request, const FUpd
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnUpdateUserResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnUpdateUserResponse, Delegate, Request.GetAutoRetryCount());
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixUserApi::OnUpdateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDelegate Delegate) const
+void ModelPrefixUserApi::OnUpdateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDelegate Delegate, int AutoRetryCount) const
 {
 	UpdateUserResponse Response;
+	Response.SetHttpRequest(HttpRequest);
+
 	HandleResponse(HttpResponse, bSucceeded, Response);
-	Delegate.ExecuteIfBound(Response);
+
+	if(!Response.IsSuccessful() && AutoRetryCount > 0)
+	{
+		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnUpdateUserResponse, Delegate, AutoRetryCount - 1);
+		Response.AsyncRetry();		
+	}
+	else
+	{
+		Delegate.ExecuteIfBound(Response);
+	}
 }
 
 }

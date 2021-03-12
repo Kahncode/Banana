@@ -26,7 +26,7 @@ class PETSTORE_API ModelPrefixApiResponse : public Model
 {
 public:
     virtual ~ModelPrefixApiResponse() {}
-	bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 	void WriteJson(JsonWriter& Writer) const final;
 
 	TOptional<int32> Code;

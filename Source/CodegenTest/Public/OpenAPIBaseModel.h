@@ -27,25 +27,33 @@ class OPENAPI_API Model
 public:
 	virtual ~Model() {}
 	virtual void WriteJson(JsonWriter& Writer) const = 0;
-	virtual bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) = 0;
+	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) = 0;
 };
 
 class OPENAPI_API Request
 {
 public:
 	virtual ~Request() {}
-	virtual void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const = 0;
+	virtual void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const = 0;
 	virtual FString ComputePath() const = 0;
+
+	void SetAutoRetryCount(int InCount) { AutoRetryCount = InCount; }
+	int GetAutoRetryCount() const { return AutoRetryCount; }
+
+private:
+	int AutoRetryCount = 0;
 };
 
 class OPENAPI_API Response
 {
 public:
 	virtual ~Response() {}
-	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) = 0;
+	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) = 0;
 
 	void SetSuccessful(bool InSuccessful) { Successful = InSuccessful; }
 	bool IsSuccessful() const { return Successful; }
+
+	void AsyncRetry() const;
 
 	virtual void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode);
 	EHttpResponseCodes::Type GetHttpResponseCode() const { return ResponseCode; }
@@ -56,11 +64,15 @@ public:
 	void SetHttpResponse(const FHttpResponsePtr& InHttpResponse) { HttpResponse = InHttpResponse; }
 	const FHttpResponsePtr& GetHttpResponse() const { return HttpResponse; }
 
+	void SetHttpRequest(const FHttpRequestPtr& InHttpRequest) { HttpRequest = InHttpRequest; }
+	const FHttpRequestPtr& GetHttpRequest() const { return HttpRequest; }
+
 private:
 	bool Successful;
 	EHttpResponseCodes::Type ResponseCode;
 	FString ResponseString;
 	FHttpResponsePtr HttpResponse;
+	FHttpRequestPtr HttpRequest;
 };
 
 }

@@ -33,7 +33,7 @@ FString ModelPrefixStoreApi::DeleteOrderRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixStoreApi::DeleteOrderRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixStoreApi::DeleteOrderRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -81,7 +81,7 @@ FString ModelPrefixStoreApi::GetInventoryRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixStoreApi::GetInventoryRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixStoreApi::GetInventoryRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -110,7 +110,6 @@ void ModelPrefixStoreApi::GetInventoryResponse::SetHttpResponseCode(EHttpRespons
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	}
@@ -131,7 +130,7 @@ FString ModelPrefixStoreApi::GetOrderByIdRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixStoreApi::GetOrderByIdRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixStoreApi::GetOrderByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -160,7 +159,6 @@ void ModelPrefixStoreApi::GetOrderByIdResponse::SetHttpResponseCode(EHttpRespons
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:
@@ -183,7 +181,7 @@ FString ModelPrefixStoreApi::PlaceOrderRequest::ComputePath() const
 	return Path;
 }
 
-void ModelPrefixStoreApi::PlaceOrderRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void ModelPrefixStoreApi::PlaceOrderRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -223,7 +221,6 @@ void ModelPrefixStoreApi::PlaceOrderResponse::SetHttpResponseCode(EHttpResponseC
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:

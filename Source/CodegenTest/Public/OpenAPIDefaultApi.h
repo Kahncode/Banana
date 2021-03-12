@@ -35,8 +35,9 @@ public:
     
     bool AddPet(const AddPetRequest& Request, const FAddPetDelegate& Delegate = FAddPetDelegate()) const;
     
+
 private:
-    void OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate) const;
+    void OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate, int AutoRetryCount) const;
     
 	bool IsValid() const;
 	void HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const;

@@ -26,5 +26,6 @@ public class Petstore : ModuleRules
                 "Json",
             }
         );
+        PCHUsage = PCHUsageMode.NoPCHs;
     }
 }
