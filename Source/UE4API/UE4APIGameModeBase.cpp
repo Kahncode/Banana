@@ -61,7 +61,7 @@ void AUE4APIGameModeBase::BeginPlay()
 		request.Body.Username = "Kryofenix";
 		request.Body.Email = "kryofenix@kryofenix.com";
 		request.Body.Password = "Kryofenix";
-		request.SetAutoRetryCount(5);
+		request.SetShouldRetry();
 		m_userApi->CreateUser(request, ModelPrefixUserApi::FCreateUserDelegate::CreateLambda([](const ModelPrefixUserApi::CreateUserResponse& a_response)
 			{
 				if (a_response.IsSuccessful())
@@ -81,6 +81,7 @@ void AUE4APIGameModeBase::BeginPlay()
 		ModelPrefixUserApi::LoginUserRequest request;
 		request.Username = "Kryofenix";
 		request.Password = "Kryofenix";
+		request.SetShouldRetry();
 		m_userApi->LoginUser(request, ModelPrefixUserApi::FLoginUserDelegate::CreateLambda([](const ModelPrefixUserApi::LoginUserResponse& a_response) 
 			{
 				if (a_response.IsSuccessful())
@@ -96,7 +97,7 @@ void AUE4APIGameModeBase::BeginPlay()
 	
 	{
 		ModelPrefixPetApi::FindPetsByStatusRequest request;
-		request.SetRetryParams();
+		request.SetShouldRetry();
 
 		request.Status = TArray<ModelPrefixPetApi::FindPetsByStatusRequest::StatusEnum>({ ModelPrefixPetApi::FindPetsByStatusRequest::StatusEnum::Sold });
 		m_petApi->FindPetsByStatus(request, ModelPrefixPetApi::FFindPetsByStatusDelegate::CreateLambda([&pet](const ModelPrefixPetApi::FindPetsByStatusResponse& a_response)

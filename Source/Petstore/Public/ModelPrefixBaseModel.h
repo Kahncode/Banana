@@ -23,23 +23,17 @@ namespace CppNamespace
 {
 
 typedef TSharedRef<TJsonWriter<>> JsonWriter;
-
 using namespace FHttpRetrySystem;
 
 struct PETSTORE_API HttpRetryManager : public FManager, public FTickerObjectBase
 {
 	using FManager::FManager;
 
-	bool Tick(float DeltaTime) final
-	{
-		FManager::Update();
-		return true;
-	}
+	bool Tick(float DeltaTime) final;
 };
 
 struct PETSTORE_API HttpRetryParams
 {
-
 	HttpRetryParams(
 		const FRetryLimitCountSetting& InRetryLimitCountOverride = FRetryLimitCountSetting(),
 		const FRetryTimeoutRelativeSecondsSetting& InRetryTimeoutRelativeSecondsOverride = FRetryTimeoutRelativeSecondsSetting(),
@@ -70,16 +64,12 @@ public:
 	virtual void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const = 0;
 	virtual FString ComputePath() const = 0;
 
-	void SetAutoRetryCount(int InCount) { AutoRetryCount = InCount; }
-	int GetAutoRetryCount() const { return AutoRetryCount; }
-
-	/* Sets a retry policy for this request, enables Retries. */
-	void SetRetryParams(const HttpRetryParams& Params = HttpRetryParams()) { MRetryParams = Params; }
-	const TOptional<HttpRetryParams>& GetRetryParams() const { return MRetryParams; }
+	/* Enables retry and optionally sets a retry policy for this request */
+	void SetShouldRetry(const HttpRetryParams& Params = HttpRetryParams()) { RetryParams = Params; }
+	const TOptional<HttpRetryParams>& GetRetryParams() const { return RetryParams; }
 
 private:
-	int AutoRetryCount = 0;
-	TOptional<HttpRetryParams> MRetryParams;
+	TOptional<HttpRetryParams> RetryParams;
 };
 
 class PETSTORE_API Response
@@ -91,8 +81,6 @@ public:
 	void SetSuccessful(bool InSuccessful) { Successful = InSuccessful; }
 	bool IsSuccessful() const { return Successful; }
 
-	void AsyncRetry() const;
-
 	virtual void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode);
 	EHttpResponseCodes::Type GetHttpResponseCode() const { return ResponseCode; }
 
@@ -102,15 +90,11 @@ public:
 	void SetHttpResponse(const FHttpResponsePtr& InHttpResponse) { HttpResponse = InHttpResponse; }
 	const FHttpResponsePtr& GetHttpResponse() const { return HttpResponse; }
 
-	void SetHttpRequest(const FHttpRequestPtr& InHttpRequest) { HttpRequest = InHttpRequest; }
-	const FHttpRequestPtr& GetHttpRequest() const { return HttpRequest; }
-
 private:
 	bool Successful;
 	EHttpResponseCodes::Type ResponseCode;
 	FString ResponseString;
 	FHttpResponsePtr HttpResponse;
-	FHttpRequestPtr HttpRequest;
 };
 
 }

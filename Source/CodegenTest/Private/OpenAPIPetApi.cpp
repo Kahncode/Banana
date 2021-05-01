@@ -54,6 +54,40 @@ bool OpenAPIPetApi::IsValid() const
 	return true;
 }
 
+void OpenAPIPetApi::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManager)
+{
+	if(RetryManager != &GetHttpRetryManager())
+	{
+		DefaultRetryManager.Reset();
+		RetryManager = &InRetryManager;
+	}
+}
+
+FHttpRetrySystem::FManager& OpenAPIPetApi::GetHttpRetryManager()
+{
+	return *RetryManager;
+}
+
+FHttpRequestRef OpenAPIPetApi::CreateHttpRequest(const Request& Request) const
+{
+	if (!Request.GetRetryParams().IsSet())
+	{
+		return FHttpModule::Get().CreateRequest();
+	}
+	else
+	{
+		if (!RetryManager)
+		{
+			// Create default retry manager if none was specified
+			DefaultRetryManager = MakeUnique<HttpRetryManager>(6, 60);
+			RetryManager = DefaultRetryManager.Get();
+		}
+
+		const HttpRetryParams& Params = Request.GetRetryParams().GetValue();
+		return RetryManager->CreateRequest(Params.RetryLimitCountOverride, Params.RetryTimeoutRelativeSecondsOverride, Params.RetryResponseCodes, Params.RetryVerbs, Params.RetryDomains);
+	}
+}
+
 void OpenAPIPetApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const
 {
 	InOutResponse.SetHttpResponse(HttpResponse);
@@ -103,7 +137,7 @@ bool OpenAPIPetApi::UpdatePet(const UpdatePetRequest& Request, const FUpdatePetD
 	if (!IsValid())
 		return false;
 
-	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -113,26 +147,15 @@ bool OpenAPIPetApi::UpdatePet(const UpdatePetRequest& Request, const FUpdatePetD
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetResponse, Delegate, Request.GetAutoRetryCount());
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetResponse, Delegate);
 	return HttpRequest->ProcessRequest();
 }
 
-void OpenAPIPetApi::OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate, int AutoRetryCount) const
+void OpenAPIPetApi::OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate) const
 {
 	UpdatePetResponse Response;
-	Response.SetHttpRequest(HttpRequest);
-
 	HandleResponse(HttpResponse, bSucceeded, Response);
-
-	if(!Response.IsSuccessful() && AutoRetryCount > 0)
-	{
-		HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
-	}
-	else
-	{
-		Delegate.ExecuteIfBound(Response);
-	}
+	Delegate.ExecuteIfBound(Response);
 }
 
 }

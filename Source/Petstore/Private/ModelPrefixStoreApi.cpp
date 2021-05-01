@@ -54,6 +54,40 @@ bool ModelPrefixStoreApi::IsValid() const
 	return true;
 }
 
+void ModelPrefixStoreApi::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManager)
+{
+	if(RetryManager != &GetHttpRetryManager())
+	{
+		DefaultRetryManager.Reset();
+		RetryManager = &InRetryManager;
+	}
+}
+
+FHttpRetrySystem::FManager& ModelPrefixStoreApi::GetHttpRetryManager()
+{
+	return *RetryManager;
+}
+
+FHttpRequestRef ModelPrefixStoreApi::CreateHttpRequest(const Request& Request) const
+{
+	if (!Request.GetRetryParams().IsSet())
+	{
+		return FHttpModule::Get().CreateRequest();
+	}
+	else
+	{
+		if (!RetryManager)
+		{
+			// Create default retry manager if none was specified
+			DefaultRetryManager = MakeUnique<HttpRetryManager>(6, 60);
+			RetryManager = DefaultRetryManager.Get();
+		}
+
+		const HttpRetryParams& Params = Request.GetRetryParams().GetValue();
+		return RetryManager->CreateRequest(Params.RetryLimitCountOverride, Params.RetryTimeoutRelativeSecondsOverride, Params.RetryResponseCodes, Params.RetryVerbs, Params.RetryDomains);
+	}
+}
+
 void ModelPrefixStoreApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const
 {
 	InOutResponse.SetHttpResponse(HttpResponse);
@@ -103,7 +137,7 @@ bool ModelPrefixStoreApi::DeleteOrder(const DeleteOrderRequest& Request, const F
 	if (!IsValid())
 		return false;
 
-	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -113,26 +147,15 @@ bool ModelPrefixStoreApi::DeleteOrder(const DeleteOrderRequest& Request, const F
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnDeleteOrderResponse, Delegate, Request.GetAutoRetryCount());
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnDeleteOrderResponse, Delegate);
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixStoreApi::OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOrderDelegate Delegate, int AutoRetryCount) const
+void ModelPrefixStoreApi::OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOrderDelegate Delegate) const
 {
 	DeleteOrderResponse Response;
-	Response.SetHttpRequest(HttpRequest);
-
 	HandleResponse(HttpResponse, bSucceeded, Response);
-
-	if(!Response.IsSuccessful() && AutoRetryCount > 0)
-	{
-		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnDeleteOrderResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
-	}
-	else
-	{
-		Delegate.ExecuteIfBound(Response);
-	}
+	Delegate.ExecuteIfBound(Response);
 }
 
 bool ModelPrefixStoreApi::GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate /*= FGetInventoryDelegate()*/) const
@@ -140,7 +163,7 @@ bool ModelPrefixStoreApi::GetInventory(const GetInventoryRequest& Request, const
 	if (!IsValid())
 		return false;
 
-	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -150,26 +173,15 @@ bool ModelPrefixStoreApi::GetInventory(const GetInventoryRequest& Request, const
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnGetInventoryResponse, Delegate, Request.GetAutoRetryCount());
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnGetInventoryResponse, Delegate);
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixStoreApi::OnGetInventoryResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetInventoryDelegate Delegate, int AutoRetryCount) const
+void ModelPrefixStoreApi::OnGetInventoryResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetInventoryDelegate Delegate) const
 {
 	GetInventoryResponse Response;
-	Response.SetHttpRequest(HttpRequest);
-
 	HandleResponse(HttpResponse, bSucceeded, Response);
-
-	if(!Response.IsSuccessful() && AutoRetryCount > 0)
-	{
-		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnGetInventoryResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
-	}
-	else
-	{
-		Delegate.ExecuteIfBound(Response);
-	}
+	Delegate.ExecuteIfBound(Response);
 }
 
 bool ModelPrefixStoreApi::GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate /*= FGetOrderByIdDelegate()*/) const
@@ -177,7 +189,7 @@ bool ModelPrefixStoreApi::GetOrderById(const GetOrderByIdRequest& Request, const
 	if (!IsValid())
 		return false;
 
-	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -187,26 +199,15 @@ bool ModelPrefixStoreApi::GetOrderById(const GetOrderByIdRequest& Request, const
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnGetOrderByIdResponse, Delegate, Request.GetAutoRetryCount());
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnGetOrderByIdResponse, Delegate);
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixStoreApi::OnGetOrderByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetOrderByIdDelegate Delegate, int AutoRetryCount) const
+void ModelPrefixStoreApi::OnGetOrderByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetOrderByIdDelegate Delegate) const
 {
 	GetOrderByIdResponse Response;
-	Response.SetHttpRequest(HttpRequest);
-
 	HandleResponse(HttpResponse, bSucceeded, Response);
-
-	if(!Response.IsSuccessful() && AutoRetryCount > 0)
-	{
-		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnGetOrderByIdResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
-	}
-	else
-	{
-		Delegate.ExecuteIfBound(Response);
-	}
+	Delegate.ExecuteIfBound(Response);
 }
 
 bool ModelPrefixStoreApi::PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate /*= FPlaceOrderDelegate()*/) const
@@ -214,7 +215,7 @@ bool ModelPrefixStoreApi::PlaceOrder(const PlaceOrderRequest& Request, const FPl
 	if (!IsValid())
 		return false;
 
-	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)
@@ -224,26 +225,15 @@ bool ModelPrefixStoreApi::PlaceOrder(const PlaceOrderRequest& Request, const FPl
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnPlaceOrderResponse, Delegate, Request.GetAutoRetryCount());
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnPlaceOrderResponse, Delegate);
 	return HttpRequest->ProcessRequest();
 }
 
-void ModelPrefixStoreApi::OnPlaceOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlaceOrderDelegate Delegate, int AutoRetryCount) const
+void ModelPrefixStoreApi::OnPlaceOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlaceOrderDelegate Delegate) const
 {
 	PlaceOrderResponse Response;
-	Response.SetHttpRequest(HttpRequest);
-
 	HandleResponse(HttpResponse, bSucceeded, Response);
-
-	if(!Response.IsSuccessful() && AutoRetryCount > 0)
-	{
-		HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnPlaceOrderResponse, Delegate, AutoRetryCount - 1);
-		Response.AsyncRetry();		
-	}
-	else
-	{
-		Delegate.ExecuteIfBound(Response);
-	}
+	Delegate.ExecuteIfBound(Response);
 }
 
 }
