@@ -16,11 +16,44 @@
 #include "Interfaces/IHttpResponse.h"
 #include "Serialization/JsonWriter.h"
 #include "Dom/JsonObject.h"
+#include "HttpRetrySystem.h"
+#include "Containers/Ticker.h"
 
 namespace CppNamespace 
 {
 
 typedef TSharedRef<TJsonWriter<>> JsonWriter;
+
+using namespace FHttpRetrySystem;
+
+struct PETSTORE_API HttpRetryManager : public FManager, public FTickerObjectBase
+{
+	using FManager::FManager;
+
+	bool Tick(float DeltaTime) final
+	{
+		FManager::Update();
+		return true;
+	}
+};
+
+struct PETSTORE_API HttpRetryParams
+{
+
+	HttpRetryParams(
+		const FRetryLimitCountSetting& InRetryLimitCountOverride = FRetryLimitCountSetting(),
+		const FRetryTimeoutRelativeSecondsSetting& InRetryTimeoutRelativeSecondsOverride = FRetryTimeoutRelativeSecondsSetting(),
+		const FRetryResponseCodes& InRetryResponseCodes = FRetryResponseCodes(),
+		const FRetryVerbs& InRetryVerbs = FRetryVerbs(),
+		const FRetryDomainsPtr& InRetryDomains = FRetryDomainsPtr()
+	);
+
+	FRetryLimitCountSetting              RetryLimitCountOverride;
+	FRetryTimeoutRelativeSecondsSetting  RetryTimeoutRelativeSecondsOverride;
+	FRetryResponseCodes					 RetryResponseCodes;
+	FRetryVerbs                          RetryVerbs;
+	FRetryDomainsPtr					 RetryDomains;
+};
 
 class PETSTORE_API Model
 { 
@@ -40,8 +73,13 @@ public:
 	void SetAutoRetryCount(int InCount) { AutoRetryCount = InCount; }
 	int GetAutoRetryCount() const { return AutoRetryCount; }
 
+	/* Sets a retry policy for this request, enables Retries. */
+	void SetRetryParams(const HttpRetryParams& Params = HttpRetryParams()) { MRetryParams = Params; }
+	const TOptional<HttpRetryParams>& GetRetryParams() const { return MRetryParams; }
+
 private:
 	int AutoRetryCount = 0;
+	TOptional<HttpRetryParams> MRetryParams;
 };
 
 class PETSTORE_API Response

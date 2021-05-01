@@ -33,6 +33,20 @@ void ModelPrefixPetApi::SetURL(const FString& InUrl)
 	Url = InUrl;
 }
 
+void ModelPrefixPetApi::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManager)
+{
+	if(RetryManager != &GetHttpRetryManager())
+	{
+		DefaultRetryManager.Reset();
+		RetryManager = &InRetryManager;
+	}
+}
+
+FHttpRetrySystem::FManager& ModelPrefixPetApi::GetHttpRetryManager()
+{
+	return *RetryManager;
+}
+
 void ModelPrefixPetApi::AddHeaderParam(const FString& Key, const FString& Value)
 {
 	AdditionalHeaderParams.Add(Key, Value);
@@ -117,6 +131,25 @@ bool ModelPrefixPetApi::AddPet(const AddPetRequest& Request, const FAddPetDelega
 	return HttpRequest->ProcessRequest();
 }
 
+FHttpRequestRef ModelPrefixPetApi::CreateHttpRequest(const Request& Request) const
+{
+	if (!Request.GetRetryParams().IsSet())
+	{
+		return FHttpModule::Get().CreateRequest();
+	}
+	else
+	{
+		if (!RetryManager)
+		{
+			DefaultRetryManager = MakeUnique<HttpRetryManager>(6, 60);
+			RetryManager = DefaultRetryManager.Get();
+		}
+
+		const HttpRetryParams& Params = Request.GetRetryParams().GetValue();
+		return RetryManager->CreateRequest(Params.RetryLimitCountOverride, Params.RetryTimeoutRelativeSecondsOverride, Params.RetryResponseCodes, Params.RetryVerbs, Params.RetryDomains);
+	}
+}
+
 void ModelPrefixPetApi::OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate, int AutoRetryCount) const
 {
 	AddPetResponse Response;
@@ -177,7 +210,7 @@ bool ModelPrefixPetApi::FindPetsByStatus(const FindPetsByStatusRequest& Request,
 	if (!IsValid())
 		return false;
 
-	FHttpRequestRef HttpRequest = FHttpModule::Get().CreateRequest();
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
 
 	for(const auto& It : AdditionalHeaderParams)

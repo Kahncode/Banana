@@ -6,6 +6,7 @@
 #include "HttpModule.h"
 #include "HttpManager.h"
 #include "Misc/Paths.h"
+#include "HttpRetrySystem.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogUE4API, Log, All);
 
@@ -95,6 +96,8 @@ void AUE4APIGameModeBase::BeginPlay()
 	
 	{
 		ModelPrefixPetApi::FindPetsByStatusRequest request;
+		request.SetRetryParams();
+
 		request.Status = TArray<ModelPrefixPetApi::FindPetsByStatusRequest::StatusEnum>({ ModelPrefixPetApi::FindPetsByStatusRequest::StatusEnum::Sold });
 		m_petApi->FindPetsByStatus(request, ModelPrefixPetApi::FFindPetsByStatusDelegate::CreateLambda([&pet](const ModelPrefixPetApi::FindPetsByStatusResponse& a_response)
 			{
@@ -106,6 +109,7 @@ void AUE4APIGameModeBase::BeginPlay()
 				}
 			}));
 
+		m_petApi->GetHttpRetryManager().BlockUntilFlushed(60);
 		FHttpModule::Get().GetHttpManager().Flush(false);
 	}
 

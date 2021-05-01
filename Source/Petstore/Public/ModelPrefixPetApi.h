@@ -27,6 +27,11 @@ public:
 	void SetURL(const FString& Url);
 	void AddHeaderParam(const FString& Key, const FString& Value);
 	void ClearHeaderParams();
+	
+	/* Sets the retry manager to the user-defined retry manager. User must manage the lifetime of the retry manager.
+	* If no retry manager is specified and a request needs retries, a default retry manager will be used. */
+	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
+	FHttpRetrySystem::FManager& GetHttpRetryManager();
 
 	class AddPetRequest;
 	class AddPetResponse;
@@ -65,6 +70,8 @@ public:
     
 
 private:
+	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
+
     void OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate, int AutoRetryCount) const;
     void OnDeletePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePetDelegate Delegate, int AutoRetryCount) const;
     void OnFindPetsByStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByStatusDelegate Delegate, int AutoRetryCount) const;
@@ -79,6 +86,8 @@ private:
 
 	FString Url;
 	TMap<FString,FString> AdditionalHeaderParams;
+	mutable FHttpRetrySystem::FManager* RetryManager = nullptr;
+	mutable TUniquePtr<HttpRetryManager> DefaultRetryManager;
 };
 	
 }
