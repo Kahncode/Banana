@@ -36,6 +36,30 @@ inline FString ToString(const ModelPrefixOrder::StatusEnum& Value)
 	return TEXT("");
 }
 
+inline FString ModelPrefixOrder::EnumToString(const ModelPrefixOrder::StatusEnum& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, ModelPrefixOrder::StatusEnum& Value)
+{
+	static TMap<FString, ModelPrefixOrder::StatusEnum> StringToEnum = { 
+		{ TEXT("placed"), ModelPrefixOrder::StatusEnum::Placed },
+		{ TEXT("approved"), ModelPrefixOrder::StatusEnum::Approved },
+		{ TEXT("delivered"), ModelPrefixOrder::StatusEnum::Delivered }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+inline bool ModelPrefixOrder::EnumFromString(const FString& EnumAsString, ModelPrefixOrder::StatusEnum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
+}
+
 inline FStringFormatArg ToStringFormatArg(const ModelPrefixOrder::StatusEnum& Value)
 {
 	return FStringFormatArg(ToString(Value));
@@ -51,17 +75,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, ModelPrefix
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, ModelPrefixOrder::StatusEnum> StringToEnum = { 
-			{ TEXT("placed"), ModelPrefixOrder::StatusEnum::Placed },
-			{ TEXT("approved"), ModelPrefixOrder::StatusEnum::Approved },
-			{ TEXT("delivered"), ModelPrefixOrder::StatusEnum::Delivered }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }

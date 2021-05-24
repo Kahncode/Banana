@@ -36,6 +36,30 @@ inline FString ToString(const OpenAPIAllTypes::Enum1Enum& Value)
 	return TEXT("");
 }
 
+inline FString OpenAPIAllTypes::EnumToString(const OpenAPIAllTypes::Enum1Enum& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, OpenAPIAllTypes::Enum1Enum& Value)
+{
+	static TMap<FString, OpenAPIAllTypes::Enum1Enum> StringToEnum = { 
+		{ TEXT("enumvalue1"), OpenAPIAllTypes::Enum1Enum::Enumvalue1 },
+		{ TEXT("enumvalue2"), OpenAPIAllTypes::Enum1Enum::Enumvalue2 },
+		{ TEXT("enumvalue3"), OpenAPIAllTypes::Enum1Enum::Enumvalue3 }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+inline bool OpenAPIAllTypes::EnumFromString(const FString& EnumAsString, OpenAPIAllTypes::Enum1Enum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
+}
+
 inline FStringFormatArg ToStringFormatArg(const OpenAPIAllTypes::Enum1Enum& Value)
 {
 	return FStringFormatArg(ToString(Value));
@@ -51,17 +75,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIAllT
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIAllTypes::Enum1Enum> StringToEnum = { 
-			{ TEXT("enumvalue1"), OpenAPIAllTypes::Enum1Enum::Enumvalue1 },
-			{ TEXT("enumvalue2"), OpenAPIAllTypes::Enum1Enum::Enumvalue2 },
-			{ TEXT("enumvalue3"), OpenAPIAllTypes::Enum1Enum::Enumvalue3 }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }

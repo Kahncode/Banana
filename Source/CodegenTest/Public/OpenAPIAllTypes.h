@@ -48,6 +48,9 @@ public:
 		Enumvalue2,
 		Enumvalue3,
   	};
+	
+	static FString EnumToString(const Enum1Enum& EnumValue);
+	static bool EnumFromString(const FString& EnumAsString, Enum1Enum& EnumValue);
 	TOptional<Enum1Enum> Enum1;
 	TOptional<int32> Enum2;
 };

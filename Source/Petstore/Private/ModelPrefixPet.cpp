@@ -36,6 +36,30 @@ inline FString ToString(const ModelPrefixPet::StatusEnum& Value)
 	return TEXT("");
 }
 
+inline FString ModelPrefixPet::EnumToString(const ModelPrefixPet::StatusEnum& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, ModelPrefixPet::StatusEnum& Value)
+{
+	static TMap<FString, ModelPrefixPet::StatusEnum> StringToEnum = { 
+		{ TEXT("available"), ModelPrefixPet::StatusEnum::Available },
+		{ TEXT("pending"), ModelPrefixPet::StatusEnum::Pending },
+		{ TEXT("sold"), ModelPrefixPet::StatusEnum::Sold }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+inline bool ModelPrefixPet::EnumFromString(const FString& EnumAsString, ModelPrefixPet::StatusEnum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
+}
+
 inline FStringFormatArg ToStringFormatArg(const ModelPrefixPet::StatusEnum& Value)
 {
 	return FStringFormatArg(ToString(Value));
@@ -51,17 +75,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, ModelPrefix
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, ModelPrefixPet::StatusEnum> StringToEnum = { 
-			{ TEXT("available"), ModelPrefixPet::StatusEnum::Available },
-			{ TEXT("pending"), ModelPrefixPet::StatusEnum::Pending },
-			{ TEXT("sold"), ModelPrefixPet::StatusEnum::Sold }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }

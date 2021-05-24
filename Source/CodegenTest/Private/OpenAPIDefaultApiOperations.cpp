@@ -39,6 +39,30 @@ inline FString ToString(const OpenAPIDefaultApi::AddPetRequest::StatusEnum& Valu
 	return TEXT("");
 }
 
+inline FString OpenAPIDefaultApi::AddPetRequest::EnumToString(const OpenAPIDefaultApi::AddPetRequest::StatusEnum& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, OpenAPIDefaultApi::AddPetRequest::StatusEnum& Value)
+{
+	static TMap<FString, OpenAPIDefaultApi::AddPetRequest::StatusEnum> StringToEnum = { 
+		{ TEXT("available"), OpenAPIDefaultApi::AddPetRequest::StatusEnum::Available },
+		{ TEXT("pending"), OpenAPIDefaultApi::AddPetRequest::StatusEnum::Pending },
+		{ TEXT("sold"), OpenAPIDefaultApi::AddPetRequest::StatusEnum::Sold }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;	
+}
+
+inline bool OpenAPIDefaultApi::AddPetRequest::EnumFromString(const FString& EnumAsString, OpenAPIDefaultApi::AddPetRequest::StatusEnum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
+}
+
 inline FStringFormatArg ToStringFormatArg(const OpenAPIDefaultApi::AddPetRequest::StatusEnum& Value)
 {
 	return FStringFormatArg(ToString(Value));
@@ -54,17 +78,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIDefa
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIDefaultApi::AddPetRequest::StatusEnum> StringToEnum = { 
-			{ TEXT("available"), OpenAPIDefaultApi::AddPetRequest::StatusEnum::Available },
-			{ TEXT("pending"), OpenAPIDefaultApi::AddPetRequest::StatusEnum::Pending },
-			{ TEXT("sold"), OpenAPIDefaultApi::AddPetRequest::StatusEnum::Sold }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }

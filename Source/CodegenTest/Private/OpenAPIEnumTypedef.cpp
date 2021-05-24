@@ -44,6 +44,34 @@ inline FString ToString(const OpenAPIEnumTypedef::Values& Value)
 	return TEXT("");
 }
 
+inline FString OpenAPIEnumTypedef::EnumToString(const OpenAPIEnumTypedef::Values& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, OpenAPIEnumTypedef::Values& Value)
+{
+	static TMap<FString, OpenAPIEnumTypedef::Values> StringToEnum = { 
+		{ TEXT("_"), OpenAPIEnumTypedef::Values::_ },
+		{ TEXT("__"), OpenAPIEnumTypedef::Values::__ },
+		{ TEXT("__a"), OpenAPIEnumTypedef::Values::A },
+		{ TEXT("a__a"), OpenAPIEnumTypedef::Values::AA },
+		{ TEXT("enumvalue1"), OpenAPIEnumTypedef::Values::Enumvalue1 },
+		{ TEXT("enumvalue2"), OpenAPIEnumTypedef::Values::Enumvalue2 },
+		{ TEXT("enumvalue3"), OpenAPIEnumTypedef::Values::Enumvalue3 }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+inline bool OpenAPIEnumTypedef::EnumFromString(const FString& EnumAsString, OpenAPIEnumTypedef::Values& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
+}
+
 inline FStringFormatArg ToStringFormatArg(const OpenAPIEnumTypedef::Values& Value)
 {
 	return FStringFormatArg(ToString(Value));
@@ -59,21 +87,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIEnum
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIEnumTypedef::Values> StringToEnum = { 
-			{ TEXT("_"), OpenAPIEnumTypedef::Values::_ },
-			{ TEXT("__"), OpenAPIEnumTypedef::Values::__ },
-			{ TEXT("__a"), OpenAPIEnumTypedef::Values::A },
-			{ TEXT("a__a"), OpenAPIEnumTypedef::Values::AA },
-			{ TEXT("enumvalue1"), OpenAPIEnumTypedef::Values::Enumvalue1 },
-			{ TEXT("enumvalue2"), OpenAPIEnumTypedef::Values::Enumvalue2 },
-			{ TEXT("enumvalue3"), OpenAPIEnumTypedef::Values::Enumvalue3 }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }
