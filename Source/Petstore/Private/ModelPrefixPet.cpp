@@ -36,7 +36,7 @@ inline FString ToString(const ModelPrefixPet::StatusEnum& Value)
 	return TEXT("");
 }
 
-inline FString ModelPrefixPet::EnumToString(const ModelPrefixPet::StatusEnum& EnumValue)
+FString ModelPrefixPet::EnumToString(const ModelPrefixPet::StatusEnum& EnumValue)
 {
 	return ToString(EnumValue);
 }
@@ -55,7 +55,7 @@ inline bool FromString(const FString& EnumAsString, ModelPrefixPet::StatusEnum& 
 	return Found != nullptr;
 }
 
-inline bool ModelPrefixPet::EnumFromString(const FString& EnumAsString, ModelPrefixPet::StatusEnum& EnumValue)
+bool ModelPrefixPet::EnumFromString(const FString& EnumAsString, ModelPrefixPet::StatusEnum& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }

@@ -10,7 +10,7 @@ public class UE4API : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Http" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "Banana", "Petstore", "DMarket", "OpenAPI" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Banana", "Petstore", "DMarket", "OpenAPI", "Corvus" });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

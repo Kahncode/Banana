@@ -39,7 +39,7 @@ inline FString ToString(const OpenAPIDefaultApi::AddPetRequest::StatusEnum& Valu
 	return TEXT("");
 }
 
-inline FString OpenAPIDefaultApi::AddPetRequest::EnumToString(const OpenAPIDefaultApi::AddPetRequest::StatusEnum& EnumValue)
+FString OpenAPIDefaultApi::AddPetRequest::EnumToString(const OpenAPIDefaultApi::AddPetRequest::StatusEnum& EnumValue)
 {
 	return ToString(EnumValue);
 }
@@ -58,7 +58,7 @@ inline bool FromString(const FString& EnumAsString, OpenAPIDefaultApi::AddPetReq
 	return Found != nullptr;	
 }
 
-inline bool OpenAPIDefaultApi::AddPetRequest::EnumFromString(const FString& EnumAsString, OpenAPIDefaultApi::AddPetRequest::StatusEnum& EnumValue)
+bool OpenAPIDefaultApi::AddPetRequest::EnumFromString(const FString& EnumAsString, OpenAPIDefaultApi::AddPetRequest::StatusEnum& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }

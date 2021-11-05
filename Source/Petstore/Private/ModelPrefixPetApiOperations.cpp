@@ -150,7 +150,7 @@ inline FString ToString(const ModelPrefixPetApi::FindPetsByStatusRequest::Status
 	return TEXT("");
 }
 
-inline FString ModelPrefixPetApi::FindPetsByStatusRequest::EnumToString(const ModelPrefixPetApi::FindPetsByStatusRequest::StatusEnum& EnumValue)
+FString ModelPrefixPetApi::FindPetsByStatusRequest::EnumToString(const ModelPrefixPetApi::FindPetsByStatusRequest::StatusEnum& EnumValue)
 {
 	return ToString(EnumValue);
 }
@@ -169,7 +169,7 @@ inline bool FromString(const FString& EnumAsString, ModelPrefixPetApi::FindPetsB
 	return Found != nullptr;	
 }
 
-inline bool ModelPrefixPetApi::FindPetsByStatusRequest::EnumFromString(const FString& EnumAsString, ModelPrefixPetApi::FindPetsByStatusRequest::StatusEnum& EnumValue)
+bool ModelPrefixPetApi::FindPetsByStatusRequest::EnumFromString(const FString& EnumAsString, ModelPrefixPetApi::FindPetsByStatusRequest::StatusEnum& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }

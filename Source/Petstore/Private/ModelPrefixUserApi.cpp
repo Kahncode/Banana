@@ -132,10 +132,10 @@ void ModelPrefixUserApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSuc
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
-bool ModelPrefixUserApi::CreateUser(const CreateUserRequest& Request, const FCreateUserDelegate& Delegate /*= FCreateUserDelegate()*/) const
+FHttpRequestPtr ModelPrefixUserApi::CreateUser(const CreateUserRequest& Request, const FCreateUserDelegate& Delegate /*= FCreateUserDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -148,7 +148,8 @@ bool ModelPrefixUserApi::CreateUser(const CreateUserRequest& Request, const FCre
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUserResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixUserApi::OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUserDelegate Delegate) const
@@ -158,10 +159,10 @@ void ModelPrefixUserApi::OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttp
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool ModelPrefixUserApi::CreateUsersWithArrayInput(const CreateUsersWithArrayInputRequest& Request, const FCreateUsersWithArrayInputDelegate& Delegate /*= FCreateUsersWithArrayInputDelegate()*/) const
+FHttpRequestPtr ModelPrefixUserApi::CreateUsersWithArrayInput(const CreateUsersWithArrayInputRequest& Request, const FCreateUsersWithArrayInputDelegate& Delegate /*= FCreateUsersWithArrayInputDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -174,7 +175,8 @@ bool ModelPrefixUserApi::CreateUsersWithArrayInput(const CreateUsersWithArrayInp
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUsersWithArrayInputResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixUserApi::OnCreateUsersWithArrayInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithArrayInputDelegate Delegate) const
@@ -184,10 +186,10 @@ void ModelPrefixUserApi::OnCreateUsersWithArrayInputResponse(FHttpRequestPtr Htt
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool ModelPrefixUserApi::CreateUsersWithListInput(const CreateUsersWithListInputRequest& Request, const FCreateUsersWithListInputDelegate& Delegate /*= FCreateUsersWithListInputDelegate()*/) const
+FHttpRequestPtr ModelPrefixUserApi::CreateUsersWithListInput(const CreateUsersWithListInputRequest& Request, const FCreateUsersWithListInputDelegate& Delegate /*= FCreateUsersWithListInputDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -200,7 +202,8 @@ bool ModelPrefixUserApi::CreateUsersWithListInput(const CreateUsersWithListInput
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnCreateUsersWithListInputResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixUserApi::OnCreateUsersWithListInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithListInputDelegate Delegate) const
@@ -210,10 +213,10 @@ void ModelPrefixUserApi::OnCreateUsersWithListInputResponse(FHttpRequestPtr Http
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool ModelPrefixUserApi::DeleteUser(const DeleteUserRequest& Request, const FDeleteUserDelegate& Delegate /*= FDeleteUserDelegate()*/) const
+FHttpRequestPtr ModelPrefixUserApi::DeleteUser(const DeleteUserRequest& Request, const FDeleteUserDelegate& Delegate /*= FDeleteUserDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -226,7 +229,8 @@ bool ModelPrefixUserApi::DeleteUser(const DeleteUserRequest& Request, const FDel
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnDeleteUserResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixUserApi::OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteUserDelegate Delegate) const
@@ -236,10 +240,10 @@ void ModelPrefixUserApi::OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttp
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool ModelPrefixUserApi::GetUserByName(const GetUserByNameRequest& Request, const FGetUserByNameDelegate& Delegate /*= FGetUserByNameDelegate()*/) const
+FHttpRequestPtr ModelPrefixUserApi::GetUserByName(const GetUserByNameRequest& Request, const FGetUserByNameDelegate& Delegate /*= FGetUserByNameDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -252,7 +256,8 @@ bool ModelPrefixUserApi::GetUserByName(const GetUserByNameRequest& Request, cons
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnGetUserByNameResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixUserApi::OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetUserByNameDelegate Delegate) const
@@ -262,10 +267,10 @@ void ModelPrefixUserApi::OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FH
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool ModelPrefixUserApi::LoginUser(const LoginUserRequest& Request, const FLoginUserDelegate& Delegate /*= FLoginUserDelegate()*/) const
+FHttpRequestPtr ModelPrefixUserApi::LoginUser(const LoginUserRequest& Request, const FLoginUserDelegate& Delegate /*= FLoginUserDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -278,7 +283,8 @@ bool ModelPrefixUserApi::LoginUser(const LoginUserRequest& Request, const FLogin
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnLoginUserResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixUserApi::OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginUserDelegate Delegate) const
@@ -288,10 +294,10 @@ void ModelPrefixUserApi::OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpR
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool ModelPrefixUserApi::LogoutUser(const LogoutUserRequest& Request, const FLogoutUserDelegate& Delegate /*= FLogoutUserDelegate()*/) const
+FHttpRequestPtr ModelPrefixUserApi::LogoutUser(const LogoutUserRequest& Request, const FLogoutUserDelegate& Delegate /*= FLogoutUserDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -304,7 +310,8 @@ bool ModelPrefixUserApi::LogoutUser(const LogoutUserRequest& Request, const FLog
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnLogoutUserResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixUserApi::OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLogoutUserDelegate Delegate) const
@@ -314,10 +321,10 @@ void ModelPrefixUserApi::OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttp
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool ModelPrefixUserApi::UpdateUser(const UpdateUserRequest& Request, const FUpdateUserDelegate& Delegate /*= FUpdateUserDelegate()*/) const
+FHttpRequestPtr ModelPrefixUserApi::UpdateUser(const UpdateUserRequest& Request, const FUpdateUserDelegate& Delegate /*= FUpdateUserDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -330,7 +337,8 @@ bool ModelPrefixUserApi::UpdateUser(const UpdateUserRequest& Request, const FUpd
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixUserApi::OnUpdateUserResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixUserApi::OnUpdateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDelegate Delegate) const

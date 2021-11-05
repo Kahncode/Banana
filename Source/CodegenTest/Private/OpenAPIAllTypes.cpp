@@ -36,7 +36,7 @@ inline FString ToString(const OpenAPIAllTypes::Enum1Enum& Value)
 	return TEXT("");
 }
 
-inline FString OpenAPIAllTypes::EnumToString(const OpenAPIAllTypes::Enum1Enum& EnumValue)
+FString OpenAPIAllTypes::EnumToString(const OpenAPIAllTypes::Enum1Enum& EnumValue)
 {
 	return ToString(EnumValue);
 }
@@ -55,7 +55,7 @@ inline bool FromString(const FString& EnumAsString, OpenAPIAllTypes::Enum1Enum& 
 	return Found != nullptr;
 }
 
-inline bool OpenAPIAllTypes::EnumFromString(const FString& EnumAsString, OpenAPIAllTypes::Enum1Enum& EnumValue)
+bool OpenAPIAllTypes::EnumFromString(const FString& EnumAsString, OpenAPIAllTypes::Enum1Enum& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }

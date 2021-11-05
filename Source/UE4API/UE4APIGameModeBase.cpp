@@ -15,6 +15,8 @@ DEFINE_LOG_CATEGORY_STATIC(LogUE4API, Log, All);
 #include "ModelPrefixStoreApiOperations.h"
 #include "ModelPrefixHelpers.h"
 
+#include "CorvusUsersApiOperations.h"
+
 //#include "SwaggerDefaultApiOperations.h"
 
 
@@ -49,6 +51,16 @@ void AUE4APIGameModeBase::BeginPlay()
 		testApi->AddPet(request);
 	}*/
 
+
+	{
+		using namespace OpenAPI;
+		auto userapi = MakeShared<CorvusUsersApi>();
+		CorvusUsersApi::FakeLoginMethodRequest request;
+		request.Body= true;
+		request.FakeStringInURL = "toto";
+		request.FakeBoolInURL = true;
+		userapi->FakeLoginMethod(request);
+	}
 
 	m_petApi = MakeShared<ModelPrefixPetApi>();
 

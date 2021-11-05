@@ -44,7 +44,7 @@ inline FString ToString(const OpenAPIEnumTypedef::Values& Value)
 	return TEXT("");
 }
 
-inline FString OpenAPIEnumTypedef::EnumToString(const OpenAPIEnumTypedef::Values& EnumValue)
+FString OpenAPIEnumTypedef::EnumToString(const OpenAPIEnumTypedef::Values& EnumValue)
 {
 	return ToString(EnumValue);
 }
@@ -67,7 +67,7 @@ inline bool FromString(const FString& EnumAsString, OpenAPIEnumTypedef::Values& 
 	return Found != nullptr;
 }
 
-inline bool OpenAPIEnumTypedef::EnumFromString(const FString& EnumAsString, OpenAPIEnumTypedef::Values& EnumValue)
+bool OpenAPIEnumTypedef::EnumFromString(const FString& EnumAsString, OpenAPIEnumTypedef::Values& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }

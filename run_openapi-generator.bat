@@ -36,3 +36,6 @@ set ags=generate -i %BATCHPATH%\marketplace.json -g cpp-ue4 -o %BATCHPATH%\Sourc
 
 set ags=generate -i %BATCHPATH%\account.json -g cpp-ue4 -o %BATCHPATH%\Source\DMarket\ -c %BATCHPATH%\config_dmarket.json
 %JAVA_EXE% %JAVA_OPTS% -jar %executable% %ags%
+
+set ags=generate -i %BATCHPATH%\fake_gateway.json -g cpp-ue4 -o %BATCHPATH%\Source\Corvus\ -c %BATCHPATH%\config_corvus.json
+%JAVA_EXE% %JAVA_OPTS% -jar %executable% %ags%

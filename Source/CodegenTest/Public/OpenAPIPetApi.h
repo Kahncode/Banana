@@ -43,7 +43,7 @@ public:
 	
     DECLARE_DELEGATE_OneParam(FUpdatePetDelegate, const UpdatePetResponse&);
     
-    bool UpdatePet(const UpdatePetRequest& Request, const FUpdatePetDelegate& Delegate = FUpdatePetDelegate()) const;
+    FHttpRequestPtr UpdatePet(const UpdatePetRequest& Request, const FUpdatePetDelegate& Delegate = FUpdatePetDelegate()) const;
     
 private:
     void OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate) const;

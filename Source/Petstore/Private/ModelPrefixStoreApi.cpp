@@ -132,10 +132,10 @@ void ModelPrefixStoreApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSu
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
-bool ModelPrefixStoreApi::DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate /*= FDeleteOrderDelegate()*/) const
+FHttpRequestPtr ModelPrefixStoreApi::DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate /*= FDeleteOrderDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -148,7 +148,8 @@ bool ModelPrefixStoreApi::DeleteOrder(const DeleteOrderRequest& Request, const F
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnDeleteOrderResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixStoreApi::OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOrderDelegate Delegate) const
@@ -158,10 +159,10 @@ void ModelPrefixStoreApi::OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHt
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool ModelPrefixStoreApi::GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate /*= FGetInventoryDelegate()*/) const
+FHttpRequestPtr ModelPrefixStoreApi::GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate /*= FGetInventoryDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -174,7 +175,8 @@ bool ModelPrefixStoreApi::GetInventory(const GetInventoryRequest& Request, const
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnGetInventoryResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixStoreApi::OnGetInventoryResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetInventoryDelegate Delegate) const
@@ -184,10 +186,10 @@ void ModelPrefixStoreApi::OnGetInventoryResponse(FHttpRequestPtr HttpRequest, FH
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool ModelPrefixStoreApi::GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate /*= FGetOrderByIdDelegate()*/) const
+FHttpRequestPtr ModelPrefixStoreApi::GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate /*= FGetOrderByIdDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -200,7 +202,8 @@ bool ModelPrefixStoreApi::GetOrderById(const GetOrderByIdRequest& Request, const
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnGetOrderByIdResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixStoreApi::OnGetOrderByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetOrderByIdDelegate Delegate) const
@@ -210,10 +213,10 @@ void ModelPrefixStoreApi::OnGetOrderByIdResponse(FHttpRequestPtr HttpRequest, FH
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool ModelPrefixStoreApi::PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate /*= FPlaceOrderDelegate()*/) const
+FHttpRequestPtr ModelPrefixStoreApi::PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate /*= FPlaceOrderDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -226,7 +229,8 @@ bool ModelPrefixStoreApi::PlaceOrder(const PlaceOrderRequest& Request, const FPl
 	Request.SetupHttpRequest(HttpRequest);
 	
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &ModelPrefixStoreApi::OnPlaceOrderResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void ModelPrefixStoreApi::OnPlaceOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlaceOrderDelegate Delegate) const

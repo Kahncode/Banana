@@ -36,7 +36,7 @@ inline FString ToString(const ModelPrefixOrder::StatusEnum& Value)
 	return TEXT("");
 }
 
-inline FString ModelPrefixOrder::EnumToString(const ModelPrefixOrder::StatusEnum& EnumValue)
+FString ModelPrefixOrder::EnumToString(const ModelPrefixOrder::StatusEnum& EnumValue)
 {
 	return ToString(EnumValue);
 }
@@ -55,7 +55,7 @@ inline bool FromString(const FString& EnumAsString, ModelPrefixOrder::StatusEnum
 	return Found != nullptr;
 }
 
-inline bool ModelPrefixOrder::EnumFromString(const FString& EnumAsString, ModelPrefixOrder::StatusEnum& EnumValue)
+bool ModelPrefixOrder::EnumFromString(const FString& EnumAsString, ModelPrefixOrder::StatusEnum& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }

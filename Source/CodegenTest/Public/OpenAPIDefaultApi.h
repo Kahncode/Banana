@@ -43,7 +43,7 @@ public:
 	
     DECLARE_DELEGATE_OneParam(FAddPetDelegate, const AddPetResponse&);
     
-    bool AddPet(const AddPetRequest& Request, const FAddPetDelegate& Delegate = FAddPetDelegate()) const;
+    FHttpRequestPtr AddPet(const AddPetRequest& Request, const FAddPetDelegate& Delegate = FAddPetDelegate()) const;
     
 private:
     void OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate) const;
